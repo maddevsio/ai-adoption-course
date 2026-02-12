@@ -561,10 +561,10 @@ Claude, сгенерируй PDF-репорт со страницы /reports/mon
 # Обязательные для курса
 npm install -g @modelcontextprotocol/server-git
 npm install -g @atlassian/atlassian-mcp-server
-npm install -g @modelcontextprotocol/server-postgres
+npm install -g @glips/figma-context-mcp
 
 # Дополнительные
-npm install -g @glips/figma-context-mcp
+npm install -g @modelcontextprotocol/server-postgres
 npm install -g mermaid-mcp-server
 npm install -g @modelcontextprotocol/server-puppeteer
 ```
@@ -593,11 +593,11 @@ npm install -g @modelcontextprotocol/server-puppeteer
       "command": "jetbrains-mcp-client",
       "args": ["--host", "localhost", "--port", "8765"]
     },
-    "postgres": {
+    "figma": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "args": ["-y", "@glips/figma-context-mcp"],
       "env": {
-        "POSTGRES_CONNECTION_STRING": "postgresql://localhost/mydb"
+        "FIGMA_ACCESS_TOKEN": "your-token"
       }
     }
   }
@@ -615,11 +615,11 @@ npm install -g @modelcontextprotocol/server-puppeteer
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-git"]
     },
-    "figma": {
+    "postgres": {
       "command": "npx",
-      "args": ["-y", "@glips/figma-context-mcp"],
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
       "env": {
-        "FIGMA_ACCESS_TOKEN": "your-token"
+        "POSTGRES_CONNECTION_STRING": "postgresql://localhost/mydb"
       }
     }
   }
