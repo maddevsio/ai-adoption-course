@@ -94,74 +94,42 @@ wait
 
 ## 2. Claude Code в облаке
 
-### Docker
+### claude.ai/code/ — Облачный сервис
 
-Claude Code официально поддерживает Docker с безопасной sandboxed средой.
+**Основной способ** работы с Claude Code в облаке — это облачный сервис [https://claude.ai/code/](https://claude.ai/code/), который не требует разворачивания своей инфраструктуры.
 
-#### Dockerfile
+**Возможности:**
+- Запуск агентов прямо в браузере
+- Shared sessions для командной работы
+- Интеграция с GitHub для PR review
+- Автоматический sandboxing и изоляция
+- Хранение сессий и истории работы
+- Доступ к команде через shared workspaces
+
+**Использование для параллельной разработки:**
+- Откройте несколько вкладок с разными задачами
+- Каждая сессия работает в изолированном контексте
+- Результаты можно экспортировать и мержить локально
+
+**Преимущества:**
+- Не нужно управлять инфраструктурой
+- Всегда последняя версия Claude Code
+- Безопасность из коробки
+- Shared sessions для code review
+
+**Документация:** https://claude.ai/code/
+
+### Docker (Self-hosting)
+
+Для тех, кому нужен self-hosting, Claude Code поддерживает Docker.
+
 ```dockerfile
 FROM anthropics/claude-code:latest
-
-# Установка зависимостей проекта
-COPY package.json ./
-RUN npm install
-
-# Копирование кода
 COPY . .
-
-# Headless режим
 CMD ["claude", "-p", "$TASK", "--output-format", "json"]
 ```
 
-#### Docker Compose для multi-agent
-```yaml
-version: '3.8'
-services:
-  agent-frontend:
-    image: anthropics/claude-code:latest
-    environment:
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-      - TASK=Implement React components
-    volumes:
-      - ./frontend:/workspace
-
-  agent-backend:
-    image: anthropics/claude-code:latest
-    environment:
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-      - TASK=Implement FastAPI endpoints
-    volumes:
-      - ./backend:/workspace
-
-  agent-tests:
-    image: anthropics/claude-code:latest
-    environment:
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-      - TASK=Generate integration tests
-    volumes:
-      - ./tests:/workspace
-```
-
 **Документация:** https://docs.docker.com/ai/sandboxes/claude-code/
-
-### EC2 / VPS
-
-Развертывание Claude Code на удаленных серверах для масштабирования.
-
-```bash
-# На удаленной машине
-ssh user@ec2-instance
-claude setup-token  # OAuth токен на 1 год
-claude -p "Build microservice" --output-format json
-```
-
-### Claude Code Remote (Teleport)
-
-Доступ к удаленным разработческим окружениям через Claude Code.
-
-- Подключение к dev-серверам
-- Работа с production-like окружениями
-- Shared workspaces для команд
 
 ---
 
@@ -825,6 +793,32 @@ claude-squad debug "Fix login timeout"
 
 **GitHub:** https://github.com/smtg-ai/claude-squad
 
+### ralph-orchestrator
+
+Ralph Loop orchestrator — система автоматического retry для AI-агентов, основанная на концепции "Ralph Wiggum" (непрерывный запуск агента до успеха).
+
+```bash
+npm install -g ralph-orchestrator
+```
+
+```bash
+# Запуск задачи с автоматическим retry
+ralph-orchestrator run "Implement feature X" \
+  --max-attempts 10 \
+  --retry-on-failure \
+  --verify-with-tests
+```
+
+**Ключевые возможности:**
+- Автоматический retry при failures
+- Верификация через тесты после каждой попытки
+- Hot-swap моделей при повторяющихся ошибках
+- Логирование всех попыток для анализа
+
+**Философия:** Продолжай пытаться пока не получится, как Ralph Wiggum.
+
+**GitHub:** https://github.com/mikeyobrien/ralph-orchestrator
+
 ---
 
 ## 9. Паттерны параллельной разработки
@@ -962,116 +956,6 @@ Total cost: ~70% cheaper than all-Opus
 2. **Session replay**: `--resume` для продолжения failed сессий
 3. **Visibility**: Дашборды для мониторинга агентов
 4. **Alerting**: Уведомления при failures
-
----
-
-## 11. Примеры полных workflow
-
-### Пример 1: Feature Development Pipeline
-
-```bash
-#!/bin/bash
-# feature-pipeline.sh
-
-TASK="Add OAuth2 authentication"
-
-echo "=== Phase 1: Planning ==="
-claude -p "Create detailed plan for: $TASK" \
-  --model opus-4.6 \
-  --output-format json > plan.json
-
-echo "=== Phase 2: Parallel Implementation ==="
-claude -p "Implement backend based on plan.json" \
-  --model sonnet-4.5 --output-format json > backend.json &
-
-claude -p "Implement frontend based on plan.json" \
-  --model sonnet-4.5 --output-format json > frontend.json &
-
-claude -p "Generate tests based on plan.json" \
-  --model haiku-4.5 --output-format json > tests.json &
-
-wait
-
-echo "=== Phase 3: Integration ==="
-claude -p "Review and integrate all components" \
-  --model sonnet-4.5 --output-format json > integration.json
-
-echo "=== Phase 4: Final Review ==="
-claude -p "Final code review and documentation" \
-  --model sonnet-4.5 --output-format json > review.json
-
-# Подсчет стоимости
-total_cost=$(jq '.cost.usd' *.json | awk '{s+=$1} END {print s}')
-echo "Total cost: \$$total_cost"
-```
-
-### Пример 2: GitHub Action для PR Review
-
-```yaml
-name: Multi-Agent PR Review
-
-on:
-  pull_request:
-    types: [opened, synchronize]
-
-jobs:
-  security-review:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Security Analysis
-        uses: anthropics/claude-code-action@v1
-        with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          prompt: "Review for security vulnerabilities"
-          model: opus-4.6
-
-  performance-review:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Performance Analysis
-        uses: anthropics/claude-code-action@v1
-        with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          prompt: "Review for performance issues"
-          model: sonnet-4.5
-
-  test-coverage:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Test Coverage Analysis
-        uses: anthropics/claude-code-action@v1
-        with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          prompt: "Analyze test coverage and suggest improvements"
-          model: sonnet-4.5
-
-  aggregate-reviews:
-    needs: [security-review, performance-review, test-coverage]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Combine all reviews
-        run: |
-          echo "## AI Review Summary" > final-review.md
-          cat security-review.md >> final-review.md
-          cat performance-review.md >> final-review.md
-          cat test-coverage.md >> final-review.md
-
-      - name: Post comment
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const review = fs.readFileSync('final-review.md', 'utf8');
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: review
-            });
-```
 
 ---
 
