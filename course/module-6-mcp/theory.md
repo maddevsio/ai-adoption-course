@@ -1033,131 +1033,267 @@ my-mcp-server/
 
 ## 8. Troubleshooting
 
-### 8.1. MCP-сервер не подключается
+### Проблема 1: MCP сервер не подключается
 
-**Симптомы**: Агент не видит MCP-сервер в списке.
+**Симптомы:**
+```
+❌ Failed to connect to MCP server 'filesystem'
+Connection timeout after 30s
+```
 
-**Возможные причины и решения:**
+**Причины и решения:**
 
-1. **Неверный путь к команде**:
-   ```json
-   // Плохо
-   "command": "@modelcontextprotocol/server-git"
+1. **Неправильный путь к серверу:**
+   ```bash
+   # Проверьте что путь существует
+   which npx  # Должно показать /usr/local/bin/npx или подобное
 
-   // Хорошо
-   "command": "npx",
-   "args": ["-y", "@modelcontextprotocol/server-git"]
+   # Для filesystem сервера
+   ls -la ~/.claude/mcp/servers/filesystem
    ```
 
-2. **Не установлен пакет**:
+2. **Node.js не установлен или старая версия:**
    ```bash
-   npm list -g @modelcontextprotocol/server-git
-   # Если не найден → установить
-   npm install -g @modelcontextprotocol/server-git
+   node --version  # Должно быть ≥18.0.0
+   npm install -g npx  # Если npx не найден
    ```
 
-3. **Неверный формат JSON**:
-   - Проверьте синтаксис через JSON validator
-   - Убедитесь, что нет лишних запятых
-
-4. **Права доступа**:
+3. **Права доступа:**
    ```bash
-   chmod +x ~/.claude/mcp.json
+   chmod +x ~/.claude/mcp/servers/filesystem/index.js
+   ```
+
+4. **Проверка логов:**
+   ```bash
+   # Claude Code показывает логи MCP
+   # Ищите строки с [MCP] в выводе
    ```
 
 ---
 
-### 8.2. Environment variables не передаются
+### Проблема 2: Environment variables не работают
 
-**Симптомы**: Сервер запускается, но API calls не работают (например, Jira возвращает 401 Unauthorized).
+**Симптомы:**
+```typescript
+// Сервер не видит GITHUB_TOKEN
+Error: Missing required environment variable: GITHUB_TOKEN
+```
 
-**Решение**:
+**Решения:**
 
-1. **Проверьте, что env установлен в конфигурации**:
+1. **Проверьте синтаксис в claude.json:**
    ```json
    {
      "mcpServers": {
-       "jira": {
+       "github": {
+         "command": "npx",
+         "args": ["-y", "@modelcontextprotocol/server-github"],
          "env": {
-           "ATLASSIAN_API_TOKEN": "your-token"
+           "GITHUB_TOKEN": "${GITHUB_TOKEN}"  // ✅ Правильно
          }
        }
      }
    }
    ```
 
-2. **Используйте системные переменные** (альтернатива):
+2. **Установите переменные в shell:**
    ```bash
-   # В ~/.bashrc или ~/.zshrc
-   export ATLASSIAN_API_TOKEN="your-token"
-   export FIGMA_ACCESS_TOKEN="your-token"
+   # Добавьте в ~/.bashrc или ~/.zshrc
+   export GITHUB_TOKEN="ghp_your_token_here"
+
+   # Перезапустите shell или:
+   source ~/.bashrc
    ```
 
-3. **Проверьте токены** (не истекли ли):
-   - Jira: https://id.atlassian.com/manage-profile/security/api-tokens
-   - Figma: Settings → Personal Access Tokens
+3. **Альтернатива: .env файл:**
+   ```bash
+   # ~/.claude/.env
+   GITHUB_TOKEN=ghp_your_token_here
+
+   # claude.json с dotenv сервером
+   {
+     "mcpServers": {
+       "dotenv": {
+         "command": "npx",
+         "args": ["-y", "@modelcontextprotocol/server-dotenv"]
+       }
+     }
+   }
+   ```
 
 ---
 
-### 8.3. MCP-сервер медленно работает
+### Проблема 3: Производительность деградирует
 
-**Симптомы**: Агент долго ждет ответа от MCP-сервера.
+**Симптомы:**
+- Claude Code тормозит при большом количестве MCP серверов
+- Timeout при вызове инструментов
+- Высокое использование памяти
 
-**Возможные причины:**
+**Решения:**
 
-1. **Нет кэширования**: Каждый запрос идет в external API
-   - **Решение**: Включить prompt caching в Claude (если доступно)
+1. **Оптимизируйте количество серверов:**
+   ```json
+   // ❌ Плохо: 10+ серверов одновременно
+   // ✅ Хорошо: 3-5 активных серверов
 
-2. **Большой объем данных**: Сервер возвращает слишком много данных
-   - **Решение**: Добавить фильтрацию и лимиты в запросы
+   // Используйте проекто-специфичные конфиги
+   // ~/projects/web-app/.claude/claude.json
+   {
+     "mcpServers": {
+       "filesystem": { /* только для web проектов */ }
+     }
+   }
+   ```
 
-3. **Network latency**: Удаленный API медленно отвечает
-   - **Решение**: Использовать batch requests где возможно
+2. **Кэшируйте результаты:**
+   ```typescript
+   // В вашем MCP сервере
+   const cache = new Map();
+
+   server.setRequestHandler(ListToolsRequestSchema, async () => {
+     if (cache.has('tools')) {
+       return cache.get('tools');  // Не пересчитываем каждый раз
+     }
+     const tools = await loadTools();
+     cache.set('tools', tools);
+     return tools;
+   });
+   ```
+
+3. **Lazy loading:**
+   ```json
+   // Запускайте тяжёлые серверы по требованию
+   {
+     "mcpServers": {
+       "database": {
+         "command": "npx",
+         "args": ["-y", "@modelcontextprotocol/server-postgres"],
+         "autoStart": false  // Запустится при первом вызове
+       }
+     }
+   }
+   ```
 
 ---
 
-### 8.4. Конфликты между MCP-серверами
+### Проблема 4: Конфликты между серверами
 
-**Симптомы**: Несколько серверов предоставляют похожие tools с одинаковыми именами.
-
-**Решение**:
-
-Используйте уникальные имена для серверов:
-```json
-{
-  "mcpServers": {
-    "git-main": { ... },
-    "git-secondary": { ... }  // Если нужно работать с двумя репозиториями
-  }
-}
+**Симптомы:**
+```
+Error: Tool 'read_file' is provided by multiple servers:
+- filesystem
+- custom-reader
 ```
 
-Или отключите ненужные серверы временно.
+**Решения:**
+
+1. **Именуйте инструменты уникально:**
+   ```typescript
+   // ❌ Плохо
+   { name: "read_file" }
+
+   // ✅ Хорошо
+   { name: "custom_reader_read_file" }
+   ```
+
+2. **Используйте namespaces:**
+   ```typescript
+   server.setRequestHandler(ListToolsRequestSchema, async () => ({
+     tools: [{
+       name: "myserver/read_file",  // Префикс = namespace
+       description: "...",
+       inputSchema: { /* ... */ }
+     }]
+   }));
+   ```
+
+3. **Отключите ненужные серверы:**
+   ```json
+   {
+     "mcpServers": {
+       "filesystem": { "enabled": true },
+       "custom-reader": { "enabled": false }  // Временно выключен
+     }
+   }
+   ```
 
 ---
 
-### 8.5. JetBrains MCP не подключается
+### Проблема 5: JetBrains IDE не видит MCP
 
-**Симптомы**: `jetbrains-mcp-client` не может подключиться к IDE.
+**Симптомы:**
+- В VS Code MCP работает
+- В JetBrains (IntelliJ, WebStorm) инструменты не появляются
 
-**Решение**:
+**Решения:**
 
-1. **Проверьте версию IDE**: MCP поддерживается с 2025.2+
+1. **Проверьте поддержку MCP в вашей IDE:**
+   ```bash
+   # MCP поддерживается в:
+   # - JetBrains AI Assistant 2024.3+
+   # - IntelliJ IDEA 2024.3+
+   # - WebStorm 2024.3+
+
+   # Обновите IDE до последней версии
    ```
-   Help → About
-   # Версия должна быть 2025.2 или новее
+
+2. **Конфигурация для JetBrains:**
+   ```json
+   // ~/.config/JetBrains/IntelliJIdea2024.3/options/mcp.json
+   {
+     "mcpServers": {
+       "filesystem": {
+         "command": "npx",
+         "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/allowed/dir"]
+       }
+     }
+   }
    ```
 
-2. **Включите MCP Server в IDE**:
+3. **Перезапустите AI Assistant:**
    ```
-   Settings → Tools → Model Context Protocol → Enable MCP Server
+   Tools → AI Assistant → Settings → Reset AI Assistant
    ```
 
-3. **Проверьте порт**:
-   - По умолчанию: `8765`
-   - Если занят, измените в настройках IDE и в `mcp.json`
+4. **Альтернатива: используйте Claude Code CLI:**
+   ```bash
+   # В JetBrains Terminal
+   claude "analyze this codebase using MCP"
+   ```
 
-4. **Проверьте firewall**: Разрешите локальные соединения на порт 8765
+---
+
+### Общие советы по отладке
+
+1. **Проверьте версии:**
+   ```bash
+   claude --version  # ≥1.0.0
+   node --version    # ≥18.0.0
+   npx --version     # должен работать
+   ```
+
+2. **Посмотрите логи:**
+   ```bash
+   # Claude Code логи
+   tail -f ~/.claude/logs/mcp.log
+
+   # Или запустите с дебагом
+   DEBUG=mcp:* claude
+   ```
+
+3. **Минимальный тест:**
+   ```bash
+   # Проверьте что базовый сервер работает
+   npx -y @modelcontextprotocol/server-filesystem /tmp
+
+   # Должно запуститься без ошибок
+   ```
+
+4. **Community:**
+   - [MCP Discord](https://discord.gg/modelcontextprotocol)
+   - [GitHub Issues](https://github.com/modelcontextprotocol/servers/issues)
+   - [Stack Overflow #mcp](https://stackoverflow.com/questions/tagged/mcp)
 
 ---
 
@@ -1171,6 +1307,8 @@ my-mcp-server/
 4. **Design-to-code**: Сгенерируете React компонент из Figma дизайна с точными стилями
 5. **Debugging**: Используйте JetBrains MCP для отладки сложного бага с breakpoints
 6. **Bonus**: Создадите собственный простой MCP-сервер для internal tool
+
+**Если возникнут проблемы**: см. секцию "8. Troubleshooting" выше.
 
 **Цель**: К концу модуля вы будете владеть MCP на уровне, достаточном для реальной enterprise-разработки.
 
