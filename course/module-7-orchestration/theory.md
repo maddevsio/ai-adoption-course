@@ -350,206 +350,123 @@ Lesson для constitution:
 
 Со временем оркестратор накапливает базу знаний: какие паттерны работают, какие модели лучше для каких задач, какие ошибки типичны и как их избегать. Система становится умнее не за счёт обновления моделей, а за счёт накопления контекстуальных знаний.
 
-## Дополнительные возможности для параллельной разработки
+## Следующие шаги
 
-### Headless-режим Claude Code
+После освоения параллельной работы агентов вы можете двигаться дальше:
 
-Claude Code может работать без UI в headless-режиме:
+1. **Автоматизация через headless-режим** — запуск агентов в CI/CD, на удалённых серверах
+2. **Программная оркестрация через SDK** — создание кастомных workflows на Python/TypeScript
+3. **Экспериментальные функции** — Agent Teams для multi-agent coordination
+4. **Enterprise-платформы** — OpenClaw для координации агентов на уровне компании
+
+Эти темы выходят за рамки основного курса и описаны в Appendix ниже для продвинутых пользователей.
+
+---
+
+## Appendix: Расширенные возможности (для продвинутых)
+
+Эта секция содержит дополнительные темы для тех, кто хочет углубиться в автоматизацию и масштабирование агентной разработки. Материал опционален и не требуется для завершения курса.
+
+### A1. Headless-режим Claude Code
+
+Claude Code может работать без UI в headless-режиме для автоматизации:
 
 ```bash
 # Запуск агента с промптом из файла
 claude -p prompt.md
 
-# Запуск на удалённом сервере (EC2, VPS, Docker)
-ssh production-server "claude -p 'fix authentication bug in users service'"
+# Запуск на удалённом сервере
+ssh production-server "claude -p 'fix authentication bug'"
 ```
 
-Headless-режим позволяет запускать агентов в облаке, на CI/CD серверах, внутри Docker-контейнеров. Масштабирование за пределы одной машины: вместо 3 агентов на вашем ноутбуке — 20 агентов на выделенных серверах.
+Headless-режим позволяет запускать агентов в облаке, на CI/CD серверах, внутри Docker-контейнеров.
 
-**GitHub Actions:**
+**GitHub Actions пример:**
 ```yaml
 - name: Run Claude Code Agent
   uses: anthropics/claude-code-action@v1
   with:
-    prompt-file: .github/prompts/fix-failing-tests.md
+    prompt-file: .github/prompts/fix-tests.md
     anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 ```
 
-**GitLab CI/CD:**
-```yaml
-agent-task:
-  image: anthropics/claude-code:latest
-  script:
-    - claude -p .gitlab/prompts/add-feature.md
-```
+Подробнее: см. practice.md секцию "Бонус: Headless-режим".
 
-Агенты в CI интегрируются в пайплайн: код закоммитен → CI запускает агента для генерации тестов → агент создаёт PR с тестами → человек ревьюит.
+### A2. Auth-токены для автоматизации
 
-### Долговременные auth-токены
+Для headless-автоматизации используйте API key:
 
-Для headless-автоматизации нужны токены, которые не истекают после logout.
-
-**Для API-биллинга:**
 ```bash
-export ANTHROPIC_API_KEY=sk-ant-api03-...
+# Получить API key на console.anthropic.com/settings/keys
+export ANTHROPIC_API_KEY="sk-ant-api03-YOUR_KEY_HERE"
+
+# Использовать в скриптах
+claude -p "Generate unit tests"
 ```
 
-Токен API получается в console.anthropic.com. Биллится по usage (pay-as-you-go). Подходит для production систем с предсказуемым объёмом работы.
+Биллинг: pay-as-you-go по модели. Альтернативы: Amazon Bedrock, Google Vertex AI, Azure Foundry для корпоративного биллинга.
 
-**Для подписчиков Claude Max (OAuth токен на 1 год):**
-```bash
-# Генерация долговременного токена
-claude setup-token
-
-# Использование в headless-режиме
-export CLAUDE_CODE_OAUTH_TOKEN=eyJhbGci...
-```
-
-OAuth токен живёт 1 год, не требует ручной перегенерации. Подходит для экспериментов и небольших команд (до 5 агентов).
-
-**Альтернативные провайдеры:**
-- **Amazon Bedrock:** `CLAUDE_CODE_USE_BEDROCK=1` — Claude через AWS с корпоративным биллингом
-- **Google Vertex AI:** интеграция через GCP, подходит для компаний с инфраструктурой на Google Cloud
-- **Azure Foundry:** Claude через Microsoft Azure для enterprise-клиентов
-
-Выбор провайдера зависит от существующей инфраструктуры и compliance требований. Если компания работает в AWS, Bedrock проще интегрировать, чем прямой API.
-
-### Claude Agent SDK
+### A3. Claude Agent SDK (программная оркестрация)
 
 Официальный SDK для построения кастомных оркестраторов:
 
-**Python (Anthropic SDK):**
+**Python:**
 ```bash
 pip install anthropic
 ```
 
 ```python
-import os
 from anthropic import Anthropic
-
-# Инициализация клиента
 client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
-# Создать сообщение
 response = client.messages.create(
     model="claude-sonnet-4-5-20250929",
     max_tokens=4096,
-    system="You are a backend developer",
-    messages=[
-        {"role": "user", "content": "Add rate limiting to /api/users endpoint"}
-    ]
+    messages=[{"role": "user", "content": "Add rate limiting"}]
 )
-
-# Получить результат
-result = response.content[0].text
-print(result)
+print(response.content[0].text)
 ```
 
-**TypeScript (Anthropic SDK):**
+**TypeScript:**
 ```bash
 npm install @anthropic-ai/sdk
 ```
 
-```typescript
-import Anthropic from '@anthropic-ai/sdk';
+SDK подходит для интеграции Claude в существующие системы, создания программных workflows. Для агентских возможностей (работа с файлами, выполнение команд) используйте Claude Code CLI в headless-режиме.
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+Подробнее: см. practice.md секцию "Бонус: Claude Agent SDK".
 
-const response = await client.messages.create({
-  model: 'claude-sonnet-4-5-20250929',
-  max_tokens: 4096,
-  system: 'You are a frontend developer',
-  messages: [
-    { role: 'user', content: 'Add dark mode toggle to settings page' }
-  ],
-});
+### A4. Agent Teams (experimental)
 
-console.log(response.content[0].text);
-```
+Agent Teams — экспериментальная концепция координации нескольких агентов в одной команде.
 
-**Важно:** Anthropic SDK предоставляет низкоуровневый API для работы с моделями Claude. Для агентских возможностей (работа с файлами, выполнение команд) используйте Claude Code CLI в headless-режиме.
-
-SDK позволяет:
-- Создавать программные workflows с Claude
-- Интегрировать Claude в существующие системы
-- Обрабатывать большие объемы текста
-- Управлять несколькими запросами из одного скрипта
-
-**Пример: бот, который берёт задачи из Jira**
-
-```python
-import os
-from anthropic import Anthropic
-from jira import JIRA
-
-client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
-jira = JIRA('https://company.atlassian.net', basic_auth=('user', 'token'))
-
-# Получить задачи из бэклога
-issues = jira.search_issues('project=BACKEND AND status="To Do"')
-
-for issue in issues:
-    # Создать план реализации через Claude
-    response = client.messages.create(
-        model="claude-sonnet-4-5-20250929",
-        max_tokens=2048,
-        messages=[{
-            "role": "user",
-            "content": f"Task: {issue.summary}\n\nDescription: {issue.description}\n\nCreate implementation plan."
-        }]
-    )
-
-    plan = response.content[0].text
-
-    # Добавить комментарий с планом в Jira
-    issue.update(fields={'comment': f'Implementation plan:\n{plan}'})
-
-    # Для фактического выполнения используйте Claude Code CLI в headless-режиме
-```
-
-Для полной автоматизации (включая работу с файлами и выполнение команд) комбинируйте Anthropic SDK с Claude Code CLI в headless-режиме.
-
-### Agent Teams (experimental)
-
-Экспериментальная функция для координации нескольких агентов:
+**Статус (Feb 2026):** включается через environment variable:
 
 ```bash
 export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
-claude teams start --agents 3
+claude
 ```
 
-**Возможности:**
-- **Shared task list** — все агенты видят общую очередь задач и берут следующую свободную
-- **Inter-agent messaging** — агенты могут запрашивать информацию друг у друга ("Agent 1 спрашивает Agent 2: какой API endpoint ты создал?")
-- **Plan approval mode** — агенты предлагают план работ, человек одобряет, агенты исполняют автономно
+**Важно:** Команда `claude teams start` не существует в публичной версии. Agent Teams работает как расширенный режим основной команды.
 
-**Пример из Anthropic:**
-Команда запустила 16 параллельных агентов для работы над Rust-компилятором проекта C. За ~2000 сессий агенты написали и отрефакторили около 100K строк кода. Большинство PR-ов были приняты после minimal review.
+Возможности: shared task list, inter-agent messaging, plan approval mode. Пока в experimental статусе — API может измениться.
 
-Agent Teams пока в experimental статусе. Проблемы: координация требует значительного overhead, межагентное общение может создавать циклические зависимости, стоимость 16 параллельных Sonnet сессий высокая. Но технология показывает, что возможно.
+Альтернативы для параллельной работы: git worktrees (описано в основном модуле), программная оркестрация через SDK, внешние платформы (OpenClaw).
 
-### OpenClaw: платформа автономных агентов
+### A5. OpenClaw: платформа автономных агентов
 
-**OpenClaw** (https://github.com/openclaw/openclaw, 180K+ stars) — open-source платформа автономных агентов от Питера Штайнбергера.
+**OpenClaw** (https://github.com/openclaw/openclaw, 180K+ stars) — open-source платформа для координации автономных агентов.
 
 **Ключевые возможности:**
-- **Multi-agent routing** — разные модели на разные задачи (Claude для кода, GPT-4 для анализа текста, Gemini для поиска)
-- **Интеграция с Claude Code через MCP** — OpenClaw вызывает Claude Code как один из инструментов
-- **Экосистема оркестраторов:**
-  - **Claworc** — управление инстансами агентов, масштабирование на сотни worker'ов
-  - **Antfarm** — team-of-agents паттерн, агенты совместно решают задачу
+- Multi-agent routing (разные модели на разные задачи)
+- Интеграция с Claude Code через MCP
+- Экосистема оркестраторов (Claworc, Antfarm)
 
-OpenClaw **не для кода напрямую**, а для координации: работа со Slack, Jira, email, браузер + code agents. Например:
-1. Пользователь пишет в Slack: "fix bug PROJ-123"
-2. OpenClaw читает сообщение, берёт задачу из Jira
-3. OpenClaw запускает Claude Code для исправления бага
-4. Результат (PR) отправляется обратно в Slack
+OpenClaw — слой координации над разными AI-инструментами для работы со Slack, Jira, email, браузер + code agents.
 
-OpenClaw — слой координации над разными AI-инструментами. Если Claude Code — это "агент умеет писать код", то OpenClaw — это "платформа умеет управлять агентами, которые пишут код, общаются в Slack и обновляют таски".
+**Для кого это:** Компании с 50+ разработчиками, команды строящие полностью автоматизированные процессы разработки. Требует инфраструктуры для развёртывания платформы.
 
-Для использования OpenClaw нужна инфраструктура: сервер для запуска платформы, интеграции с корпоративными системами, настройка routing между моделями. Это решение для компаний, которые хотят построить полноценную автономную систему разработки, а не для индивидуальных разработчиков.
+Подробнее: см. practice.md секцию "Бонус: OpenClaw".
 
 ## Честно про сложности
 
