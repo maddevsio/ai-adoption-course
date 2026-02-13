@@ -27,7 +27,7 @@
 - **ChatGPT** ($20/мес Plus, $200/мес Pro) — GPT-5.2 с reasoning, multimodal (vision, voice), Sora 2 для видео. Самый популярный, лучший для общих задач.
 - **Claude.ai** ($20/мес Pro) — Claude Opus 4.6/Sonnet 4.5. Контекст до 200K токенов, лучший для сложных задач и долгих диалогов. Artifacts для кода и документов.
 - **Gemini** ($20/мес Advanced) — Gemini 3 Pro, глубокая интеграция с Google (Workspace, YouTube, Maps). Лучший для Google-экосистемы.
-- **DeepSeek** (бесплатно) — Open-source модели V3 и R1. Reasoning по цене 95% дешевле GPT-o1. Хорош для экспериментов.
+- **DeepSeek** (бесплатно) — Open-source модели V3 и R1. Reasoning по цене 95% дешевле o1. Хорош для экспериментов.
 
 **Ограничения:**
 - Нет прямого доступа к файловой системе (вы копируете код вручную)
@@ -49,7 +49,7 @@
 - **Изучение API** — начинаете писать код с незнакомой библиотекой, видите примеры использования
 
 **Ключевые игроки:**
-- **GitHub Copilot** ($10/мес Pro, бесплатный тариф с ограничениями) — индустриальный стандарт. GPT-5.x, Claude, Gemini в зависимости от плана. Pro+ ($39/мес) дает доступ ко всем моделям включая Claude Opus 4 и o3.
+- **GitHub Copilot** ($0 Free tier с 2,000 completions + 50 premium/month, $10/мес Pro, $39/мес Pro+) — индустриальный стандарт. GPT-5.x, Claude, Gemini в зависимости от плана. Pro+ дает доступ ко всем моделям включая Claude Opus 4 и o3.
 - **Tabnine** — альтернатива с фокусом на privacy, можно обучить на вашем коде
 - **Codeium** — бесплатная альтернатива Copilot, unlimited completions
 
@@ -73,7 +73,7 @@
 - **Написание модулей** — делегирование целых задач ("создай CRUD для модели User")
 
 **Ключевые игроки:**
-- **Cursor** ($20/мес Pro, $60/мес Pro+) — VS Code fork, лидер рынка AI-IDE. Agent Mode, YOLO mode (агент работает без подтверждений). Claude 3.5 Sonnet, GPT-4o, GPT-5.2, Gemini 3 Pro.
+- **Cursor** ($20/мес Pro, $60/мес Pro+) — VS Code fork, лидер рынка AI-IDE. Agent Mode, **YOLO mode** (агент работает без подтверждений человека, подробнее в Модуле 8). Claude 3.5 Sonnet, GPT-4o, GPT-5.2, Gemini 3 Pro.
 - **Windsurf** ($15/мес Pro) — бывший Codeium. Cascade AI Agent с multi-file и semantic пониманием. Memories (запоминает архитектуру и стиль). Поддержка VS Code + JetBrains. SOC 2 Type II для enterprise.
 - **Google Antigravity** (бесплатно, public preview) — Multi-agent orchestration. Несколько агентов работают параллельно (editor, terminal, browser). Async tasks. Gemini 3, Claude Sonnet 4.5, GPT-OSS.
 - **Kilo Code** (open-source, BYOK) — VS Code расширение. 500+ моделей (Claude, GPT, Gemini, DeepSeek, Ollama). Architect/Code/Debug/Orchestrator режимы. $20 бесплатных кредитов, дальше платите напрямую провайдеру без markup. 15K stars, 1.5M+ пользователей.
@@ -99,10 +99,10 @@
 - **Интеграция в CI/CD** — автоматизация через скрипты
 
 **Ключевые игроки:**
-- **Claude Code** ($20/мес Pro, $100-200/мес Max) — официальный CLI от Anthropic. Полная автономия (файлы, команды, тесты), multi-file changes, CLAUDE.md для настройки проекта, slash-команды, hooks, sub-agents. Claude Opus 4.6, Sonnet 4.5, Haiku 4.5. Production-ready.
+- **Claude Code** ($20/мес Pro, $100/мес Max 5x, $200/мес Max 20x) — официальный CLI от Anthropic. Полная автономия (файлы, команды, тесты), multi-file changes, **CLAUDE.md** (файл с правилами работы агента, см. Модуль 4), slash-команды, hooks, sub-agents. Claude Opus 4.6, Sonnet 4.5, Haiku 4.5. Production-ready.
 - **OpenCode** (бесплатно, open-source) — альтернатива Claude Code без привязки к Anthropic. 75+ провайдеров моделей (Claude, GPT, Gemini, Ollama, DeepSeek). Privacy-first (не хранит данные), BYOK (свой API ключ). Terminal UI + Desktop + IDE extension. 70K+ GitHub stars, 650K+ пользователей.
 - **Aider** (бесплатно, open-source) — 100+ языков программирования, auto-commit с описаниями, codebase mapping, auto-linting, voice-to-code. Работает с Claude, GPT, DeepSeek R1, o1/o3, Ollama (100+ моделей). 39K+ stars, 4.1M+ установок, стоимость ~$0.007/файл или $0.01-0.10/фича.
-- **Codex CLI** (требует ChatGPT подписку $8-200/мес) — официальный CLI от OpenAI. Multimodal (screenshots, GIF, WebP), MCP support, web search, concurrent shell commands. GPT-5.2-Codex, GPT-5.3-Codex (25% быстрее). Production-ready.
+- **Codex CLI** (требует ChatGPT подписку $8-200/мес) — официальный CLI от OpenAI. Multimodal (screenshots, GIF, WebP), **MCP support** (Model Context Protocol — стандарт подключения внешних инструментов, подробнее в Модуле 6), web search, concurrent shell commands. GPT-5.2-Codex, GPT-5.3-Codex (25% быстрее). Production-ready.
 
 **Ограничения:**
 - **Обучение** — требуется понимание prompt-инженеринга и декомпозиции задач
@@ -344,7 +344,7 @@ opencode config set model deepseek-r1
 - **DeepSeek V3:** $0.30 / $1.20 за 1M токенов
 - **R1 Distill Llama 70B:** $0.03 / $0.11 за 1M токенов (самый дешевый reasoning!)
 
-**Сравнение:** DeepSeek R1 на 95% дешевле GPT-o1, показывая comparable качество на reasoning задачах.
+**Сравнение:** DeepSeek R1 на 95% дешевле o1, показывая comparable качество на reasoning задачах.
 
 **Что можно:**
 - **Exploratory coding** — пробуете разные подходы, не боясь потратить бюджет
@@ -399,7 +399,7 @@ CLI:      Claude Code Pro ($20) или OpenCode + Claude API ($20)
 ```
 Чат:      Claude Pro ($20) для сложных задач
 IDE:      Cursor Pro+ ($60) — все модели
-CLI:      Claude Code Max ($100-200)
+CLI:      Claude Code Max 5x ($100/мес) или Max 20x ($200/мес)
 API:      Прямой Claude/OpenAI API с batch + caching
 Локально: Ollama для privacy-critical
 ```
@@ -581,7 +581,11 @@ done
 
 **Цены с кэшированием:**
 - Claude Opus 4.6: Write $6.25, **Read $0.50** (было $5) — **90% скидка**
+  - *Extended Context (>200K tokens): Write $12.50, Read $1.00 — применяется повышенный тариф*
 - Claude Sonnet 4.5: Write $3.75, **Read $0.30** (было $3) — **90% скидка**
+  - *Extended Context (>200K tokens): Write $7.50, Read $0.60 — применяется повышенный тариф*
+
+**Важно:** Для экономии при работе с большими контекстами (>200K tokens) используйте prompt caching — кэшируйте codebase один раз и получайте 90% скидку на повторяющиеся части контекста.
 
 **Пример:**
 ```
@@ -851,7 +855,7 @@ claude -p "Review type hints changes in src/core/*.py, check for breaking change
 
 | Инструмент | Цена/месяц | Модели | Автономия | Главная фича | Для кого |
 |-----------|-----------|--------|-----------|--------------|----------|
-| **Claude Code** | $20 (Pro)<br>$100-200 (Max) | Claude Opus 4.6, Sonnet 4.5, Haiku 4.5 | ⭐⭐⭐⭐⭐ | Официальная поддержка Anthropic, CLAUDE.md, sub-agents | Профессионалы, команды |
+| **Claude Code** | $20 (Pro)<br>$100 (Max 5x)<br>$200 (Max 20x) | Claude Opus 4.6, Sonnet 4.5, Haiku 4.5 | ⭐⭐⭐⭐⭐ | Официальная поддержка Anthropic, CLAUDE.md, sub-agents.<br>Max 5x: 5× лимиты. Max 20x: 20× лимиты | Профессионалы, команды |
 | **OpenCode** | $0 (BYOK) | 75+ провайдеров (Claude, GPT, Gemini, Ollama, DeepSeek) | ⭐⭐⭐⭐⭐ | Бесплатный, privacy-first, гибкость | Все уровни, budget-conscious |
 | **Aider** | $0 (BYOK) | 100+ моделей (Claude, GPT, DeepSeek, Ollama, o1/o3) | ⭐⭐⭐⭐ | Auto-commit, voice-to-code, codebase mapping | Разработчики, автоматизация |
 | **Codex CLI** | $8-200 (ChatGPT подписка) | GPT-5.2-Codex, GPT-5.3-Codex | ⭐⭐⭐⭐ | Multimodal (screenshots), MCP, web search | OpenAI экосистема, enterprise |
@@ -873,7 +877,7 @@ claude -p "Review type hints changes in src/core/*.py, check for breaking change
 
 | Инструмент | Цена/месяц | Модели | Главная фича | Для кого |
 |-----------|-----------|--------|--------------|----------|
-| **GitHub Copilot** | $0 (Free)<br>$10 (Pro)<br>$39 (Pro+) | GPT-5.x, Claude, Gemini (зависит от плана) | Индустриальный стандарт, IP indemnity | Все уровни, команды |
+| **GitHub Copilot** | $0 (Free, с 2026)<br>$10 (Pro)<br>$39 (Pro+) | GPT-5.x, Claude, Gemini (зависит от плана) | Индустриальный стандарт, IP indemnity.<br>Free: 2K completions + 50 premium/month | Все уровни, команды |
 | **Tabnine** | $12-39 | Собственные модели | Privacy, обучение на вашем коде | Enterprise, privacy-focused |
 | **Codeium** | $0 (Free unlimited) | Собственные модели | Бесплатная альтернатива Copilot | Студенты, начинающие |
 
@@ -894,12 +898,14 @@ claude -p "Review type hints changes in src/core/*.py, check for breaking change
 
 | Модель | Провайдер | Input/Output (за 1M токенов) | Главный use case |
 |--------|-----------|-------------------------------|------------------|
-| **Claude Opus 4.6** | Anthropic | $5 / $25 | Архитектура, планирование, сложная логика |
-| **Claude Sonnet 4.5** | Anthropic | $3 / $15 | Планирование в цикле, реализация, ревью |
+| **Claude Opus 4.6** | Anthropic | $5 / $25 (≤200K)<br>$10 / $37.50 (>200K) | Архитектура, планирование, сложная логика.<br>Extended context (>200K): повышенный тариф |
+| **Claude Sonnet 4.5** | Anthropic | $3 / $15 (≤200K)<br>$6 / $22.50 (>200K) | Планирование в цикле, реализация, ревью.<br>Extended context (>200K): повышенный тариф |
 | **Claude Haiku 4.5** | Anthropic | $1 / $5 | Массовая реализация, простые правки |
 | **GPT-5.2** | OpenAI | $1.75 / $14 | Reasoning, общие задачи |
 | **GPT-5.2 Pro** | OpenAI | $21 / $168 | Максимальное качество, research |
 | **Gemini 3 Pro** | Google | $2 / $12 (≤200K)<br>$4 / $18 (>200K) | Multimodal, длинный контекст (до 1M токенов) |
+| **Gemini 3 Flash** | Google | ~$0.50 / $3 | Быстрая генерация, экономичная альтернатива |
+| **o1** | OpenAI | См. OpenAI pricing | Advanced reasoning (отдельное семейство моделей, не GPT) |
 | **DeepSeek R1** | DeepSeek | $0.70 / $2.50 | Reasoning по низкой цене (95% дешевле o1) |
 | **DeepSeek V3** | DeepSeek | $0.30 / $1.20 | Cost-sensitive проекты |
 | **R1 Distill Llama 70B** | DeepSeek | $0.03 / $0.11 | Самый дешевый reasoning |
@@ -910,7 +916,7 @@ claude -p "Review type hints changes in src/core/*.py, check for breaking change
 
 | Инструмент | Категория | Цена/мес | Модель | Автономность | Best for | Free tier |
 |------------|-----------|----------|--------|--------------|----------|-----------|
-| **Claude Code** | CLI-агент | $0-200 | Opus/Sonnet/Haiku | ⭐⭐⭐⭐⭐ | Комплексные задачи | ✅ Guest Pass 7д |
+| **Claude Code** | CLI-агент | $20-200 | Opus/Sonnet/Haiku | ⭐⭐⭐⭐⭐ | Комплексные задачи | ✅ Guest Pass 7д (от Max подписчиков), Pro $20, Max 5x $100, Max 20x $200 |
 | **OpenCode** | CLI-агент | $0 | BYOK | ⭐⭐⭐⭐ | Budget-friendly | ✅ 100% free |
 | **Aider** | CLI-агент | $0-100 | BYOK | ⭐⭐⭐ | Git workflows | ✅ BYOK |
 | **Codex CLI** | CLI-агент | $50 | GPT-5.3-Codex | ⭐⭐⭐⭐⭐ | Multimodal coding | ❌ |
@@ -918,10 +924,10 @@ claude -p "Review type hints changes in src/core/*.py, check for breaking change
 | **Windsurf** | AI-IDE | $15 | Claude/GPT | ⭐⭐⭐⭐ | Agnostic UI | ✅ Limited |
 | **Antigravity** | AI-IDE | $0 | Gemini | ⭐⭐⭐⭐ | Multi-agent | ✅ 100% free |
 | **Kilo Code** | AI-IDE | $0 | 500+ моделей | ⭐⭐⭐ | Экспериментирование | ✅ 100% free |
-| **GitHub Copilot** | IDE-копилот | $10-19 | GPT-4 Turbo | ⭐⭐ | Autocomplete | ✅ Students/OSS |
+| **GitHub Copilot** | IDE-копилот | $0-39 | GPT-5.x/Claude/Gemini | ⭐⭐ | Autocomplete | ✅ Free: 2K completions + 50 premium/month (доступен с 2026) |
 | **Tabnine** | IDE-копилот | $12 | Proprietary | ⭐⭐ | Enterprise compliance | ✅ Basic plan |
 | **Codeium** | IDE-копилот | $0-12 | Proprietary | ⭐⭐ | Budget autocomplete | ✅ Individual free |
-| **ChatGPT** | LLM-чат | $0-200 | GPT-5.2/Pro | ⭐ | Brainstorming | ✅ 3.5 free |
+| **ChatGPT** | LLM-чат | $0-200 | GPT-5.2/Pro/o1 | ⭐ | Brainstorming | ✅ 3.5 free (o1 — reasoning, отдельная серия) |
 | **Claude.ai** | LLM-чат | $0-20 | Opus/Sonnet | ⭐ | Reasoning | ✅ Sonnet free |
 | **Gemini** | LLM-чат | $0-20 | Gemini 3 | ⭐ | Multimodal | ✅ Flash free |
 | **DeepSeek** | LLM-чат | $0-5 | R1/V3 | ⭐ | Дешёвое качество | ✅ Ограниченно |
@@ -972,7 +978,7 @@ claude -p "Review type hints changes in src/core/*.py, check for breaking change
 **Оптимальный ($50-65/мес):**
 ```
 Чат:      ChatGPT Plus ($20) для обучения
-Копилот:  GitHub Copilot Pro ($10)
+Копилот:  GitHub Copilot Free ($0, 2K completions/мес) или Pro ($10)
 IDE:      Cursor Pro ($20) или Windsurf Pro ($15)
 Агент:    Claude Code Pro ($20) или OpenCode + Claude API ($20)
 Локально: Ollama для экспериментов
@@ -982,7 +988,7 @@ IDE:      Cursor Pro ($20) или Windsurf Pro ($15)
 ```
 Чат:      Claude Pro ($20) + ChatGPT Plus ($20)
 Копилот:  GitHub Copilot Pro+ ($39) — все модели
-Агент:    Claude Code Max ($100-200)
+Агент:    Claude Code Max 5x ($100/мес) или Max 20x ($200/мес)
 API:      Прямой Claude/OpenAI API с Batch + Caching
 Локально: Ollama для privacy-critical
 ```

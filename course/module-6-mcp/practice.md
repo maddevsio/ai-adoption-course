@@ -6,6 +6,14 @@
 
 **Цель:** Установить 4 обязательных MCP-сервера, настроить их для работы с Claude Code, и выполнить практическую задачу, демонстрирующую ценность MCP в реальной разработке.
 
+## Чек-лист готовности
+
+Перед началом убедитесь что:
+- [ ] Claude Code установлен (Модуль 2)
+- [ ] Node.js 18+ установлен
+- [ ] Git репозиторий с проектом готов
+- [ ] Есть 55 минут для упражнений
+
 ---
 
 ## Важное примечание (февраль 2026)
@@ -368,39 +376,38 @@ echo $FIGMA_ACCESS_TOKEN
 # Создать директорию если её нет
 mkdir -p ~/.claude
 
-# Создать конфигурацию MCP (с исправленными пакетами)
+# Создать конфигурацию MCP (минимальный рабочий набор)
 cat > ~/.claude/mcp.json << 'EOF'
 {
   "mcpServers": {
-    "git": {
+    "filesystem": {
       "command": "npx",
-      "args": ["-y", "@mseep/git-mcp-server"],
-      "cwd": "."
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/your/project"]
     },
-    "jira": {
+    "github": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.atlassian.com/v1/sse"]
-    },
-    "figma": {
-      "command": "npx",
-      "args": ["-y", "figma-developer-mcp", "--figma-api-key=${FIGMA_ACCESS_TOKEN}", "--stdio"]
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
     }
   }
 }
 EOF
+
+# Замените /path/to/your/project на реальный путь к вашему проекту
 ```
 
-**Если используете GitHub Issues вместо Jira:**
+**Расширенная конфигурация (опционально):**
 
-> **Примечание:** Пакет `@modelcontextprotocol/server-github` устарел (deprecated). Разработка перенесена в https://github.com/github/github-mcp-server.
+Вы можете добавить больше MCP-серверов, но убедитесь что пакеты существуют:
 
 ```json
 {
   "mcpServers": {
-    "git": {
+    "filesystem": {
       "command": "npx",
-      "args": ["-y", "@mseep/git-mcp-server"],
-      "cwd": "."
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "~/projects/my-app"]
     },
     "github": {
       "command": "npx",
@@ -409,15 +416,21 @@ EOF
         "GITHUB_TOKEN": "${GITHUB_TOKEN}"
       }
     },
-    "figma": {
+    "postgres": {
       "command": "npx",
-      "args": ["-y", "figma-developer-mcp", "--figma-api-key=${FIGMA_ACCESS_TOKEN}", "--stdio"]
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": {
+        "POSTGRES_CONNECTION_STRING": "${DATABASE_URL}"
+      }
     }
   }
 }
 ```
 
-**Примечание:** `${VAR_NAME}` автоматически заменяется на значение переменной окружения.
+**Важно:**
+- `${VAR_NAME}` автоматически заменяется на значение переменной окружения
+- Используйте только проверенные пакеты (смотрите раздел "Гарантированно работающие MCP-серверы")
+- Для Git-операций используйте filesystem MCP + bash commands вместо отдельного git MCP
 
 ### 2.2. Конфигурация для Cursor (опционально)
 
@@ -461,12 +474,26 @@ node -e "JSON.parse(require('fs').readFileSync('$HOME/.claude/mcp.json', 'utf8')
 # Если ошибок нет — конфигурация валидна
 ```
 
-### 2.4. Проверка видимости серверов
+### 2.4. Проверка работоспособности MCP конфигурации
 
+**Важно:** После создания или изменения mcp.json нужно проверить что серверы подключились.
+
+**Шаг 1: Перезапустите Claude Code**
 ```bash
-# Запустить Claude Code с запросом о MCP
+# Если Claude Code уже запущен, закройте его и откройте заново
+# MCP серверы загружаются при старте Claude Code
+```
+
+**Шаг 2: Проверьте что конфигурация работает**
+```bash
+# Запустите Claude и убедитесь что MCP серверы подключены
 cd ~/practice/task-manager
-claude -p "List all available MCP tools"
+claude
+```
+
+Затем в интерактивном режиме спросите:
+```
+List all available MCP tools
 ```
 
 **Ожидаемый результат:**
@@ -705,7 +732,9 @@ npm install -g @modelcontextprotocol/server-postgres
 
 **Конфигурация (~/.claude/mcp.json):**
 
-> **Важно (безопасность):** Никогда не храните пароли в plaintext в конфигурационных файлах. Используйте переменные окружения.
+> **⚠️ Безопасность критически важна!** Никогда не храните пароли в plaintext в конфигурационных файлах. Всегда используйте переменные окружения.
+
+**Правильный способ (с переменной окружения):**
 
 ```json
 {
@@ -724,7 +753,7 @@ npm install -g @modelcontextprotocol/server-postgres
 **Настройка переменной окружения:**
 
 ```bash
-# Добавить в ~/.bashrc или ~/.zshrc
+# Добавить в ~/.bashrc или ~/.zshrc (НЕ в git!)
 echo 'export DATABASE_URL="postgresql://user:password@localhost:5432/database"' >> ~/.bashrc
 
 # Применить изменения
@@ -733,6 +762,13 @@ source ~/.bashrc
 # Проверка
 echo $DATABASE_URL
 ```
+
+**Важные правила безопасности:**
+1. ❌ **НЕ ДЕЛАЙТЕ:** `"POSTGRES_CONNECTION_STRING": "postgresql://user:password@..."`
+2. ✅ **ДЕЛАЙТЕ:** `"POSTGRES_CONNECTION_STRING": "${DATABASE_URL}"`
+3. ❌ Не коммитьте файлы с паролями в git
+4. ✅ Добавьте `.env` в `.gitignore`
+5. ✅ Используйте разные credentials для development и production
 
 **Пример использования:**
 

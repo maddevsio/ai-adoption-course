@@ -4,6 +4,14 @@
 
 Работаем по flow: настройка AGENTS.md → описание проблемы → агент-планировщик → реализация → ревью → итерация.
 
+## Чек-лист готовности
+
+Перед началом убедитесь что:
+- [ ] Песочница task-manager настроена (Модуль 2)
+- [ ] Claude Code настроен и работает
+- [ ] Вы знакомы с промптингом (Модуль 3)
+- [ ] Есть 45 минут для упражнений
+
 ---
 
 ## Шаг 1: Создай AGENTS.md для проекта (10 мин)
@@ -673,27 +681,338 @@ git diff package.json      # TypeScript
 
 **Проверка кода:**
 
-```python
-# ПЛОХО: SQL injection уязвимость
-cursor.execute(f"UPDATE tasks SET title = '{title}' WHERE id = {task_id}")
+**Пример 1: SQL Injection**
 
-# ХОРОШО: использование ORM или prepared statements
-task = session.query(Task).filter(Task.id == task_id).first()
-task.title = title
+```python
+# ❌ ПЛОХО: SQL injection уязвимость
+def delete_task(task_id):
+    cursor.execute(f"DELETE FROM tasks WHERE id = {task_id}")
+
+def update_task(task_id, title):
+    cursor.execute(f"UPDATE tasks SET title = '{title}' WHERE id = {task_id}")
+
+# Почему это опасно:
+# Злоумышленник может передать task_id="1 OR 1=1" и удалить ВСЕ задачи
+# Или title="'; DROP TABLE tasks; --" и уничтожить таблицу целиком
+# f-strings и конкатенация строк в SQL-запросах = критическая уязвимость
+
+# ✅ ХОРОШО: Используем параметризованный запрос
+def delete_task(task_id):
+    # Параметризованный запрос защищает от SQL injection
+    # Драйвер БД автоматически экранирует специальные символы
+    cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+
+def update_task(task_id, title):
+    # ORM автоматически экранирует данные и использует prepared statements
+    # Это безопасный способ работы с БД
+    task = session.query(Task).filter(Task.id == task_id).first()
+    task.title = title
 ```
 
 ```typescript
-// ПЛОХО: SQL injection
-db.run(`UPDATE tasks SET title = '${title}' WHERE id = ${id}`);
+// ❌ ПЛОХО: SQL injection
+function deleteTask(id: number) {
+  db.run(`DELETE FROM tasks WHERE id = ${id}`);
+}
 
-// ХОРОШО: prepared statement
-db.run('UPDATE tasks SET title = ? WHERE id = ?', [title, id]);
+function updateTask(id: number, title: string) {
+  db.run(`UPDATE tasks SET title = '${title}' WHERE id = ${id}`);
+}
+
+// Почему это опасно:
+// Template literals (${}) в SQL-запросах позволяют инъекцию произвольного кода
+// Атакующий может передать title = "'; DROP TABLE tasks; --" и уничтожить данные
+// Даже type checking TypeScript не защищает от SQL injection
+
+// ✅ ХОРОШО: prepared statement
+function deleteTask(id: number) {
+  // Prepared statement с placeholder (?) защищает от SQL injection
+  // БД получает SQL и параметры раздельно, никакого смешивания строк
+  db.run('DELETE FROM tasks WHERE id = ?', [id]);
+}
+
+function updateTask(id: number, title: string) {
+  // Параметры передаются отдельно и автоматически экранируются
+  // Это единственный безопасный способ работы с пользовательскими данными в SQL
+  db.run('UPDATE tasks SET title = ? WHERE id = ?', [title, id]);
+}
+```
+
+**Пример 2: Input Validation**
+
+```python
+# ❌ ПЛОХО: Нет валидации
+def create_task(title: str, description: str):
+    cursor.execute(
+        "INSERT INTO tasks (title, description) VALUES (?, ?)",
+        (title, description)
+    )
+
+# Почему это опасно:
+# - Можно создать задачу с пустым title
+# - Можно передать title длиной 1 миллион символов и переполнить БД
+# - Никакой защиты от некорректных данных
+# - Агент может обработать невалидный input и создать проблемы
+
+# ✅ ХОРОШО: Валидация входных данных
+def create_task(title: str, description: str):
+    # Проверка обязательных полей
+    if not title or len(title) > 200:
+        raise ValueError("Title must be 1-200 characters")
+
+    if len(description) > 2000:
+        raise ValueError("Description too long (max 2000 characters)")
+
+    # Безопасное сохранение с параметризованным запросом
+    cursor.execute(
+        "INSERT INTO tasks (title, description) VALUES (?, ?)",
+        (title, description)
+    )
+
+# ✅ ЕЩЕ ЛУЧШЕ: Валидация с типами и санитизацией
+def create_task(title: str, description: str):
+    # Валидация типов
+    if not isinstance(title, str) or not isinstance(description, str):
+        raise TypeError("Title and description must be strings")
+
+    # Очистка от лишних пробелов
+    title = title.strip()
+    description = description.strip()
+
+    # Проверка обязательных полей
+    if not title:
+        raise ValueError("Title cannot be empty")
+
+    if len(title) > 200:
+        raise ValueError("Title too long (max 200 characters)")
+
+    if len(description) > 2000:
+        raise ValueError("Description too long (max 2000 characters)")
+
+    # Защита от специальных символов (опционально, зависит от требований)
+    import html
+    title = html.escape(title)
+    description = html.escape(description)
+
+    # Безопасное сохранение
+    cursor.execute(
+        "INSERT INTO tasks (title, description) VALUES (?, ?)",
+        (title, description)
+    )
+```
+
+```typescript
+// ❌ ПЛОХО: Нет валидации
+function createTask(title: string, description: string) {
+  db.run('INSERT INTO tasks (title, description) VALUES (?, ?)',
+    [title, description]);
+}
+
+// Почему это опасно:
+// - TypeScript проверяет типы на этапе компиляции, но не валидирует содержимое
+// - Пользователь может передать пустую строку или строку длиной 1MB
+// - Нет защиты от некорректных данных во время выполнения
+
+// ✅ ХОРОШО: Валидация входных данных
+function createTask(title: string, description: string) {
+  // Проверка обязательных полей
+  if (!title || title.length > 200) {
+    throw new Error("Title must be 1-200 characters");
+  }
+
+  if (description.length > 2000) {
+    throw new Error("Description too long (max 2000 characters)");
+  }
+
+  // Безопасное сохранение
+  db.run('INSERT INTO tasks (title, description) VALUES (?, ?)',
+    [title, description]);
+}
+
+// ✅ ЕЩЕ ЛУЧШЕ: Валидация с санитизацией и детальными ошибками
+function createTask(title: string, description: string) {
+  // Проверка типов во время выполнения
+  if (typeof title !== 'string' || typeof description !== 'string') {
+    throw new TypeError("Title and description must be strings");
+  }
+
+  // Очистка от лишних пробелов
+  title = title.trim();
+  description = description.trim();
+
+  // Детальная валидация с понятными сообщениями
+  if (!title) {
+    throw new Error("Title cannot be empty");
+  }
+
+  if (title.length > 200) {
+    throw new Error(`Title too long: ${title.length} characters (max 200)`);
+  }
+
+  if (description.length > 2000) {
+    throw new Error(`Description too long: ${description.length} characters (max 2000)`);
+  }
+
+  // Защита от специальных символов (опционально)
+  const escapeHtml = (str: string) =>
+    str.replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;',
+      '"': '&quot;', "'": '&#39;'
+    }[char] || char));
+
+  const sanitizedTitle = escapeHtml(title);
+  const sanitizedDescription = escapeHtml(description);
+
+  // Безопасное сохранение
+  db.run('INSERT INTO tasks (title, description) VALUES (?, ?)',
+    [sanitizedTitle, sanitizedDescription]);
+}
+```
+
+**Пример 3: Plaintext Credentials**
+
+```python
+# ❌ ПЛОХО: Credentials в коде
+DATABASE_URL = "postgresql://user:password123@localhost/db"
+API_KEY = "sk-ant-api03-xyz123"
+
+# Почему это катастрофа:
+# - Пароли попадают в Git историю и остаются там навсегда
+# - Любой с доступом к репозиторию получает все credentials
+# - При утечке кода (публичный GitHub, stolen laptop) — компрометация всей системы
+# - Нельзя ротировать пароли без изменения кода
+# - Один код для dev, staging, production — нарушение безопасности
+
+# ✅ ХОРОШО: Из environment variables
+import os
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable not set")
+
+API_KEY = os.getenv("ANTHROPIC_API_KEY")
+if not API_KEY:
+    raise ValueError("ANTHROPIC_API_KEY not set")
+
+# Преимущества этого подхода:
+# - Credentials не в коде и не в Git
+# - Разные credentials для разных окружений (dev/staging/prod)
+# - Легко ротировать: изменили переменную окружения, перезапустили сервис
+# - Соответствует 12-factor app principles
+# - Безопасно при утечке исходного кода
+
+# ✅ ЕЩЕ ЛУЧШЕ: Использование .env файла для локальной разработки
+from dotenv import load_dotenv
+import os
+
+# Загрузить .env файл (только в dev окружении)
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL not set. Create .env file with DATABASE_URL=...")
+
+# Важно: .env файл добавлен в .gitignore, не попадает в Git
+# На production используются реальные environment variables от облачного провайдера
+```
+
+```typescript
+// ❌ ПЛОХО: Credentials в коде
+const DATABASE_URL = "postgresql://user:password123@localhost/db";
+const API_KEY = "sk-ant-api03-xyz123";
+
+// Почему это катастрофа:
+// - Пароли в Git истории навсегда (даже после удаления коммита)
+// - Компрометация при утечке кода или публикации в публичный репозиторий
+// - Невозможно использовать разные credentials для dev/staging/prod
+// - Нарушение всех security best practices
+
+// ✅ ХОРОШО: Из environment variables
+const DATABASE_URL = process.env.DATABASE_URL;
+if (!DATABASE_URL) {
+  throw new Error("DATABASE_URL environment variable not set");
+}
+
+const API_KEY = process.env.ANTHROPIC_API_KEY;
+if (!API_KEY) {
+  throw new Error("ANTHROPIC_API_KEY not set");
+}
+
+// ✅ ЕЩЕ ЛУЧШЕ: Использование dotenv для локальной разработки
+import dotenv from 'dotenv';
+
+// Загрузить .env файл (только в dev окружении)
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
+
+const DATABASE_URL = process.env.DATABASE_URL;
+if (!DATABASE_URL) {
+  throw new Error("DATABASE_URL not set. Create .env file with DATABASE_URL=...");
+}
+
+const API_KEY = process.env.ANTHROPIC_API_KEY;
+if (!API_KEY) {
+  throw new Error("ANTHROPIC_API_KEY not set");
+}
+
+// Важно:
+// 1. Добавьте .env в .gitignore
+// 2. Создайте .env.example с примерами (без реальных значений)
+// 3. В production используйте environment variables от облачного провайдера
+// 4. Никогда не коммитьте .env в Git
 ```
 
 **Что искать:**
-- ❌ Raw SQL с интерполяцией строк
+- ❌ Raw SQL с интерполяцией строк (f-strings, template literals)
 - ❌ Отсутствие валидации входных данных
-- ❌ Credentials в коде (API keys, пароли)
+- ❌ Credentials в коде (API keys, пароли, connection strings)
+
+**Пример 4: Валидация агентского input**
+
+```python
+# ❌ ПЛОХО: Агент обрабатывает user_id без проверки
+def get_user_tasks(user_id):
+    # Если user_id = -1 или "admin" или None — непредсказуемое поведение
+    return db.query(f"SELECT * FROM tasks WHERE user_id = {user_id}")
+
+# ✅ ХОРОШО: Валидация перед обработкой
+def get_user_tasks(user_id):
+    # Валидация обязательна даже для "внутренних" функций
+    if not isinstance(user_id, int):
+        raise TypeError(f"user_id must be int, got {type(user_id)}")
+
+    if user_id <= 0:
+        raise ValueError(f"user_id must be positive, got {user_id}")
+
+    # Безопасный запрос с параметризацией
+    return db.query("SELECT * FROM tasks WHERE user_id = ?", (user_id,))
+```
+
+```typescript
+// ❌ ПЛОХО: Агент обрабатывает task_id без проверки
+function deleteTask(task_id: any) {
+  // any тип отключает проверки TypeScript
+  db.run(`DELETE FROM tasks WHERE id = ${task_id}`);
+}
+
+// ✅ ХОРОШО: Валидация типов и значений
+function deleteTask(task_id: number) {
+  // Runtime проверка, даже если TypeScript указывает number
+  if (typeof task_id !== 'number' || !Number.isInteger(task_id)) {
+    throw new TypeError(`task_id must be integer, got ${typeof task_id}`);
+  }
+
+  if (task_id <= 0) {
+    throw new RangeError(`task_id must be positive, got ${task_id}`);
+  }
+
+  // Безопасное удаление
+  db.run('DELETE FROM tasks WHERE id = ?', [task_id]);
+}
+```
+
+**Принцип:** Никогда не доверяйте входным данным, даже если они от "доверенного" источника. Агент может получить некорректные данные из-за ошибки в другой части системы.
 
 ### Подводные камни: что агент типично делает не так
 
@@ -977,14 +1296,27 @@ git commit -m "feat: add PUT /tasks/{id} endpoint for updating tasks"
 
 ### Когда остановиться
 
-**Правило 3 итераций:** Если после 3 итераций агент не может исправить проблему — остановитесь и исправьте вручную. Агент может застрять в цикле ошибок.
+**Правило 3 итераций:** Если после 3 попыток проблема не решена — смените подход.
 
-**Пример:**
+Агенты не всегда могут решить задачу с первого раза. Важно знать, когда остановиться:
+
+**Стратегия:**
+1. **Итерация 1:** Дайте агенту задачу, получите результат
+2. **Итерация 2:** Если есть проблемы, дайте конкретную обратную связь
+3. **Итерация 3:** Последняя попытка с ещё более детальными инструкциями
+
+**Если после 3 итераций проблема не решена:**
+- ❌ НЕ продолжайте бесконечно — агент может застрять в цикле
+- ✅ Исправьте проблему вручную ИЛИ
+- ✅ Разбейте задачу на более мелкие подзадачи ИЛИ
+- ✅ Упростите требования
+
+**Пример зацикливания:**
 - Итерация 1: Агент добавил тесты, но они падают
 - Итерация 2: Агент исправил тесты, но сломал линтер
 - Итерация 3: Агент исправил линтер, но тесты снова падают
 
-→ Остановитесь. Исправьте проблему вручную или упростите задачу.
+→ **Остановитесь.** Исправьте проблему вручную или разбейте на части (например: сначала только тесты, потом только линтер).
 
 ### Задание
 

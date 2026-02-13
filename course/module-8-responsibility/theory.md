@@ -57,7 +57,7 @@
 
 Credentials управляются через выделенный модуль в системе. Архитектура:
 
-- Session tokens для Claude Code, Codex, OpenCode хранятся в отдельных файлах: `~/.claude/.credentials.json`, `~/.codex/auth.json`, `~/.local/share/opencode/auth.json`
+- Session tokens для Claude Code, Codex, OpenCode хранятся в отдельных файлах: `~/.claude/auth.json`, `~/.codex/auth.json`, `~/.local/share/opencode/auth.json`
 - При запуске Fleet SDK устанавливает `chmod 0600` на эти файлы — только владелец может читать/писать
 - Валидация JSON перед записью токенов предотвращает ошибки формата и инъекции
 - Каждый AI CLI получает только свой токен через переменную окружения (`CLAUDE_SESSION_TOKEN`, `CODEX_SESSION_TOKEN`), а не доступ ко всем credentials
@@ -165,6 +165,249 @@ Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 - [ ] **Co-authorship указан?** (Для прозрачности) Добавьте в коммит: `Co-Authored-By: Claude <noreply@anthropic.com>`.
 
 Этот чеклист — не бюрократия, а защита от типичных проблем: утечка данных, хрупкий код, технический долг.
+
+## Security чек-лист для AI-кода
+
+Перед запуском кода от агента обязательно проверьте:
+
+### 1. SQL queries: Используют параметризованные запросы?
+
+**Проверьте:**
+```bash
+# Поиск опасных паттернов SQL injection
+grep -r "execute(f\"" . --include="*.py"
+grep -r "execute(f'" . --include="*.py"
+grep -r 'db.run(`.*\$\{' . --include="*.ts" --include="*.js"
+```
+
+**Что должно быть:**
+- ✅ Python: `cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))`
+- ✅ TypeScript: `db.run('SELECT * FROM users WHERE id = ?', [userId])`
+- ✅ Использование ORM (SQLAlchemy, TypeORM, Prisma)
+
+**Что НЕ должно быть:**
+- ❌ Python: `cursor.execute(f"SELECT * FROM users WHERE id = {user_id}")`
+- ❌ TypeScript: ``db.run(`SELECT * FROM users WHERE id = ${userId}`)``
+- ❌ Конкатенация строк в SQL-запросах
+
+**Почему важно:** SQL injection — одна из самых критичных уязвимостей (OWASP Top 10). Атакующий может удалить все данные, получить доступ к чужим аккаунтам или украсть sensitive информацию.
+
+### 2. Input validation: Все пользовательские данные валидируются?
+
+**Проверьте:**
+```bash
+# Поиск функций, которые принимают параметры без валидации
+grep -A 5 "def.*\(" . --include="*.py" | grep -v "if.*isinstance\|if.*len\|raise"
+```
+
+**Что должно быть:**
+- ✅ Проверка типов: `if not isinstance(user_id, int)`
+- ✅ Проверка диапазонов: `if user_id <= 0 or user_id > 1000000`
+- ✅ Проверка длины строк: `if len(title) > 200`
+- ✅ Санитизация: `html.escape(user_input)` для защиты от XSS
+- ✅ Whitelist подходы: проверка на допустимые значения
+
+**Что НЕ должно быть:**
+- ❌ Прямое использование input без проверок
+- ❌ Предположение, что данные "всегда корректны"
+- ❌ Валидация только на фронтенде (можно обойти)
+
+**Почему важно:** Невалидированный input — источник множества уязвимостей: buffer overflow, XSS, path traversal, DoS. Агент может создать функцию, которая упадёт при некорректных данных или создаст security hole.
+
+### 3. Credentials: Токены/пароли загружаются из env vars, не hardcoded?
+
+**Проверьте:**
+```bash
+# Поиск захардкоженных credentials
+grep -r "password\s*=\s*['\"]" . --include="*.py" --include="*.ts" --include="*.js"
+grep -r "api_key\s*=\s*['\"]" . --include="*.py" --include="*.ts" --include="*.js"
+grep -r "secret\s*=\s*['\"]" . --include="*.py" --include="*.ts" --include="*.js"
+grep -r "sk-ant-" . --include="*.py" --include="*.ts" --include="*.js"
+
+# Проверка что .env не в Git
+git ls-files | grep "\.env$"
+```
+
+**Что должно быть:**
+- ✅ `API_KEY = os.getenv("ANTHROPIC_API_KEY")`
+- ✅ `const apiKey = process.env.ANTHROPIC_API_KEY`
+- ✅ `.env` добавлен в `.gitignore`
+- ✅ `.env.example` с примерами (без реальных значений)
+- ✅ Проверка наличия переменной: `if not API_KEY: raise ValueError(...)`
+
+**Что НЕ должно быть:**
+- ❌ `API_KEY = "sk-ant-api03-xyz123"` в коде
+- ❌ `password = "admin123"` в коде
+- ❌ Файл `.env` в Git истории
+- ❌ Credentials в конфигурационных файлах в репозитории
+
+**Почему важно:** Утечка credentials = полная компрометация системы. Пароли в Git остаются навсегда, даже после удаления. При публикации кода или утечке репозитория атакующие получают полный доступ.
+
+### 4. File paths: Есть проверка на path traversal (../../../etc/passwd)?
+
+**Проверьте:**
+```bash
+# Поиск работы с файлами без валидации путей
+grep -r "open(.*input\|os.path.join(.*input\|Path(.*input" . --include="*.py"
+grep -r "readFile(.*input\|writeFile(.*input" . --include="*.ts" --include="*.js"
+```
+
+**Что должно быть:**
+- ✅ Валидация пути: `os.path.normpath(user_path)` и проверка на выход за пределы разрешённой директории
+- ✅ Whitelist разрешённых директорий
+- ✅ Проверка на `..` в пути: `if '..' in user_path: raise ValueError(...)`
+- ✅ Использование `os.path.abspath()` и проверка префикса
+
+```python
+# ✅ Безопасная работа с путями
+import os
+
+ALLOWED_DIR = "/var/app/uploads"
+
+def read_user_file(filename):
+    # Нормализация и абсолютизация пути
+    filepath = os.path.abspath(os.path.join(ALLOWED_DIR, filename))
+
+    # Проверка что путь внутри разрешённой директории
+    if not filepath.startswith(ALLOWED_DIR):
+        raise ValueError("Path traversal detected")
+
+    with open(filepath, 'r') as f:
+        return f.read()
+```
+
+**Что НЕ должно быть:**
+- ❌ `open(user_filename)` без проверок
+- ❌ `fs.readFileSync(req.body.path)` — прямое использование пользовательского пути
+
+**Почему важно:** Path traversal позволяет атакующему прочитать любые файлы на сервере: `/etc/passwd`, конфигурационные файлы, credentials, исходный код. Агент может создать функцию загрузки файлов без валидации.
+
+### 5. Dependencies: Все пакеты из trusted sources?
+
+**Проверьте:**
+```bash
+# Проверка зависимостей на известные уязвимости
+npm audit  # для Node.js
+pip-audit  # для Python (установить: pip install pip-audit)
+
+# Проверка странных или неизвестных пакетов
+cat package.json | grep "git+" | grep -v "github.com/your-org"
+cat requirements.txt | grep "git+https"
+```
+
+**Что должно быть:**
+- ✅ Все пакеты из официальных репозиториев (npm, PyPI)
+- ✅ Фиксированные версии (не `*` или `latest`)
+- ✅ Регулярное обновление с проверкой CVE
+- ✅ Использование `npm audit` / `pip-audit` в CI/CD
+
+**Что НЕ должно быть:**
+- ❌ Зависимости с известными CVE
+- ❌ Пакеты из неизвестных источников
+- ❌ Typosquatting пакеты (например, `reqests` вместо `requests`)
+
+**Почему важно:** Компрометированные зависимости — вектор атаки на цепочку поставок (supply chain attack). В 2024 было несколько случаев, когда популярные npm-пакеты были захвачены и использовались для кражи credentials.
+
+### 6. Error messages: Не раскрывают sensitive информацию?
+
+**Проверьте:**
+```bash
+# Поиск раскрытия информации в ошибках
+grep -r "raise.*Exception\|throw new Error" . --include="*.py" --include="*.ts" | grep -i "password\|key\|token\|secret"
+```
+
+**Что должно быть:**
+- ✅ Общие сообщения для пользователей: "Authentication failed"
+- ✅ Детальные логи только в server-side логах (не в response)
+- ✅ Не раскрывать структуру БД, пути к файлам, версии ПО
+
+```python
+# ✅ Безопасная обработка ошибок
+try:
+    user = authenticate(username, password)
+except InvalidCredentials:
+    # Общее сообщение, не раскрывает что именно неправильно
+    return {"error": "Invalid username or password"}
+except Exception as e:
+    # Детали логируются, но не показываются пользователю
+    logger.error(f"Auth error: {str(e)}")
+    return {"error": "Internal server error"}
+```
+
+**Что НЕ должно быть:**
+- ❌ `raise ValueError(f"Password {password} is incorrect")` — раскрывает пароль
+- ❌ `throw new Error(database connection failed at ${DB_URL})` — раскрывает connection string
+- ❌ Stack traces в production response
+
+**Почему важно:** Детальные ошибки помогают атакующим в reconnaissance: структура БД, пути к файлам, версии ПО, существование пользователей. Агент может создать endpoint, который раскрывает слишком много информации.
+
+### Быстрая проверка всего
+
+Запустите эти команды перед коммитом кода от агента:
+
+```bash
+# 1. SQL injection
+echo "Checking for SQL injection patterns..."
+grep -r "execute(f\"" . --include="*.py" && echo "⚠️  Found f-string in execute()" || echo "✅ No f-strings in SQL"
+
+# 2. Hardcoded credentials
+echo "Checking for hardcoded credentials..."
+grep -r "password\s*=\s*['\"].\{8,\}" . --include="*.py" --include="*.ts" && echo "⚠️  Found hardcoded password" || echo "✅ No hardcoded passwords"
+
+# 3. Secrets in Git
+echo "Checking if .env is in Git..."
+git ls-files | grep "\.env$" && echo "⚠️  .env is tracked by Git!" || echo "✅ .env not in Git"
+
+# 4. Dependencies audit
+echo "Checking dependencies for vulnerabilities..."
+npm audit --production  # или pip-audit
+
+# 5. Линтер (может найти security issues)
+echo "Running linter..."
+ruff check . --select S  # Python security rules
+# или
+npm run lint
+```
+
+### Что делать если нашли проблему
+
+1. **Не паникуйте, но действуйте быстро**
+2. **Остановите деплой** если код уже в production
+3. **Исправьте уязвимость** — попросите агента переписать код безопасно
+4. **Ротируйте credentials** если они были скомпрометированы
+5. **Проверьте Git историю** — если credentials были закоммичены, удалите их из истории (git filter-branch или BFG Repo-Cleaner)
+6. **Обновите AGENTS.md** — добавьте правило для предотвращения подобных проблем в будущем
+
+### Пример добавления security правила в AGENTS.md
+
+```markdown
+## Security Rules (добавить в AGENTS.md)
+
+### SQL Queries
+- Всегда используй параметризованные запросы
+- Python: `cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))`
+- TypeScript: `db.query('SELECT * FROM users WHERE id = $1', [userId])`
+- НИКОГДА не используй f-strings или template literals в SQL
+
+### Input Validation
+- Каждый параметр функции должен быть валидирован
+- Проверяй типы: `if not isinstance(x, int)`
+- Проверяй диапазоны: `if x < 0 or x > MAX_VALUE`
+- Санитизируй строки: `html.escape(user_input)`
+
+### Credentials
+- Все secrets через environment variables: `os.getenv("API_KEY")`
+- НИКОГДА не хардкодить пароли, токены, API keys
+- Проверяй наличие: `if not API_KEY: raise ValueError(...)`
+- .env файл в .gitignore
+
+### File Operations
+- Валидируй пути: `os.path.abspath()` + проверка префикса
+- НИКОГДА не используй пользовательский input напрямую в путях
+- Проверяй на path traversal: `if '..' in path: raise ValueError(...)`
+```
+
+Этот чек-лист должен стать частью вашего code review процесса. Безопасность — не одноразовое действие, а непрерывная практика.
 
 ## Когда ИИ НЕ уместен
 

@@ -4,6 +4,14 @@
 
 **Время выполнения:** 50 минут
 
+## Чек-лист готовности
+
+Перед началом убедитесь что:
+- [ ] Вы изучили theory.md Модуля 5
+- [ ] Claude Code установлен и работает
+- [ ] Песочница task-manager или ваш проект готовы
+- [ ] Есть 50 минут для упражнений
+
 **Предварительные требования:**
 - Изучен [theory.md](./theory.md) модуля 5
 - Установлен Claude Code или другой AI coding agent
@@ -96,6 +104,21 @@ ls ~/.claude/skills/
 1. Откройте Claude Code в тестовом проекте
 2. Введите `/kiro:spec-init`
 3. Следуйте инструкциям агента для создания первой спецификации
+
+**Troubleshooting при установке:**
+
+**Ошибка: "command not found: npx"**
+- Установите Node.js: https://nodejs.org/
+- Проверьте: `node --version` и `npm --version`
+
+**Ошибка: "permission denied"**
+- Используйте без sudo (skills устанавливаются в ~/.claude/skills/)
+- Если не помогло: `chmod -R u+w ~/.claude/`
+
+**Ошибка: "skill not found после установки"**
+- Перезапустите Claude Code
+- Проверьте: `ls ~/.claude/skills/` — должна быть папка kiro/
+- Убедитесь что файл ~/.claude/skills/kiro/skill.json существует
 
 #### 2. GitHub Spec Kit — конституция, спеки, планы
 

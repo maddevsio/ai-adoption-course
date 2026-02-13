@@ -65,7 +65,7 @@ Worktree создаёт отдельную рабочую директорию, 
 
 ## Ralph Loop и fail-until-done
 
-Агент не должен останавливаться при первой ошибке. Ralph Loop — это цикл непрерывной работы агента до достижения успешного результата.
+Агент не должен останавливаться при первой ошибке. **Ralph Loop** — это паттерн автономной работы агента: цикл Do (выполнить) → Check (проверить тестами/линтером) → Fix (исправить ошибки) → повторять до успеха.
 
 **Цикл выглядит так:**
 1. **Do** — агент выполняет задачу (пишет код, создаёт файлы)
@@ -98,7 +98,7 @@ CHECK: pytest ✓, mypy ✓, ruff ✓, go build ✓
 DONE: Все проверки пройдены → агент коммитит и создаёт PR
 ```
 
-**Fail-until-done** (подход из **Enji Fleet** — учебного проекта Mad Devs) означает, что агент маслает, пока не сделает. Нет понятия "я попробовал и не вышло". Есть понятие "я буду пробовать, пока не получится, или пока не упрусь в hard limit" (например, 50 итераций или 3 часа работы).
+**Fail-until-done** — подход, при котором агент работает в цикле до достижения успеха (все тесты проходят), не останавливаясь при первой ошибке. Из **Enji Fleet** (учебный проект Mad Devs): агент работает, пока не сделает. Нет понятия "я попробовал и не вышло". Есть понятие "я буду пробовать, пока не получится, или пока не упрусь в hard limit" (например, 50 итераций или 3 часа работы).
 
 Ссылки для изучения:
 - https://ghuntley.com/ralph/ — оригинальная концепция Ralph Loop
@@ -418,83 +418,98 @@ OAuth токен живёт 1 год, не требует ручной пере�
 
 Официальный SDK для построения кастомных оркестраторов:
 
-**Python:**
+**Python (Anthropic SDK):**
 ```bash
-pip install claude-agent-sdk
+pip install anthropic
 ```
 
 ```python
-from claude_agent_sdk import AgentSession, Tool
+import os
+from anthropic import Anthropic
 
-# Создать сессию агента
-session = AgentSession(
-    model="claude-sonnet-4-5",
-    system_prompt="You are a backend developer"
+# Инициализация клиента
+client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+
+# Создать сообщение
+response = client.messages.create(
+    model="claude-sonnet-4-5-20250929",
+    max_tokens=4096,
+    system="You are a backend developer",
+    messages=[
+        {"role": "user", "content": "Add rate limiting to /api/users endpoint"}
+    ]
 )
 
-# Запустить задачу
-result = session.run(
-    prompt="Add rate limiting to /api/users endpoint",
-    tools=[Tool.Bash, Tool.Read, Tool.Edit, Tool.Write]
-)
-
-# Результат: код написан, тесты пройдены, PR создан
-print(result.pr_url)
+# Получить результат
+result = response.content[0].text
+print(result)
 ```
 
-**TypeScript:**
+**TypeScript (Anthropic SDK):**
 ```bash
-npm install @anthropic-ai/claude-agent-sdk
+npm install @anthropic-ai/sdk
 ```
 
 ```typescript
-import { AgentSession } from '@anthropic-ai/claude-agent-sdk';
+import Anthropic from '@anthropic-ai/sdk';
 
-const session = new AgentSession({
-  model: 'claude-sonnet-4-5',
-  systemPrompt: 'You are a frontend developer'
+const client = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-const result = await session.run({
-  prompt: 'Add dark mode toggle to settings page',
-  tools: ['Bash', 'Read', 'Edit', 'Write']
+const response = await client.messages.create({
+  model: 'claude-sonnet-4-5-20250929',
+  max_tokens: 4096,
+  system: 'You are a frontend developer',
+  messages: [
+    { role: 'user', content: 'Add dark mode toggle to settings page' }
+  ],
 });
+
+console.log(response.content[0].text);
 ```
 
+**Важно:** Anthropic SDK предоставляет низкоуровневый API для работы с моделями Claude. Для агентских возможностей (работа с файлами, выполнение команд) используйте Claude Code CLI в headless-режиме.
+
 SDK позволяет:
-- Создавать программные субагенты (не через CLI, а через код)
-- Добавлять кастомные хуки (перед запуском, после завершения, при ошибке)
-- Интегрировать MCP-серверы для доступа к внешним системам
-- Управлять несколькими сессиями из одного скрипта
+- Создавать программные workflows с Claude
+- Интегрировать Claude в существующие системы
+- Обрабатывать большие объемы текста
+- Управлять несколькими запросами из одного скрипта
 
 **Пример: бот, который берёт задачи из Jira**
 
 ```python
-from claude_agent_sdk import AgentSession
+import os
+from anthropic import Anthropic
 from jira import JIRA
 
+client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 jira = JIRA('https://company.atlassian.net', basic_auth=('user', 'token'))
 
 # Получить задачи из бэклога
 issues = jira.search_issues('project=BACKEND AND status="To Do"')
 
 for issue in issues:
-    # Создать агента для задачи
-    session = AgentSession(model="claude-sonnet-4-5")
-
-    # Запустить реализацию
-    result = session.run(
-        prompt=f"Task: {issue.summary}\n\nDescription: {issue.description}",
-        working_dir=f"/tmp/worktree-{issue.key}"
+    # Создать план реализации через Claude
+    response = client.messages.create(
+        model="claude-sonnet-4-5-20250929",
+        max_tokens=2048,
+        messages=[{
+            "role": "user",
+            "content": f"Task: {issue.summary}\n\nDescription: {issue.description}\n\nCreate implementation plan."
+        }]
     )
 
-    # Обновить статус в Jira
-    if result.success:
-        jira.transition_issue(issue, 'In Review')
-        issue.update(fields={'comment': f'PR created: {result.pr_url}'})
+    plan = response.content[0].text
+
+    # Добавить комментарий с планом в Jira
+    issue.update(fields={'comment': f'Implementation plan:\n{plan}'})
+
+    # Для фактического выполнения используйте Claude Code CLI в headless-режиме
 ```
 
-SDK превращает Claude Code из CLI-инструмента в программируемую платформу для автоматизации.
+Для полной автоматизации (включая работу с файлами и выполнение команд) комбинируйте Anthropic SDK с Claude Code CLI в headless-режиме.
 
 ### Agent Teams (experimental)
 
@@ -517,7 +532,7 @@ Agent Teams пока в experimental статусе. Проблемы: коор�
 
 ### OpenClaw: платформа автономных агентов
 
-**OpenClaw** (https://github.com/openclaw/openclaw, 188K stars) — open-source платформа автономных агентов от Питера Штайнбергера.
+**OpenClaw** (https://github.com/openclaw/openclaw, 180K+ stars) — open-source платформа автономных агентов от Питера Штайнбергера.
 
 **Ключевые возможности:**
 - **Multi-agent routing** — разные модели на разные задачи (Claude для кода, GPT-4 для анализа текста, Gemini для поиска)

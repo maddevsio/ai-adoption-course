@@ -2,6 +2,15 @@
 
 5 практических упражнений, которые проведут вас от git worktrees до параллельной работы нескольких агентов. Каждое упражнение строится на предыдущем. Суммарно 60 минут + 15 минут бонусные упражнения.
 
+## Чек-лист готовности
+
+Перед началом убедитесь что:
+- [ ] Claude Code установлен (Модуль 2)
+- [ ] Git установлен и настроен
+- [ ] Вы знакомы с MCP (Модуль 6)
+- [ ] Есть 60-75 минут для упражнений
+- [ ] Две вкладки терминала или IDE открыты
+
 **Требования перед началом:**
 - Установленный Claude Code (через `curl -fsSL https://claude.ai/install.sh | bash`)
 - Git репозиторий с проектом (можете использовать свой или создать тестовый)
@@ -14,6 +23,30 @@
 ## Шаг 1: Git worktree для изоляции агентов (10 минут)
 
 Git worktree создаёт отдельную рабочую директорию для каждой ветки. Это позволяет двум агентам работать параллельно без конфликтов.
+
+### Подготовка: Создайте тестовый git репозиторий (если нет своего)
+
+Если у вас нет git репозитория, создайте тестовый:
+
+```bash
+# Создать директорию для тестового проекта
+mkdir ~/practice/test-orchestration
+cd ~/practice/test-orchestration
+
+# Инициализировать git репозиторий
+git init
+
+# Создать простой файл
+echo "# Test Orchestration Project" > README.md
+git add README.md
+git commit -m "Initial commit"
+```
+
+**Если используете свой проект:** перейдите в его директорию и убедитесь что есть хотя бы один коммит:
+```bash
+cd /path/to/your/project
+git log  # должен показать хотя бы один коммит
+```
 
 ### Упражнение: создать worktree и запустить агента
 
@@ -837,39 +870,48 @@ jobs:
 
 Для headless-режима нужны токены, которые не требуют интерактивного логина.
 
-**Два типа токенов:**
-
-**API Key (для API-биллинга):**
+**API Key (рекомендуемый метод):**
 
 ```bash
-# Получить токен в console.anthropic.com/settings/keys
-export ANTHROPIC_API_KEY=sk-ant-api03-...
+# Получить API key на console.anthropic.com/settings/keys
+export ANTHROPIC_API_KEY="sk-ant-api03-YOUR_KEY_HERE"
 
-# Использовать в скриптах
-claude -p "Generate unit tests" --api-key $ANTHROPIC_API_KEY
+# Использовать в скриптах (переменная окружения используется автоматически)
+claude -p "Generate unit tests"
 ```
 
-Биллинг: pay-as-you-go, $15 за 1M tokens (Claude Opus), $3 за 1M tokens (Claude Sonnet).
+Биллинг: pay-as-you-go, стоимость зависит от модели:
+- Claude Opus 4.6: $5.00 input / $21.00 output за 1M tokens
+- Claude Sonnet 4.5: $1.75 input / $3.00 output за 1M tokens
+- Claude Haiku 4.5: $0.03 input / $1.00 output за 1M tokens
 
 **Альтернатива: Claude Max подписка**
 
-Для интенсивного использования можно оформить подписку Claude Max ($100/мес или $200/мес для Max 20x) и использовать тот же API key через console.anthropic.com.
+Для интенсивного использования можно оформить подписку Claude Max и использовать тот же API key:
+- Claude Max 5x: $100/мес с приоритетным доступом
+- Claude Max 20x: $200/мес с расширенными лимитами
+
+API key настраивается через console.anthropic.com независимо от типа подписки.
 
 **Упражнение: настроить headless-агента с API key**
 
 1. Получите API key через console.anthropic.com/settings/keys
 
-2. Создайте `.env` файл для локальной автоматизации:
+2. Добавьте API key в shell profile (безопасный способ):
 ```bash
-cat > .env << EOF
-ANTHROPIC_API_KEY=sk-ant-api03-ваш_ключ
-EOF
+# Добавить в ~/.bashrc или ~/.zshrc
+echo 'export ANTHROPIC_API_KEY="sk-ant-api03-YOUR_KEY_HERE"' >> ~/.bashrc
+
+# Применить изменения
+source ~/.bashrc
+
+# Проверка
+echo $ANTHROPIC_API_KEY
 ```
 
 3. Используйте в скриптах:
 ```bash
 #!/bin/bash
-source .env
 
 # Запустить агента для всех сервисов
 for service in api-gateway user-service payment-service; do
@@ -880,13 +922,41 @@ for service in api-gateway user-service payment-service; do
 done
 ```
 
-**Безопасность:**
+**Безопасность:** Для локальной разработки можно создать `.env` файл, но **обязательно** добавьте его в `.gitignore`:
 
-- Добавьте `.env` в `.gitignore` (никогда не коммитьте токены)
-- В CI/CD используйте secrets:
-  - GitHub: Settings → Secrets → ANTHROPIC_API_KEY
-  - GitLab: Settings → CI/CD → Variables
-- Для production: используйте secrets managers (AWS Secrets Manager, HashiCorp Vault)
+```bash
+# Создать .env (только для локальной разработки)
+cat > .env << EOF
+ANTHROPIC_API_KEY="sk-ant-api03-YOUR_KEY_HERE"
+EOF
+
+# Добавить в .gitignore
+echo '.env' >> .gitignore
+
+# Использовать в скриптах
+source .env
+```
+
+**Безопасность API токенов:**
+
+**Важно:** Никогда не коммитьте токены в git!
+
+- Добавьте `.env` в `.gitignore`:
+  ```bash
+  echo '.env' >> .gitignore
+  git add .gitignore
+  git commit -m "Add .env to gitignore"
+  ```
+
+- В CI/CD используйте secrets (НЕ храните в коде):
+  - **GitHub:** Settings → Secrets and variables → Actions → New repository secret
+  - **GitLab:** Settings → CI/CD → Variables
+  - **CircleCI:** Project Settings → Environment Variables
+
+- Для production используйте secrets managers:
+  - AWS Secrets Manager
+  - HashiCorp Vault
+  - Azure Key Vault
 
 ---
 
@@ -903,11 +973,46 @@ SDK позволяет управлять агентами из кода (Python
 **Установка:**
 
 ```bash
-# Python
+# Python SDK
 pip install anthropic
 
-# TypeScript
+# TypeScript SDK
 npm install @anthropic-ai/sdk
+```
+
+**Примеры использования:**
+
+**Python:**
+```python
+import os
+from anthropic import Anthropic
+
+client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+
+response = client.messages.create(
+    model="claude-sonnet-4-5-20250929",
+    max_tokens=1024,
+    messages=[{"role": "user", "content": "Hello, Claude!"}]
+)
+
+print(response.content[0].text)
+```
+
+**TypeScript:**
+```typescript
+import Anthropic from '@anthropic-ai/sdk';
+
+const client = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+});
+
+const response = await client.messages.create({
+  model: 'claude-sonnet-4-5-20250929',
+  max_tokens: 1024,
+  messages: [{ role: 'user', content: 'Hello, Claude!' }],
+});
+
+console.log(response.content[0].text);
 ```
 
 **Упражнение: создать оркестратор на Python**
@@ -915,11 +1020,11 @@ npm install @anthropic-ai/sdk
 1. Создайте файл `orchestrator.py`:
 
 ```python
-from anthropic import Anthropic
 import os
+from anthropic import Anthropic
 
-# Конфигурация
-client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+# Инициализация клиента Anthropic
+client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
 # Задачи
 tasks = [
@@ -937,7 +1042,7 @@ tasks = [
 for task in tasks:
     print(f"Starting task: {task['name']}")
 
-    # Создать сообщение
+    # Создать сообщение через Anthropic Messages API
     message = client.messages.create(
         model="claude-sonnet-4-5-20250929",
         max_tokens=4096,
@@ -1088,7 +1193,7 @@ CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude
 
 **OpenClaw** — open-source платформа для координации автономных агентов. Разработана Питером Штайнбергером.
 
-**GitHub:** https://github.com/openclaw/openclaw (188K stars)
+**GitHub:** https://github.com/openclaw/openclaw (180K+ stars, февраль 2026)
 
 **Что это:**
 
@@ -1329,21 +1434,25 @@ CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude "your prompt"
 
 **Решение:**
 
-Команда `claude setup-token` не существует. Токены получаются через веб-интерфейс:
+Команда `claude setup-token` не существует. Аутентификация выполняется через API key:
 
 ```bash
-# 1. Получите токен на https://claude.ai/settings/developer
-# 2. Сохраните в файл:
-mkdir -p ~/.claude
-cat > ~/.claude/auth.json << EOF
-{"access_token": "your-token-here"}
-EOF
+# 1. Получите API key на https://console.anthropic.com/settings/keys
+# 2. Настройте переменную окружения:
 
-# 3. Используйте в скриптах:
+# Добавить в ~/.bashrc или ~/.zshrc (постоянно)
+echo 'export ANTHROPIC_API_KEY="sk-ant-api03-YOUR_KEY_HERE"' >> ~/.bashrc
+source ~/.bashrc
+
+# Или для одной сессии (временно)
 export ANTHROPIC_API_KEY="sk-ant-api03-YOUR_KEY_HERE"
-# или
-export CLAUDE_CODE_OAUTH_TOKEN=$(cat ~/.claude/auth.json | jq -r '.access_token')
+
+# 3. Проверьте что Claude Code видит токен:
+claude -p "Hello, Claude!"
+# Должен ответить без ошибок аутентификации
 ```
+
+**Примечание:** Путь `~/.claude/auth.json` используется только если вы настраиваете OAuth через веб-интерфейс Claude.ai. Для большинства случаев используйте переменную окружения `ANTHROPIC_API_KEY`.
 
 ### Проблема: Worktree конфликты при merge
 
