@@ -906,6 +906,45 @@ claude -p "Review type hints changes in src/core/*.py, check for breaking change
 
 ---
 
+### 5.5. Сводная таблица: все инструменты
+
+| Инструмент | Категория | Цена/мес | Модель | Автономность | Best for | Free tier |
+|------------|-----------|----------|--------|--------------|----------|-----------|
+| **Claude Code** | CLI-агент | $0-200 | Opus/Sonnet/Haiku | ⭐⭐⭐⭐⭐ | Комплексные задачи | ✅ Guest Pass 7д |
+| **OpenCode** | CLI-агент | $0 | BYOK | ⭐⭐⭐⭐ | Budget-friendly | ✅ 100% free |
+| **Aider** | CLI-агент | $0-100 | BYOK | ⭐⭐⭐ | Git workflows | ✅ BYOK |
+| **Codex CLI** | CLI-агент | $50 | GPT-5.3-Codex | ⭐⭐⭐⭐⭐ | Multimodal coding | ❌ |
+| **Cursor** | AI-IDE | $20 | Claude/GPT | ⭐⭐⭐ | Быстрый coding | ✅ 2000 req/мес |
+| **Windsurf** | AI-IDE | $15 | Claude/GPT | ⭐⭐⭐⭐ | Agnostic UI | ✅ Limited |
+| **Antigravity** | AI-IDE | $0 | Gemini | ⭐⭐⭐⭐ | Multi-agent | ✅ 100% free |
+| **Kilo Code** | AI-IDE | $0 | 500+ моделей | ⭐⭐⭐ | Экспериментирование | ✅ 100% free |
+| **GitHub Copilot** | IDE-копилот | $10-19 | GPT-4 Turbo | ⭐⭐ | Autocomplete | ✅ Students/OSS |
+| **Tabnine** | IDE-копилот | $12 | Proprietary | ⭐⭐ | Enterprise compliance | ✅ Basic plan |
+| **Codeium** | IDE-копилот | $0-12 | Proprietary | ⭐⭐ | Budget autocomplete | ✅ Individual free |
+| **ChatGPT** | LLM-чат | $0-200 | GPT-5.2/Pro | ⭐ | Brainstorming | ✅ 3.5 free |
+| **Claude.ai** | LLM-чат | $0-20 | Opus/Sonnet | ⭐ | Reasoning | ✅ Sonnet free |
+| **Gemini** | LLM-чат | $0-20 | Gemini 3 | ⭐ | Multimodal | ✅ Flash free |
+| **DeepSeek** | LLM-чат | $0-5 | R1/V3 | ⭐ | Дешёвое качество | ✅ Ограниченно |
+| **Ollama** | Локальные | $0 | Llama/Qwen/Phi | ⭐⭐ | Privacy & offline | ✅ 100% free |
+
+**Легенда:**
+- **Автономность:** ⭐ = ручное управление → ⭐⭐⭐⭐⭐ = полная автономия
+- **Best for:** Основной use case инструмента
+- **Free tier:** ✅ = есть бесплатный план, ❌ = только платно
+
+**Как выбрать:**
+
+1. **Бюджет $0** → OpenCode + Ollama + DeepSeek + Antigravity/Kilo Code
+2. **Бюджет $10-30** → Claude Code (Guest Pass) + Cursor Hobby + DeepSeek
+3. **Бюджет $50-100** → Claude Code Pro + Cursor Pro + ChatGPT Plus
+4. **Бюджет $100-200** → Claude Code (multi-model) + Windsurf + ChatGPT Pro + Codex CLI
+5. **Enterprise** → GitHub Copilot Enterprise + Tabnine + Claude Team
+
+**Практический совет:**
+Начните с бесплатных инструментов, затем добавляйте платные по мере роста сложности задач. Не пытайтесь купить все сразу — 80% задач решается 2-3 инструментами.
+
+---
+
 ## Выводы и рекомендации
 
 ### Ключевые принципы работы с AI-инструментами в 2026:
