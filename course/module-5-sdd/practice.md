@@ -475,7 +475,7 @@ Traces → Constitution — это паттерн "field notes → consolidation
 
 ### Пример хорошего trace
 
-Посмотрите пример из реального проекта Enji Fleet: `/home/user/enji-fleet/docs/traces/2026-02-05-mvp-store-service.trace.md`
+Посмотрите пример из проекта **Enji Fleet** (учебный проект Mad Devs): `/home/user/enji-fleet/docs/traces/2026-02-05-mvp-store-service.trace.md` (примечание: доступ к файлам проекта предоставляется студентам курса)
 
 Обратите внимание:
 - Секция "Что сделано" — конкретный список задач
@@ -541,7 +541,7 @@ Traces → Constitution — это паттерн "field notes → consolidation
 **Уровень 5: Skills + Workflows**
 - Специализация агентов (developer, architect, reviewer)
 - Оркестрация через платформу
-- Enji Fleet, GitHub Copilot Workspace
+- Примеры подходов: **Enji Fleet** (учебный проект Mad Devs), GitHub Copilot Workspace
 
 Не прыгайте сразу на уровень 5. Начните с AGENTS.md, добавляйте артефакты по мере роста проекта.
 

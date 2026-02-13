@@ -8,6 +8,57 @@
 
 ---
 
+## Важное примечание (февраль 2026)
+
+> **Статус MCP-серверов:** Model Context Protocol активно развивается. Многие серверы находятся в стадии разработки или поддерживаются сообществом. Официальные reference серверы от `@modelcontextprotocol` предназначены для обучения и демонстрации концепций.
+>
+> **Для production:** Используйте стабильные community-maintained серверы или разрабатывайте собственные на основе SDK.
+>
+> **Экосистема MCP:** Названия и доступность пакетов могут меняться. Всегда проверяйте актуальность через `npm search <package-name>` и официальный каталог: https://registry.modelcontextprotocol.io/
+
+---
+
+## Гарантированно работающие MCP-серверы (февраль 2026)
+
+Если вы хотите пропустить сложности с конфигурацией и использовать только проверенные серверы:
+
+### Минимальный набор (100% работает)
+
+```bash
+# 1. Filesystem MCP (работа с локальными файлами)
+npm install -g @modelcontextprotocol/server-filesystem
+
+# 2. GitHub MCP (работа с GitHub API)
+npm install -g @modelcontextprotocol/server-github
+
+# 3. PostgreSQL MCP (работа с БД, если используете PostgreSQL)
+npm install -g @modelcontextprotocol/server-postgres
+```
+
+**Конфигурация для минимального набора:**
+
+```json
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/your/project"]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+Этого достаточно для прохождения курса. Git-операции можно делать через filesystem MCP + bash commands.
+
+---
+
 ## Предварительные требования
 
 ### Проверьте установку базового окружения
@@ -52,17 +103,19 @@ git log
 
 ### 1.1. Git MCP Server
 
+> **Примечание:** Официальный пакет `@modelcontextprotocol/server-git` не существует в npm registry (февраль 2026). Используйте альтернативу `@mseep/git-mcp-server` или работайте с Git напрямую через filesystem MCP.
+
 **Назначение:** Глубокий анализ Git-истории — code archaeology, поиск в истории, анализ конфликтов.
 
-**Установка:**
+**Установка (альтернатива):**
 
 ```bash
-# Установка Git MCP Server
-npm install -g @modelcontextprotocol/server-git
+# Установка альтернативного Git MCP Server
+npm install -g @mseep/git-mcp-server
 
 # Проверка установки
-npx @modelcontextprotocol/server-git --version
-# Должна показаться версия (например, 0.5.0)
+npx @mseep/git-mcp-server --version
+# Должна показаться версия
 ```
 
 **Что дает Git MCP:**
@@ -79,7 +132,7 @@ npx @modelcontextprotocol/server-git --version
 cd ~/practice/task-manager
 
 # Запустить Git MCP сервер вручную (для теста)
-npx @modelcontextprotocol/server-git
+npx @mseep/git-mcp-server
 
 # Нажмите Ctrl+C для остановки
 # Если сервер запустился без ошибок — всё работает
@@ -107,12 +160,18 @@ npx @modelcontextprotocol/server-git
 
 **Установка:**
 
-```bash
-# Установка Jira MCP Server
-npm install -g @atlassian/atlassian-mcp-server
+> **Примечание:** Пакет `@atlassian/atlassian-mcp-server` не существует. Используйте официальный Atlassian Remote MCP Server (работает через SSE) или альтернативы от сообщества.
 
-# Проверка установки
-npx @atlassian/atlassian-mcp-server --version
+```bash
+# Вариант 1: Официальный Atlassian Remote MCP (рекомендуется)
+# Конфигурируется через mcp.json без установки пакета
+# См. секцию "Environment variables" ниже
+
+# Вариант 2: Community package (альтернатива)
+npm install -g @aashari/mcp-server-atlassian-jira
+
+# Проверка установки (для варианта 2)
+npx @aashari/mcp-server-atlassian-jira --version
 ```
 
 **Environment variables:**
@@ -174,9 +233,15 @@ source ~/.bashrc
 
 Если нет ни Jira, ни GitHub Issues с задачами:
 
+> **Примечание:** Пакет `@ivo-/todoist-mcp-server` не существует. Используйте официальный `@doist/todoist-ai` или community package `todoist-mcp`.
+
 ```bash
-# Установка Todoist MCP
-npm install -g @ivo-/todoist-mcp-server
+# Вариант 1: Официальный Todoist MCP от Doist (рекомендуется)
+# Работает через hosted service, конфигурируется в mcp.json
+# См. https://ai.todoist.net/mcp
+
+# Вариант 2: Community package
+npm install -g todoist-mcp
 
 # Получить API токен: https://app.todoist.com/app/settings/integrations/developer
 export TODOIST_API_TOKEN="ваш_todoist_токен"
@@ -189,11 +254,13 @@ source ~/.bashrc
 
 ### 1.3. JetBrains MCP Server (PyCharm / IntelliJ / WebStorm)
 
+> **Примечание:** С версии 2025.2 все IntelliJ-based IDE имеют встроенную поддержку MCP. Отдельный npm-пакет `@modelcontextprotocol/server-jetbrains` НЕ существует и не требуется.
+
 **Назначение:** Интеграция с IDE — debugger, refactoring, code analysis, navigation.
 
 **Требования:**
-- JetBrains IDE версии 2024.3+ (PyCharm, IntelliJ IDEA, WebStorm, GoLand, Rider)
-- Установленный JetBrains AI Assistant plugin
+- JetBrains IDE версии 2025.2+ (PyCharm, IntelliJ IDEA, WebStorm, GoLand, Rider)
+- Встроенная поддержка MCP (установка npm-пакета НЕ требуется)
 
 #### Если у вас НЕТ JetBrains IDE
 
@@ -251,12 +318,14 @@ sudo snap install pycharm-community --classic
 
 **Установка:**
 
+> **Примечание:** Пакет `@glips/figma-context-mcp` не существует под этим именем. Правильное название: `figma-developer-mcp` (опубликован в январе 2026).
+
 ```bash
-# Установка Figma MCP Server
-npm install -g @glips/figma-context-mcp
+# Установка Figma MCP Server (правильный пакет)
+npm install -g figma-developer-mcp
 
 # Проверка установки
-npx @glips/figma-context-mcp --version
+npx figma-developer-mcp --version
 ```
 
 **Environment variables:**
@@ -299,30 +368,22 @@ echo $FIGMA_ACCESS_TOKEN
 # Создать директорию если её нет
 mkdir -p ~/.claude
 
-# Создать конфигурацию MCP
+# Создать конфигурацию MCP (с исправленными пакетами)
 cat > ~/.claude/mcp.json << 'EOF'
 {
   "mcpServers": {
     "git": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-git"],
+      "args": ["-y", "@mseep/git-mcp-server"],
       "cwd": "."
     },
     "jira": {
       "command": "npx",
-      "args": ["-y", "@atlassian/atlassian-mcp-server"],
-      "env": {
-        "ATLASSIAN_SITE": "${ATLASSIAN_SITE}",
-        "ATLASSIAN_EMAIL": "${ATLASSIAN_EMAIL}",
-        "ATLASSIAN_API_TOKEN": "${ATLASSIAN_API_TOKEN}"
-      }
+      "args": ["-y", "mcp-remote", "https://mcp.atlassian.com/v1/sse"]
     },
     "figma": {
       "command": "npx",
-      "args": ["-y", "@glips/figma-context-mcp"],
-      "env": {
-        "FIGMA_ACCESS_TOKEN": "${FIGMA_ACCESS_TOKEN}"
-      }
+      "args": ["-y", "figma-developer-mcp", "--figma-api-key=${FIGMA_ACCESS_TOKEN}", "--stdio"]
     }
   }
 }
@@ -331,12 +392,14 @@ EOF
 
 **Если используете GitHub Issues вместо Jira:**
 
+> **Примечание:** Пакет `@modelcontextprotocol/server-github` устарел (deprecated). Разработка перенесена в https://github.com/github/github-mcp-server.
+
 ```json
 {
   "mcpServers": {
     "git": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-git"],
+      "args": ["-y", "@mseep/git-mcp-server"],
       "cwd": "."
     },
     "github": {
@@ -348,10 +411,7 @@ EOF
     },
     "figma": {
       "command": "npx",
-      "args": ["-y", "@glips/figma-context-mcp"],
-      "env": {
-        "FIGMA_ACCESS_TOKEN": "${FIGMA_ACCESS_TOKEN}"
-      }
+      "args": ["-y", "figma-developer-mcp", "--figma-api-key=${FIGMA_ACCESS_TOKEN}", "--stdio"]
     }
   }
 }
@@ -371,7 +431,7 @@ cat > ~/.cursor/mcp.json << 'EOF'
   "mcpServers": {
     "git": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-git"]
+      "args": ["-y", "@mseep/git-mcp-server"]
     },
     "github": {
       "command": "npx",
@@ -645,6 +705,8 @@ npm install -g @modelcontextprotocol/server-postgres
 
 **Конфигурация (~/.claude/mcp.json):**
 
+> **Важно (безопасность):** Никогда не храните пароли в plaintext в конфигурационных файлах. Используйте переменные окружения.
+
 ```json
 {
   "mcpServers": {
@@ -652,11 +714,24 @@ npm install -g @modelcontextprotocol/server-postgres
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-postgres"],
       "env": {
-        "POSTGRES_CONNECTION_STRING": "postgresql://user:password@localhost:5432/database"
+        "POSTGRES_CONNECTION_STRING": "${DATABASE_URL}"
       }
     }
   }
 }
+```
+
+**Настройка переменной окружения:**
+
+```bash
+# Добавить в ~/.bashrc или ~/.zshrc
+echo 'export DATABASE_URL="postgresql://user:password@localhost:5432/database"' >> ~/.bashrc
+
+# Применить изменения
+source ~/.bashrc
+
+# Проверка
+echo $DATABASE_URL
 ```
 
 **Пример использования:**
@@ -982,13 +1057,16 @@ Connection timeout after 30s
 
 ```bash
 # Для Git MCP
-npx @modelcontextprotocol/server-git --version
+npx @mseep/git-mcp-server --version
 
-# Для Jira MCP
-npx @atlassian/atlassian-mcp-server --version
+# Для Jira MCP (community package, если не используете official remote)
+npx @aashari/mcp-server-atlassian-jira --version
+
+# Для Figma MCP
+npx figma-developer-mcp --version
 
 # Если выдаёт ошибку "command not found" — переустановить
-npm install -g @modelcontextprotocol/server-git
+npm install -g @mseep/git-mcp-server
 ```
 
 **Шаг 2: Проверить Node.js версию**
@@ -1007,7 +1085,7 @@ nvm use 20
 ```bash
 # Попробовать запустить Git MCP вручную
 cd ~/practice/task-manager
-npx @modelcontextprotocol/server-git
+npx @mseep/git-mcp-server
 
 # Смотрите на ошибки в выводе
 # Ctrl+C для остановки
@@ -1250,10 +1328,10 @@ claude -p "Add print statements to debug this function"
 
 ### ✅ Установка серверов
 
-- [ ] Git MCP установлен: `npx @modelcontextprotocol/server-git --version`
-- [ ] Jira MCP (или GitHub/Todoist) установлен
-- [ ] Figma MCP установлен
-- [ ] JetBrains MCP настроен (или пропущен осознанно)
+- [ ] Git MCP установлен: `npx @mseep/git-mcp-server --version` (или используете filesystem MCP)
+- [ ] Task tracker MCP настроен (Atlassian Remote / GitHub / Todoist)
+- [ ] Figma MCP установлен: `npx figma-developer-mcp --version` (если работаете с дизайном)
+- [ ] JetBrains IDE 2025.2+ с встроенной поддержкой MCP (или пропущен осознанно)
 
 ### ✅ Конфигурация
 
@@ -1414,7 +1492,7 @@ DEBUG=mcp:git claude
 
 ```bash
 # Запустить сервер вручную и проверить вывод
-npx @modelcontextprotocol/server-git 2>&1 | tee mcp-git.log
+npx @mseep/git-mcp-server 2>&1 | tee mcp-git.log
 
 # Анализировать лог
 cat mcp-git.log
@@ -1483,6 +1561,69 @@ cat mcp-git.log
 - **MCP Discord:** https://discord.gg/modelcontextprotocol
 - **GitHub Issues:** https://github.com/modelcontextprotocol/servers/issues
 - **Stack Overflow:** https://stackoverflow.com/questions/tagged/mcp
+
+---
+
+## Приложение: Верифицированные альтернативы (февраль 2026)
+
+### Проблемные пакеты и их замены
+
+| Упомянутый пакет | Статус | Рабочая альтернатива |
+|-----------------|--------|---------------------|
+| `@modelcontextprotocol/server-git` | ❌ Не существует | `@mseep/git-mcp-server` |
+| `@atlassian/atlassian-mcp-server` | ❌ Не существует | `mcp-remote https://mcp.atlassian.com/v1/sse` (официальный)<br>или `@aashari/mcp-server-atlassian-jira` |
+| `@glips/figma-context-mcp` | ❌ Неверное имя | `figma-developer-mcp` |
+| `@ivo-/todoist-mcp-server` | ❌ Не существует | `@doist/todoist-ai` (официальный)<br>или `todoist-mcp` |
+| `@modelcontextprotocol/server-jetbrains` | ❌ Не существует | Встроено в IDE 2025.2+ |
+
+### Гарантированно работающие пакеты
+
+Эти пакеты существуют в npm registry и активно поддерживаются:
+
+```bash
+# Официальные от @modelcontextprotocol
+npm install -g @modelcontextprotocol/server-filesystem
+npm install -g @modelcontextprotocol/server-github  # deprecated, но работает
+npm install -g @modelcontextprotocol/server-postgres
+npm install -g @modelcontextprotocol/server-memory
+npm install -g @modelcontextprotocol/server-everything
+
+# Community (проверены в феврале 2026)
+npm install -g @mseep/git-mcp-server
+npm install -g figma-developer-mcp
+npm install -g todoist-mcp
+npm install -g @aashari/mcp-server-atlassian-jira
+```
+
+### Как проверить пакет перед установкой
+
+```bash
+# Поиск пакета в npm
+npm search <package-name>
+
+# Просмотр информации о пакете
+npm view <package-name>
+
+# Проверка последней версии
+npm view <package-name> version
+
+# Проверка даты публикации
+npm view <package-name> time
+```
+
+**Пример:**
+
+```bash
+npm view @mseep/git-mcp-server
+# Вернёт: название, версию, описание, дату публикации
+```
+
+### Источники информации
+
+- **npm Registry:** https://www.npmjs.com/search?q=%40modelcontextprotocol
+- **Official Registry:** https://registry.modelcontextprotocol.io/
+- **MCP Awesome List:** https://mcp-awesome.com/ (1200+ серверов)
+- **MCP Server Finder:** https://www.mcpserverfinder.com/servers
 
 ---
 
