@@ -11,7 +11,7 @@
 1. **4 категории инструментов** (по 1-2 абзаца на каждую):
    - LLM-чаты (ChatGPT, Claude.ai, Gemini) — когда: исследование, вопросы, brainstorming
    - IDE-копилоты (GitHub Copilot, Tabnine) — когда: автодополнение, быстрые подсказки
-   - AI-IDE (Cursor, Windsurf, Google Antigravity) — когда: агентный режим, работа с кодовой базой
+   - AI-IDE (Cursor, Google Antigravity) — когда: агентный режим, работа с кодовой базой
    - CLI-агенты (Claude Code, Codex CLI, Aider, OpenCode) — когда: сложные задачи, автономная работа
 
 2. **Бесплатные и дешёвые варианты** (1-2 абзаца):

@@ -2,14 +2,6 @@
 
 > **Цель модуля:** Научиться выбирать правильный AI-инструмент под конкретную задачу и понимать экономику работы с моделями.
 
-## Введение
-
-В 2026 году AI-инструменты для разработки достигли высокой зрелости. Рынок разделился на четыре категории, каждая из которых решает свои задачи. Главная ошибка новичков — искать "один лучший инструмент". Правильный подход — комбинировать инструменты под задачи и выстраивать мульти-модельную стратегию.
-
-Этот модуль даст вам карту инструментов, включая бесплатные варианты, и научит выбирать оптимальный стек под ваш бюджет и задачи.
-
----
-
 ## 1. Четыре категории инструментов
 
 ### 1.1. LLM-чаты (ChatGPT, Claude.ai, Gemini, DeepSeek)
@@ -62,7 +54,7 @@
 
 ---
 
-### 1.3. AI-IDE (Cursor, Windsurf, Google Antigravity, Kilo Code)
+### 1.3. AI-IDE (Cursor, Antigravity, Kilo Code)
 
 **Что это:** IDE со встроенными AI-агентами, которые могут работать с вашей кодовой базой автономно — читать файлы, редактировать код, запускать команды.
 
@@ -74,8 +66,7 @@
 
 **Ключевые игроки:**
 - **Cursor** ($20/мес Pro, $60/мес Pro+) — VS Code fork, лидер рынка AI-IDE. Agent Mode, **YOLO mode** (агент работает без подтверждений человека, подробнее в Модуле 8). Claude 3.5 Sonnet, GPT-4o, GPT-5.2, Gemini 3 Pro.
-- **Windsurf** ($15/мес Pro) — бывший Codeium. Cascade AI Agent с multi-file и semantic пониманием. Memories (запоминает архитектуру и стиль). Поддержка VS Code + JetBrains. SOC 2 Type II для enterprise.
-- **Google Antigravity** (бесплатно, public preview) — Multi-agent orchestration. Несколько агентов работают параллельно (editor, terminal, browser). Async tasks. Gemini 3, Claude Sonnet 4.5, GPT-OSS.
+- **Antigravity** (бесплатно, public preview) — Multi-agent orchestration. Несколько агентов работают параллельно (editor, terminal, browser). Async tasks. Gemini 3, Claude Sonnet 4.5, GPT-OSS.
 - **Kilo Code** (open-source, BYOK) — VS Code расширение. 500+ моделей (Claude, GPT, Gemini, DeepSeek, Ollama). Architect/Code/Debug/Orchestrator режимы. $20 бесплатных кредитов, дальше платите напрямую провайдеру без markup. 15K stars, 1.5M+ пользователей.
 
 **Ограничения:**
@@ -263,7 +254,7 @@ opencode config set model deepseek-r1
 - **$20 бесплатных кредитов** — пробуете без вложений
 
 **Что можно:**
-- Те же задачи что и Cursor/Windsurf, но платите напрямую провайдеру
+- Те же задачи что и Cursor, но платите напрямую провайдеру
 - Комбинировать модели (планирование на Opus, реализация на DeepSeek)
 - Использовать Ollama для бесплатной работы
 
@@ -867,7 +858,6 @@ claude -p "Review type hints changes in src/core/*.py, check for breaking change
 | Инструмент | Цена/месяц | Модели | Главная фича | Для кого |
 |-----------|-----------|--------|--------------|----------|
 | **Cursor** | $0 (Free 50 req)<br>$20 (Pro)<br>$60 (Pro+) | Claude 3.5 Sonnet, GPT-4o, GPT-5.2, Gemini 3 Pro | Agent Mode, YOLO mode, VS Code fork | Лидер рынка, команды мигрируют |
-| **Windsurf** | $0 (Free 25 credits)<br>$15 (Pro) | Multi-model | Cascade Agent, Memories, VS Code + JetBrains | Бывший Codeium, SOC 2 |
 | **Google Antigravity** | $0 (бесплатно) | Gemini 3, Claude Sonnet 4.5, GPT-OSS | Multi-agent orchestration, async tasks | Эксперименты, Google экосистема |
 | **Kilo Code** | $0 (BYOK) | 500+ моделей | Open-source, Architect/Code/Debug режимы | VS Code пользователи, гибкость |
 
@@ -921,7 +911,6 @@ claude -p "Review type hints changes in src/core/*.py, check for breaking change
 | **Aider** | CLI-агент | $0-100 | BYOK | ⭐⭐⭐ | Git workflows | ✅ BYOK |
 | **Codex CLI** | CLI-агент | $50 | GPT-5.3-Codex | ⭐⭐⭐⭐⭐ | Multimodal coding | ❌ |
 | **Cursor** | AI-IDE | $20 | Claude/GPT | ⭐⭐⭐ | Быстрый coding | ✅ 2000 req/мес |
-| **Windsurf** | AI-IDE | $15 | Claude/GPT | ⭐⭐⭐⭐ | Agnostic UI | ✅ Limited |
 | **Antigravity** | AI-IDE | $0 | Gemini | ⭐⭐⭐⭐ | Multi-agent | ✅ 100% free |
 | **Kilo Code** | AI-IDE | $0 | 500+ моделей | ⭐⭐⭐ | Экспериментирование | ✅ 100% free |
 | **GitHub Copilot** | IDE-копилот | $0-39 | GPT-5.x/Claude/Gemini | ⭐⭐ | Autocomplete | ✅ Free: 2K completions + 50 premium/month (доступен с 2026) |
@@ -943,7 +932,7 @@ claude -p "Review type hints changes in src/core/*.py, check for breaking change
 1. **Бюджет $0** → OpenCode + Ollama + DeepSeek + Antigravity/Kilo Code
 2. **Бюджет $10-30** → Claude Code (Guest Pass) + Cursor Hobby + DeepSeek
 3. **Бюджет $50-100** → Claude Code Pro + Cursor Pro + ChatGPT Plus
-4. **Бюджет $100-200** → Claude Code (multi-model) + Windsurf + ChatGPT Pro + Codex CLI
+4. **Бюджет $100-200** → Claude Code (multi-model) + ChatGPT Pro + Codex CLI
 5. **Enterprise** → GitHub Copilot Enterprise + Tabnine + Claude Team
 
 **Практический совет:**
@@ -979,7 +968,7 @@ claude -p "Review type hints changes in src/core/*.py, check for breaking change
 ```
 Чат:      ChatGPT Plus ($20) для обучения
 Копилот:  GitHub Copilot Free ($0, 2K completions/мес) или Pro ($10)
-IDE:      Cursor Pro ($20) или Windsurf Pro ($15)
+IDE:      Cursor Pro ($20)
 Агент:    Claude Code Pro ($20) или OpenCode + Claude API ($20)
 Локально: Ollama для экспериментов
 ```

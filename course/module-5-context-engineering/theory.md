@@ -1,4 +1,4 @@
-# Spec-Driven Development и управление контекстом
+# Управление контекстом (Context Engineering)
 
 ## Проблема потери контекста
 

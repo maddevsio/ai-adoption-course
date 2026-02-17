@@ -80,7 +80,7 @@
 Цель: понять категории, выбрать стек, установить всё на машину.
 
 Теория:
-- 4 категории: LLM-чаты, IDE-копилоты, AI-IDE (Cursor, Windsurf, Google Antigravity), CLI-агенты (Claude Code, Codex CLI, OpenCode)
+- 4 категории: LLM-чаты, IDE-копилоты, AI-IDE (Cursor, Antigravity), CLI-агенты (Claude Code, Codex CLI, OpenCode)
 - Конкретные инструменты в каждой (актуальные, с ценами). Комбинирование инструментов как норма
 
 - Бесплатные и дешёвые инструменты:

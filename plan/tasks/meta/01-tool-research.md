@@ -11,7 +11,7 @@
 1. Для каждого инструмента собрать: текущая цена, ключевые фичи, статус, поддерживаемые модели.
 
 2. Инструменты для исследования:
-   - **IDE**: Cursor, Windsurf, Google Antigravity (https://antigravity.google/), GitHub Copilot (в VS Code и JetBrains)
+   - **IDE**: Cursor, Antigravity (https://antigravity.google/), GitHub Copilot (в VS Code и JetBrains)
    - **CLI-агенты**: Claude Code, Codex CLI (https://developers.openai.com/codex/cli/), Aider, OpenCode
    - **Чаты**: ChatGPT, Claude.ai, Gemini, DeepSeek (API/Chat, self-hosting)
    - **Бесплатные/дешёвые**: OpenCode (open-source), Claude guest pass, self-hosted Ollama, Kilo, Antigravity (бесплатно)
