@@ -95,6 +95,10 @@ Practice files should contain:
 - Expected results / success criteria
 - NOT lengthy explanations (that belongs in theory files)
 
+### 11. Examples should be simple, short, realistic for humans
+
+Humans don't like huge unrealistic examples. Keep examples, snippets, instructions short. At max 2 examples, exercises. Humans are lazy to read big scary texts 
+
 ---
 
 ## How to Apply to Existing Modules
