@@ -4,10 +4,10 @@
 
 ```mermaid
 flowchart LR
-    Arch["Architect\nМодель: Opus\nАнализ, ADR,\nвыбор паттернов"]
-    Plan["Planner\nМодель: Sonnet\nДекомпозиция,\nзависимости, порядок"]
-    Dev["Developer\nМодель: Haiku\nКод, self-check,\nтесты"]
-    QA["QA / Reviewer\nМодель: Sonnet\nИнтеграционные тесты,\nревью, баг-репорты"]
+    Arch["Architect\nАнализ, ADR,\nвыбор паттернов"]
+    Plan["Planner\nДекомпозиция,\nзависимости, порядок"]
+    Dev["Developer\nКод, self-check,\nтесты"]
+    QA["QA / Reviewer\nревью, баг-репорты"]
 
     Arch -->|"Архитектура\n+ требования"| Plan
     Plan -->|"Атомарные\nзадачи"| Dev

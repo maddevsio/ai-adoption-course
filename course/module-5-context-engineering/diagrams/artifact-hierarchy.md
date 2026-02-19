@@ -1,31 +1,52 @@
 # Иерархия артефактов SDD
 
-Три уровня артефактов: чем выше — тем стабильнее документ и тем реже он меняется. Constitution один на проект, Spec один на фичу, Trace один на сессию.
+Три уровня стабильности: чем выше — тем реже меняется. На каждом уровне несколько типов артефактов.
 
 ```mermaid
-flowchart TD
-    C["Constitution\n1 файл на проект\nМеняется редко\n(tech stack, ADR, паттерны)"]
+classDiagram
+    direction TB
 
-    S1["Spec: Auth"]
-    S2["Spec: Payments"]
-    S3["Spec: Search"]
+    class Constitution {
+        стек, правила, запреты
+    }
+    class Memories {
+        паттерны ошибок
+    }
+    class ADR {
+        архитектурные решения
+    }
 
-    T1["Trace 1"]
-    T2["Trace 2"]
-    T3["Trace 3"]
-    T4["Trace 4"]
-    T5["Trace 5"]
+    class Spec {
+        требования, контракты
+    }
+    class Research {
+        исследование подходов
+    }
+    class Prompts {
+        шаблоны задач
+    }
 
-    C -->|"1 спека на фичу"| S1 & S2 & S3
-    S1 -->|"1 trace на сессию"| T1 & T2
-    S2 --> T3
-    S3 --> T4 & T5
+    class Trace {
+        решения, проблемы
+    }
+    class Failure {
+        postmortem ошибок
+    }
+
+    Constitution --> Spec : определяет
+    Research ..> Spec : информирует
+    Spec --> Trace : порождает
+    Spec --> Failure : порождает
+    Failure ..> Memories : урок
+    Trace ..> Constitution : reflect
 ```
 
 **Как они взаимодействуют:**
 
-| Уровень | Документ | Частота изменений | Кто пишет |
-|---------|----------|-------------------|-----------|
-| Constitution | `AGENTS.md` / `constitution.md` | Раз в неделю (reflect-mode) | Человек + reflect-агент |
-| Specification | `specs/003-auth.md` | Раз на фичу | Человек |
-| Trace | `traces/003-auth.trace.md` | Каждая сессия | Агент |
+| Уровень | Артефакты | Частота изменений | Кто пишет |
+|---------|-----------|-------------------|-----------|
+| Проект | `AGENTS.md`, `memories/`, ADR | Раз в неделю (reflect-mode) | Человек + reflect-агент |
+| Фича | `specs/003-auth.md`, research, prompt templates | Раз на фичу | Человек |
+| Сессия | `traces/003-auth.trace.md`, failure postmortems | Каждая сессия | Агент |
+
+**Обратная связь:** failures и traces поднимаются наверх — reflect-агент анализирует их и обновляет memories и constitution. Так ошибки не повторяются.
