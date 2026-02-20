@@ -6,23 +6,23 @@
 flowchart TD
     Start["Какая задача?"]
 
-    Start --> Q1{"Понять\nконцепцию?"}
-    Q1 -->|Да| Chat["LLM-чат\nChatGPT, Claude.ai"]
+    Start --> Q1{"Понять<br>концепцию?"}
+    Q1 -->|Да| Chat["LLM-чат<br>ChatGPT, Claude.ai"]
 
-    Q1 -->|Нет| Q2{"Автодополнение\nв IDE?"}
-    Q2 -->|Да| Copilot["IDE-копилот\nGitHub Copilot"]
+    Q1 -->|Нет| Q2{"Автодополнение<br>в IDE?"}
+    Q2 -->|Да| Copilot["IDE-копилот<br>GitHub Copilot"]
 
-    Q2 -->|Нет| Q3{"Несколько\nфайлов?"}
+    Q2 -->|Нет| Q3{"Несколько<br>файлов?"}
     Q3 -->|"1 функция"| Copilot
 
-    Q3 -->|Да| Q4{"Автономность?\nТесты, коммиты"}
-    Q4 -->|Нет| AIDE["AI-IDE\nCursor, Kilo Code"]
-    Q4 -->|Да| Q5{"Несколько\nагентов\nпараллельно?"}
-    Q5 -->|Нет| CLI["CLI-агент\nClaude Code, OpenCode"]
-    Q5 -->|Да| Orch["Оркестрация\nheadless agents,\nClaude Code parallel"]
+    Q3 -->|Да| Q4{"Автономность?<br>Тесты, коммиты"}
+    Q4 -->|Нет| AIDE["AI-IDE<br>Cursor, Kilo Code"]
+    Q4 -->|Да| Q5{"Несколько<br>агентов<br>параллельно?"}
+    Q5 -->|Нет| CLI["CLI-агент<br>Claude Code, OpenCode"]
+    Q5 -->|Да| Orch["Оркестрация<br>headless agents,<br>Claude Code parallel"]
 
-    Start --> Conf{"Конфиденциальный\nкод?"}
-    Conf -->|Да| Local["Ollama\nлокальные модели"]
+    Start --> Conf{"Конфиденциальный<br>код?"}
+    Conf -->|Да| Local["Ollama<br>локальные модели"]
 ```
 
 **Ключевой принцип:** задача определяет инструмент. Не наоборот.

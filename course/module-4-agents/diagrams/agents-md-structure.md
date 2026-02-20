@@ -10,11 +10,11 @@ flowchart TD
     Root --> Forbid
     Root --> Before
 
-    Stack["Stack\nТочные версии: язык,\nфреймворк, БД, тесты"]
-    Conv["Conventions\nИменование файлов,\nструктура папок, code style"]
-    Rules["Rules\nОбязательные паттерны:\nerror handling, тесты, миграции"]
-    Forbid["Forbidden\nАнтипаттерны: что агент\nНЕ должен делать"]
-    Before["Before Starting\nПервые шаги: что прочитать,\nчто проверить, что запустить"]
+    Stack["Stack<br>Точные версии: язык,<br>фреймворк, БД, тесты"]
+    Conv["Conventions<br>Именование файлов,<br>структура папок, code style"]
+    Rules["Rules<br>Обязательные паттерны:<br>error handling, тесты, миграции"]
+    Forbid["Forbidden<br>Антипаттерны: что агент<br>НЕ должен делать"]
+    Before["Before Starting<br>Первые шаги: что прочитать,<br>что проверить, что запустить"]
 ```
 
 **Порядок важен:** агент читает AGENTS.md сверху вниз. Stack и Conventions задают контекст, Rules и Forbidden — ограничения, Before Starting — стартовый чеклист.

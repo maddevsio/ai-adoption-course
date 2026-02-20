@@ -4,12 +4,12 @@
 
 ```mermaid
 flowchart TD
-    Git[".git\n(общий репозиторий,\nодна история)"]
+    Git[".git<br>(общий репозиторий,<br>одна история)"]
 
-    W1["./project\nbranch: main\nРазработчик работает здесь"]
-    W2["../project-auth\nbranch: feat/auth\nАгент A"]
-    W3["../project-api\nbranch: feat/api\nАгент B"]
-    W4["../project-tests\nbranch: feat/tests\nАгент C"]
+    W1["./project<br>branch: main<br>Разработчик работает здесь"]
+    W2["../project-auth<br>branch: feat/auth<br>Агент A"]
+    W3["../project-api<br>branch: feat/api<br>Агент B"]
+    W4["../project-tests<br>branch: feat/tests<br>Агент C"]
 
     Git --> W1
     Git --> W2

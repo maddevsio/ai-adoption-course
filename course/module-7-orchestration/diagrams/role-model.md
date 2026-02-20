@@ -4,15 +4,15 @@
 
 ```mermaid
 flowchart LR
-    Arch["Architect\nАнализ, ADR,\nвыбор паттернов"]
-    Plan["Planner\nДекомпозиция,\nзависимости, порядок"]
-    Dev["Developer\nКод, self-check,\nтесты"]
-    QA["QA / Reviewer\nревью, баг-репорты"]
+    Arch["Architect<br>Анализ, ADR,<br>выбор паттернов"]
+    Plan["Planner<br>Декомпозиция,<br>зависимости, порядок"]
+    Dev["Developer<br>Код, self-check,<br>тесты"]
+    QA["QA / Reviewer<br>ревью, баг-репорты"]
 
-    Arch -->|"Архитектура\n+ требования"| Plan
-    Plan -->|"Атомарные\nзадачи"| Dev
-    Dev -->|"PR с кодом\nи тестами"| QA
-    QA -->|"Баги,\nзамечания"| Dev
+    Arch -->|"Архитектура<br>+ требования"| Plan
+    Plan -->|"Атомарные<br>задачи"| Dev
+    Dev -->|"PR с кодом<br>и тестами"| QA
+    QA -->|"Баги,<br>замечания"| Dev
 ```
 
 **Принцип:** не тратить Opus ($15/1M tokens) на boilerplate. Не ставить Haiku ($0.80/1M tokens) на архитектуру. Каждой роли — своя модель:

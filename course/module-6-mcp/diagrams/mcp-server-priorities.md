@@ -5,21 +5,21 @@
 ```mermaid
 flowchart TD
     subgraph must["Обязательные (начните с этих)"]
-        G["Git MCP\nCode archaeology,\nанализ истории"]
-        J["Jira MCP\nЗадачи, worklogs,\nстатусы"]
-        I["JetBrains MCP\nDebugger, refactoring,\ncode analysis"]
-        F["Figma MCP\nDesign-to-code,\ndesign tokens"]
+        G["Git MCP<br>Code archaeology,<br>анализ истории"]
+        J["Jira MCP<br>Задачи, worklogs,<br>статусы"]
+        I["JetBrains MCP<br>Debugger, refactoring,<br>code analysis"]
+        F["Figma MCP<br>Design-to-code,<br>design tokens"]
     end
 
     subgraph rec["Рекомендуемые (когда освоите базу)"]
-        P["PostgreSQL MCP\nNatural language SQL,\nschema analysis"]
-        B["Puppeteer MCP\nWeb automation,\nE2E тесты"]
+        P["PostgreSQL MCP<br>Natural language SQL,<br>schema analysis"]
+        B["Puppeteer MCP<br>Web automation,<br>E2E тесты"]
     end
 
     subgraph opt["Опциональные (для специфических задач)"]
-        M["Mermaid MCP\nГенерация диаграмм"]
-        O["Obsidian MCP\nKnowledge base"]
-        MR["Miro MCP\nWhiteboarding"]
+        M["Mermaid MCP<br>Генерация диаграмм"]
+        O["Obsidian MCP<br>Knowledge base"]
+        MR["Miro MCP<br>Whiteboarding"]
     end
 
     must --> rec --> opt

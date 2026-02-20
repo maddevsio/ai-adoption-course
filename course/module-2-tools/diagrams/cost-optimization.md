@@ -5,20 +5,20 @@
 ```mermaid
 flowchart LR
     subgraph expensive["Дорого, но оправдано"]
-        E1["Рефакторинг 20K LOC\nOpus + Sonnet\n$8-12"]
-        E2["Архитектура системы\nOpus\n$2-3"]
+        E1["Рефакторинг 20K LOC<br>Opus + Sonnet<br>$8-12"]
+        E2["Архитектура системы<br>Opus<br>$2-3"]
     end
 
     subgraph balanced["Оптимальный баланс"]
-        B1["Добавить JWT auth\nSonnet\n$1.50"]
-        B2["Написать API endpoint\nSonnet\n$0.50"]
-        B3["Code review\nSonnet\n$0.30"]
+        B1["Добавить JWT auth<br>Sonnet<br>$1.50"]
+        B2["Написать API endpoint<br>Sonnet<br>$0.50"]
+        B3["Code review<br>Sonnet<br>$0.30"]
     end
 
     subgraph cheap["Дешево и массово"]
-        C1["Тесты для 50 файлов\nDeepSeek R1\n$0.30"]
-        C2["Миграция 100 файлов\nDeepSeek Batch\n$2-5"]
-        C3["Renaming, форматирование\nHaiku\n$0.05"]
+        C1["Тесты для 50 файлов<br>DeepSeek R1<br>$0.30"]
+        C2["Миграция 100 файлов<br>DeepSeek Batch<br>$2-5"]
+        C3["Renaming, форматирование<br>Haiku<br>$0.05"]
     end
 ```
 

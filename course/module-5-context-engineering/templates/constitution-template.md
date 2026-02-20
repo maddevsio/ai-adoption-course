@@ -16,8 +16,6 @@
 
 **Статус:** [MVP / Production / In Development / ...]
 
-**Репозиторий:** [ссылка на GitHub/GitLab]
-
 ---
 
 ## Tech Stack

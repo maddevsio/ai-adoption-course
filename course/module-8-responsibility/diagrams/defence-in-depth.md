@@ -7,14 +7,14 @@ flowchart TD
     Agent["AI-агент"]
 
     subgraph baseline["Базовые — всегда"]
-        S1["Аудит\nлогировать действия,\ntrace-файлы"]
-        S2["Whitelist команд\ngit, npm, pytest —\nявно разрешённые"]
+        S1["Аудит<br>логировать действия,<br>trace-файлы"]
+        S2["Whitelist команд<br>git, npm, pytest —<br>явно разрешённые"]
     end
 
     subgraph extra["Дополнительные — для production и чувствительных данных"]
-        S3["Sandboxing\nDocker, VM, git worktree"]
-        S4["Ограничение сети\nfirewall, network policies"]
-        S5["Read-only\nдля аудита и анализа"]
+        S3["Sandboxing<br>Docker, VM, git worktree"]
+        S4["Ограничение сети<br>firewall, network policies"]
+        S5["Read-only<br>для аудита и анализа"]
     end
 
     Agent --> baseline --> extra --> Protected["Защищённая система"]

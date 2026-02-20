@@ -7,8 +7,8 @@
 ```mermaid
 flowchart LR
     Spec["Спека"] --> Impl["Код"]
-    Impl --> Test["Тесты\nлинтер"]
-    Test -->|"Ошибки"| Fix["Исправление\nдебаг"] --> Test
+    Impl --> Test["Тесты<br>линтер"]
+    Test -->|"Ошибки"| Fix["Исправление<br>дебаг"] --> Test
     Test -->|"Зелёное"| Review["Ревью"]
     Review -->|"Правки"| Spec
 ```
@@ -17,11 +17,11 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    Review["Ревью\nпринято"] --> Trace["Trace\nрешения, проблемы,\nуроки"]
-    Trace --> Reflect["Reflect\nанализ traces"]
-    Reflect --> Const["Constitution\nновые правила"]
-    Reflect --> Mem["Memories\nпаттерны ошибок"]
-    Const --> Next["Следующая\nспека"]
+    Review["Ревью<br>принято"] --> Trace["Trace<br>решения, проблемы,<br>уроки"]
+    Trace --> Reflect["Reflect<br>анализ traces"]
+    Reflect --> Const["Constitution<br>новые правила"]
+    Reflect --> Mem["Memories<br>паттерны ошибок"]
+    Const --> Next["Следующая<br>спека"]
     Mem --> Next
 ```
 
