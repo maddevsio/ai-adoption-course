@@ -270,15 +270,28 @@ The Russian text is clear, professional, and appropriately casual for a develope
 | 6 | MCP practice too thin | module-6-mcp/practice/ | Add more hands-on exercises, especially troubleshooting scenarios for common MCP setup failures. |
 | 7 | Tool prices will stale | module-2-tools/ | Add a caveat about price volatility and link to official pricing pages. |
 
+### Important (continued)
+
+| # | Issue | Location | Recommendation |
+|---|-------|----------|----------------|
+| 8 | Step numbering gaps in practice files | module-6-mcp/practice/01-setup-mcp-servers.md, module-4-agents/practice/02-agent-planning.md, module-5-context-engineering/practice/04-implementation.md, module-7-orchestration/practice/02-generator-reviewer.md | Multiple practice files skip step numbers (Step 1 → Step 3). Fix numbering to avoid confusing students. |
+| 9 | Feature spec template incomplete | module-5-context-engineering/templates/feature-spec-template.md | Template is missing "Out of Scope" and "API Examples" sections that practice/03-specification.md asks students to fill. Align template with practice exercise. |
+| 10 | No mcp.json example in MCP practice | module-6-mcp/practice/ | Practice files never show a concrete `mcp.json` configuration example, but the checklist asks students to verify one exists. Add an example. |
+| 11 | Formatting error in Module 8 practice | module-8-responsibility/practice/01-checklists.md:8 | Broken bold marker: `*text**` instead of `**text**`. |
+
 ### Nice-to-have (enhancements)
 
 | # | Issue | Location | Recommendation |
 |---|-------|----------|----------------|
-| 8 | Starter project suggestions | module-0-intro/theory.md | Suggest 2-3 specific projects suitable for course exercises. |
-| 9 | Cost worked example | module-7-orchestration/ | Add a cost breakdown for a typical orchestrated workflow. |
-| 10 | "Minimum viable SDD" fast-path | module-5-context-engineering/ | Add a quick-start section for beginners before the full hierarchy. |
-| 11 | Cross-tool mapping table | module-4-agents/ | Add a table: "If you use tool X, your config file is Y, your agent file is Z." |
-| 12 | Final test answer separation | final-test.md | Optionally split into questions.md and answer-key.md for proctored use. |
+| 12 | Starter project suggestions | module-0-intro/theory.md | Suggest 2-3 specific projects suitable for course exercises. |
+| 13 | Cost worked example | module-7-orchestration/ | Add a cost breakdown for a typical orchestrated workflow. |
+| 14 | "Minimum viable SDD" fast-path | module-5-context-engineering/ | Add a quick-start section for beginners before the full hierarchy. |
+| 15 | Cross-tool mapping table | module-4-agents/ | Add a table: "If you use tool X, your config file is Y, your agent file is Z." |
+| 16 | Final test answer separation | final-test.md | Optionally split into questions.md and answer-key.md for proctored use. |
+| 17 | Thin practice files need expansion | module-4-agents/practice/05-testing.md (32 lines), module-5-context-engineering/practice/05-trace.md (24 lines), module-7-orchestration/practice/04-install-maestro.md (26 lines) | These are noticeably underdeveloped. Add expected outcomes, inline examples, and verification criteria. |
+| 18 | External link fallbacks | module-3-prompting/practice/03-gandalf.md, module-7-orchestration/practice/04-install-maestro.md | Exercises that depend on external sites (gandalf.lakera.ai, maestro.dev) should have fallback exercises in case sites are unavailable. |
+| 19 | Prompt template coverage | module-3-prompting/practice/02-prompt-templates.md | Only 2 template types (new function, writing tests). Add templates for debugging, refactoring, or code review. |
+| 20 | Date references stale | Various practice files and templates | Some examples use 2025 dates. Update to current year for course freshness. |
 
 ---
 
@@ -287,13 +300,25 @@ The Russian text is clear, professional, and appropriately casual for a develope
 Practice exercises across the course vary in quality:
 
 **Strong practice sections:**
-- Module 3 (Prompting): Improve-prompts exercise with before/after examples is immediately actionable. The Gandalf prompt injection game is an engaging hands-on exercise.
-- Module 4 (Agents): The 6-step practice sequence (create AGENTS.md → plan → review → iterate → test → checklist) mirrors a real workflow.
-- Module 5 (Context Engineering): Template-driven exercises with concrete artifacts to produce.
+- Module 2 (Tools): Setup exercise (01-setup.md, 296 lines) is thorough with sandbox creation for Python/FastAPI and TypeScript/Express. Troubleshooting covers 5 common problems with concrete diagnostic commands.
+- Module 3 (Prompting): Improve-prompts exercise with before/after examples is immediately actionable. Prompt templates with filled-in examples and self-check checklists are strong. The Gandalf prompt injection game is an engaging hands-on exercise.
+- Module 4 (Agents): The 6-step practice sequence (create AGENTS.md → plan → review → iterate → test → checklist) mirrors a real workflow. The code review checklist (03-review-result.md) is one of the strongest practice files in the course.
+- Module 5 (Context Engineering): Template-driven exercises with concrete artifacts to produce. The constitution template (345 lines) and implementation notes template (275 lines) are thorough and include realistic examples.
+- Module 7 (Orchestration): The playbook creation exercise (05-playbook-creation.md, 128 lines) with a fully worked CSV export example is outstanding.
 
 **Weaker practice sections:**
-- Module 6 (MCP): Setup instructions largely duplicate official README files. More unique, course-specific exercises would add value.
-- Module 7 (Orchestration): The Maestro installation exercise may not work for all students (platform availability, licensing). Need a fallback path.
+- Module 4 (Agents): Testing practice (05-testing.md, 32 lines) feels underdeveloped — just 3 short exercises with no expected outcomes for exercises 2 and 3.
+- Module 5 (Context Engineering): Trace practice (05-trace.md, 24 lines) is the shortest practice file in the module — no inline example of what a good trace looks like.
+- Module 6 (MCP): Setup instructions (52 lines) largely duplicate official READMEs. Step numbering jumps from 1 to 3 (no Step 2). No `mcp.json` configuration example is shown, yet the checklist asks students to verify one exists. Exercises require Jira/Figma accounts with no alternatives.
+- Module 7 (Orchestration): The Maestro installation exercise (26 lines) relies entirely on external docs with no troubleshooting or UI walkthrough. May not work for all students (platform availability). Generator-reviewer practice also has a step numbering gap (1 → 3).
+
+**Recurring structural issues in practice files:**
+1. **Step numbering gaps:** MCP setup (Step 1 → Step 3), agent planning (step 3 → 5), implementation (step 1 → 3), and generator-reviewer (step 1 → 3) all skip steps.
+2. **External dependency risk:** Several exercises depend on external URLs (gandalf.lakera.ai, Maestro docs, GitHub repos) with no fallback if sites go down.
+3. **Template-practice mismatch:** The feature-spec-template.md is missing sections (Out of Scope, API Examples) that practice file 03-specification.md asks students to fill.
+4. **Minor formatting:** Module 8 practice checklist has a broken bold marker on line 8 (`*text**` instead of `**text**`).
+
+**Diagrams:** All diagrams use Mermaid consistently and render well. The SDD cycle diagram (inner implementation loop + outer knowledge accumulation loop) is particularly well-designed. The artifact hierarchy class diagram with frequency-of-change table is a strong reference aid. Note: the skills-radar diagram is presented as a flowchart since Mermaid doesn't support radar charts — a reasonable approximation.
 
 **General observation:** Practice exercises that ask students to work on their own projects are more effective than abstract exercises, and the course generally follows this principle. This is a significant strength.
 
