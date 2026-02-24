@@ -1,6 +1,6 @@
 # Action Plan: Addressing Review Feedback
 
-**Based on:** review-claude-opus.md
+**Based on:** /review/external-review/review-claude-opus.md
 **Date:** 2026-02-24
 
 ---
