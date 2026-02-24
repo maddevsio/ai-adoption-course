@@ -45,8 +45,8 @@ docs/
 │   ├── task-filtering.spec.md
 │   └── auth.spec.md
 └── traces/                # Implementation notes
-    ├── 2025-01-15-task-filtering.md
-    └── 2025-01-20-auth.md
+    ├── 2026-01-15-task-filtering.md
+    └── 2026-01-20-auth.md
 ```
 
 ## Следующие шаги

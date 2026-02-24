@@ -23,6 +23,43 @@
 
 ---
 
+### Шаг 2: Конфигурация (10 мин)
+
+Создайте файл `.mcp.json` в корне проекта (или `~/.claude/mcp.json` для глобальной конфигурации):
+
+```json
+{
+  "mcpServers": {
+    "git": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-git"]
+    }
+  }
+}
+```
+
+Для добавления других серверов расширяйте секцию `mcpServers`:
+
+```json
+{
+  "mcpServers": {
+    "git": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-git"]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "your-token-here"
+      }
+    }
+  }
+}
+```
+
+---
+
 ### Шаг 3: Проверка работоспособности (10 мин)
 
 ```
