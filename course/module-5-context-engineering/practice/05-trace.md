@@ -21,3 +21,32 @@
    - Прочитайте секцию "Для конституции"
    - Добавьте ценные находки в AGENTS.md (если они действительно важны)
    - Не добавляйте очевидное или избыточное
+
+### Пример заполненного trace (фрагмент)
+
+```markdown
+# Trace: Task Filtering API
+
+**Дата:** 2026-02-20
+**Спецификация:** specs/task-filtering.spec.md
+**Агент:** Claude Sonnet 4.5
+**Статус:** Completed
+
+## Что сделано
+- Реализован GET /api/tasks с query params: status, priority
+- 8 тестов (5 unit + 3 integration), coverage 92%
+
+## Что не так
+- Забыл нормализовать query params к lowercase → добавил strings.ToLower()
+
+## Для конституции
+- Pattern: фильтрация через query parameters, не POST body
+- Convention: нормализовать query params к lowercase перед валидацией
+```
+
+### Что делает trace хорошим
+
+- [ ] **Конкретика:** не "всё прошло хорошо", а "реализован endpoint X, написано N тестов"
+- [ ] **Проблемы с причинами:** не "была ошибка", а "забыл нормализовать регистр → тесты падали"
+- [ ] **Предложения для конституции:** конкретные паттерны, antipatterns, conventions
+- [ ] **Краткость:** trace — это field notes, а не отчёт на 10 страниц

@@ -23,6 +23,43 @@
 
 ---
 
+### Шаг 2: Конфигурация (10 мин)
+
+Создайте файл `.mcp.json` в корне проекта (или `~/.claude/mcp.json` для глобальной конфигурации):
+
+```json
+{
+  "mcpServers": {
+    "git": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-git"]
+    }
+  }
+}
+```
+
+Для добавления других серверов расширяйте секцию `mcpServers`:
+
+```json
+{
+  "mcpServers": {
+    "git": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-git"]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "your-token-here"
+      }
+    }
+  }
+}
+```
+
+---
+
 ### Шаг 3: Проверка работоспособности (10 мин)
 
 ```
@@ -49,3 +86,28 @@ List all available MCP tools
 ```bash
 "Открой Figma-файл проекта и перечисли все компоненты на странице Design System"
 ```
+
+> [!NOTE]
+> Если у вас нет доступа к Jira/Figma — пропустите эти задания. Git MCP и PostgreSQL MCP доступны бесплатно и достаточны для освоения концепции.
+
+---
+
+### Troubleshooting
+
+**Сервер не найден:**
+```
+Error: MCP server "git" not found
+```
+Решение: проверьте, что `npx` доступен в PATH и пакет установлен: `npx @modelcontextprotocol/server-git --help`
+
+**Переменная окружения не задана:**
+```
+Error: GITHUB_TOKEN is not set
+```
+Решение: убедитесь, что переменная указана в секции `env` в `.mcp.json`, либо экспортирована в вашем shell: `export GITHUB_TOKEN=ghp_...`
+
+**Несовместимость версий:**
+```
+Error: Unsupported protocol version
+```
+Решение: обновите сервер до последней версии: `npm update -g @modelcontextprotocol/server-git`. Убедитесь, что версия Claude Code тоже актуальна: `claude update`
