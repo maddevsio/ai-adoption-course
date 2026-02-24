@@ -253,8 +253,6 @@ alembic upgrade head
 
 ## Architecture
 
-[Ссылки на архитектурную документацию]
-
 - Общая архитектура: `docs/ARCHITECTURE.md`
 - API спецификация: `docs/API.md`
 - ADR (Architecture Decision Records): `docs/adr/`

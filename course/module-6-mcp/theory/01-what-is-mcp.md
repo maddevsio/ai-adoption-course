@@ -39,19 +39,14 @@ Claude, сгенерируй React компонент из Figma компоне�
 
 > [Диаграмма: Архитектура MCP](../diagrams/mcp-architecture.md)
 
-```
-┌─────────────────┐     JSON-RPC 2.0     ┌──────────────────┐
-│   AI Agent      │◄────────────────────►│   MCP Server     │
-│ (Claude Code,   │  (stdio / SSE /      │  (Git, Jira,     │
-│  Cursor, etc.)  │   WebSocket)         │   Figma, etc.)   │
-└─────────────────┘                      └──────────────────┘
-                                                   │
-                                                   ▼
-                                          ┌──────────────────┐
-                                          │  External Tool   │
-                                          │ (Git CLI, API,   │
-                                          │  IDE, etc.)      │
-                                          └──────────────────┘
+```mermaid
+flowchart LR
+    Agent["AI Agent<br/>(Claude Code,<br/>Cursor, etc.)"]
+    MCP["MCP Server<br/>(Git, Jira,<br/>Figma, etc.)"]
+    Tool["External Tool<br/>(Git CLI, API,<br/>IDE, etc.)"]
+
+    Agent <-->|"JSON-RPC 2.0<br/>(stdio / SSE / WebSocket)"| MCP
+    MCP -->|"API calls,<br/>CLI commands"| Tool
 ```
 
 **Компоненты:**
