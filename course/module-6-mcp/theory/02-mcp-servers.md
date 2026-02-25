@@ -1,3 +1,5 @@
+[← Оглавление](../../../README.md)
+
 ## 3. Категории MCP-серверов
 
 > [Диаграмма: Карта MCP-серверов по приоритету](../diagrams/mcp-server-priorities.md)
@@ -93,4 +95,6 @@ AI видит структуру дизайна (слои, auto-layout, variants
 **Пример:** "Найди компонент UserCard в Figma и сгенерируй React компонент" → Figma MCP читает structured data через Dev Mode API, извлекает tokens, агент генерирует код с точными стилями.
 
 [Бесплатный Figma MCP](https://github.com/GLips/Figma-Context-MCP)
+---
 
+[← Модуль 6: Model Context Protocol (MCP)](01-what-is-mcp.md) | [Оглавление](../../../README.md) | [5. Установка и настройка →](03-setup-and-config.md)

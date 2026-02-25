@@ -1,3 +1,5 @@
+[← Оглавление](../../../README.md)
+
 ## 6. Создание своего MCP-сервера
 
 ### 6.1. Когда это нужно
@@ -85,3 +87,6 @@ my-mcp-server/
 ```
 
 Production-сервер включает: multiple tools, error handling, authentication (API keys, OAuth), caching, logging, тесты.
+---
+
+[← 5. Установка и настройка](03-setup-and-config.md) | [Оглавление](../../../README.md) | [Настройка MCP-серверов →](../practice/01-setup-mcp-servers.md)

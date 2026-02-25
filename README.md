@@ -1,76 +1,168 @@
 # AI для разработчиков: от копилота до оркестрации агентов
 
-## Зачем этот курс
+Курс для разработчиков Mad Devs. Ведёт от уровня «спросить ChatGPT» до «управлять несколькими агентами параллельно». 8 модулей, ~8 часов: 3 часа теории + 5 часов практики. Все задания — на вашем рабочем проекте.
 
-Разработчики используют ИИ на разных уровнях: кто-то спрашивает ChatGPT, кто-то работает с копилотом в IDE, единицы управляют параллельными агентами. Курс системно проводит от уровня «чат-помощник» до уровня «параллельные агенты и оркестрация» — с практикой на каждом шаге.
+## С чего начать
 
-## Для кого
+1. [Введение в курс](course/module-0-intro/theory.md) — формат, ожидания, как проходить
+2. [Самооценка](course/self-assessment.md) — определите свой текущий уровень (5 мин)
+3. Двигайтесь по модулям последовательно, начиная с Модуля 1
 
-Разработчики Mad Devs, уже использующие ИИ в работе (минимум копилот в IDE). Курс не учит программировать — он учит программировать с помощью агентов.
+## Содержание
 
-## Подход
+### Модуль 0. Введение
 
-**Практика > теория.** На 3 часа теории приходится 5 часов практики. Каждый модуль — пара: короткий текст + упражнение на своём рабочем проекте.
+- [Введение в курс](course/module-0-intro/theory.md)
+- [Самооценка уровня](course/self-assessment.md)
 
-**Модель зрелости как стержень.** Курс построен вокруг 5 уровней владения ИИ-инструментами. Ученик оценивает себя в начале, видит целевой уровень, и каждый модуль явно двигает его по шкале.
+### Модуль 1. Зачем разработчику ИИ `30 мин`
 
-| Уровень | Ментальная модель | Модули курса |
-|---------|-------------------|--------------|
-| 1 — Чат | «Спросить и скопировать» | 1 |
-| 2 — Копилот | «Реагировать на подсказки» | 2–3 |
-| 3 — Драйвер агента | «Делегировать задачу» | 4 |
-| 4 — Специалист | «Управлять сессией» | 5–6 |
-| 5 — Менеджер агентов | «Координировать потоки» | 7 |
+Модель зрелости, калибровка ожиданий, самодиагностика.
 
-**Сквозной пример — реальный проект.** Вместо учебных примеров курс ссылается на Enji Fleet — внутренний проект Mad Devs по созданию платформы оркестрации AI-агентов. Это *учебный пример*, используемый для демонстрации концепций AI-driven development. Проект не является публичным opensource, но его практики (constitution, trace-файлы, multi-agent workflows) универсальны и применимы к любому проекту. Студенты курса получают доступ к документации и примерам конфигураций из Enji Fleet для изучения best practices
+**Теория:**
+- [Уровни зрелости использования ИИ](course/module-1-why-ai/01-theory.md)
+- [8 уровней по Стиву Йегге](course/module-1-why-ai/02-yegge-levels.md)
+- [Самодиагностика](course/module-1-why-ai/03-diagnostics.md)
 
-## Структура
+### Модуль 2. Инструменты и установка `60 мин`
 
-### Часть I: Фундамент (~2.5 часа)
+Четыре категории инструментов, мульти-модельная стратегия, установка CLI-агента.
 
-**Модуль 1. Зачем разработчику ИИ** (30 мин)
-Мотивация и калибровка ожиданий. Что ИИ реально умеет, а что нет. Три кейса с метриками. Самооценка текущего уровня.
+**Теория:**
+- [Ландшафт инструментов](course/module-2-tools/theory/01-types-of-tools.md)
+- [Бесплатные и дешёвые варианты](course/module-2-tools/theory/02-available-tools.md)
+- [Мульти-модельная стратегия](course/module-2-tools/theory/03-multi-model.md)
 
-**Модуль 2. Инструменты и установка** (60 мин)
-Четыре категории инструментов: LLM-чаты, IDE-копилоты, AI-IDE (Cursor, Antigravity), CLI-агенты (Claude Code, Codex CLI, OpenCode). Мульти-модельная стратегия: умные модели планируют, дешёвые исполняют. Комбинирование инструментов как норма. Установка Claude Code CLI. Первый тест: агент анализирует архитектуру проекта ученика.
+**Практика:**
+- [Установка рабочего окружения](course/module-2-tools/practice/01-setup.md)
+- [Troubleshooting](course/module-2-tools/practice/02-troubleshooting.md)
+- [Чеклист готовности](course/module-2-tools/practice/03-checklist.md)
 
-**Модуль 3. Промптинг** (60 мин)
-Сдвиг от вопросов к заданиям. Структура промпта для агентов: роль, контекст, задача, критерии приёмки. Продвинутые техники и антипаттерны. Практика: улучшение «плохих» промптов, шаблоны для разных типов задач, игра Gandalf (промпт-инъекции).
+### Модуль 3. Промптинг `60 мин`
 
-### Часть II: Агентная разработка (~2.5 часа)
+От вопросов к заданиям. Структура промпта, продвинутые техники, антипаттерны.
 
-**Модуль 4. Работа с AI-агентом** (75 мин)
-Переход от «спрашивать» к «делегировать». Разделение Plan/Act режимов. Steering через checkpoints. Настройка AGENTS.md. Повышение качества: hooks, TDD с агентами, линтеры в workflow. Практика: полный цикл — от описания задачи до принятого кода.
+**Теория:**
+- [Структура промпта](course/module-3-prompting/theory/01-prompt-structure.md)
+- [Продвинутые техники](course/module-3-prompting/theory/02-advanced-techniques.md)
+- [Антипаттерны](course/module-3-prompting/theory/03-antipatterns.md)
+- [Промпты для разных задач](course/module-3-prompting/theory/04-task-specific-prompts.md)
 
-**Модуль 5. Spec-driven development и Context Engineering** (75 мин)
-Context Engineering — управление контекстным окном агента. Спецификация как единый источник истины. Иерархия артефактов: конституция → планы → заметки → работа над ошибками. Memory bank. Практика: написать конституцию, спецификацию фичи, дать агенту реализовать, зафиксировать выводы.
+**Практика:**
+- [Улучши промпт](course/module-3-prompting/practice/01-improve-prompts.md)
+- [Шаблоны промптов](course/module-3-prompting/practice/02-prompt-templates.md)
+- [Игра Gandalf](course/module-3-prompting/practice/03-gandalf.md)
 
-### Часть III: Расширение (~2.5 часа)
+### Модуль 4. Работа с AI-агентом `75 мин`
 
-**Модуль 6. MCP** (75 мин)
-Model Context Protocol — стандарт подключения внешних инструментов к агенту (Jira, git, Figma, БД). Архитектура клиент-сервер. Практика: установить 3–4 MCP-сервера, решить задачу, требующую нескольких источников.
+Plan/Act режимы, AGENTS.md, TDD с агентами, контроль качества.
 
-**Модуль 7. Параллельные агенты и оркестрация** (90 мин)
-От одного агента к нескольким. Git worktrees для изоляции. Паттерны: генератор + ревьюер, декомпозиция на подзадачи, иерархия агентов. Ролевая модель (архитектор / разработчик / QA). Hot-swap при ошибках. Runbook. Практика: параллельная работа двух агентов, слияние результатов, написание runbook для своего проекта.
+**Теория:**
+- [Основы работы с агентом](course/module-4-agents/theory/01-agent-fundamentals.md)
+- [HITL и контроль качества](course/module-4-agents/theory/02-hitl-and-quality.md)
+- [Тестирование с агентами](course/module-4-agents/theory/03-testing-with-agents.md)
 
-### Часть IV: Ответственность (30 мин)
+**Практика:**
+- [Создай AGENTS.md](course/module-4-agents/practice/01-create-agents-md.md)
+- [Получи план от агента](course/module-4-agents/practice/02-agent-planning.md)
+- [Ревью результата](course/module-4-agents/practice/03-review-result.md)
+- [Итерация](course/module-4-agents/practice/04-iteration.md)
+- [Тестирование с агентом](course/module-4-agents/practice/05-testing.md)
+- [Чеклист](course/module-4-agents/practice/06-checklist.md)
 
-**Модуль 8. Ответственное использование**
-Ограничения ИИ (галлюцинации, sycophancy, утечки). Ответственность растёт с уровнем автономности. Безопасность: что нельзя отправлять, sandboxing, YOLO-мод. Финальный тест. Повторная самооценка.
+### Модуль 5. Context Engineering и SDD `75 мин`
 
-## Формат
+Спецификация как источник истины. Конституция, планы, traces, fails.
 
-- Асинхронный, текстовый
-- Короткие скринкасты (5–10 мин) для демонстрации инструментов
-- Все упражнения — на рабочем проекте ученика
-- Общее время: ~8 часов (3 ч теории + 5 ч практики)
-- Финальный тест: 10 сценарных вопросов по всем модулям
+**Теория:**
+- [Context Engineering и SDD](course/module-5-context-engineering/theory/01-context-and-sdd.md)
+- [Иерархия артефактов](course/module-5-context-engineering/theory/02-artifact-hierarchy.md)
+- [Планы, traces, fails](course/module-5-context-engineering/theory/03-plans-traces-fails.md)
+- [AGENTS.md и спецартефакты](course/module-5-context-engineering/theory/04-special-artifacts.md)
+- [Организация контекста](course/module-5-context-engineering/theory/05-context-organization.md)
 
-## Что ученик получает на выходе
+**Практика:**
+- [Изучить источники и skills](course/module-5-context-engineering/practice/01-sources-and-skills.md)
+- [Конституция проекта](course/module-5-context-engineering/practice/02-constitution.md)
+- [Спецификация фичи](course/module-5-context-engineering/practice/03-specification.md)
+- [Реализация по спецификации](course/module-5-context-engineering/practice/04-implementation.md)
+- [Заметки по реализации](course/module-5-context-engineering/practice/05-trace.md)
+- [Чеклист](course/module-5-context-engineering/practice/06-checklist.md)
 
-- Настроенное рабочее окружение (CLI-агент + MCP-серверы)
-- AGENTS.md и конституция для своего проекта
-- Навык постановки задач агенту и ревью результата
-- Опыт параллельной работы нескольких агентов
-- Runbook для декомпозиции задач на агентов
-- Понимание границ и рисков
+**Шаблоны:**
+- [Шаблон конституции](course/module-5-context-engineering/templates/constitution-template.md)
+- [Шаблон спецификации](course/module-5-context-engineering/templates/feature-spec-template.md)
+- [Шаблон implementation notes](course/module-5-context-engineering/templates/implementation-notes-template.md)
+
+### Модуль 6. MCP `75 мин`
+
+Model Context Protocol — подключение внешних инструментов к агенту.
+
+**Теория:**
+- [Что такое MCP](course/module-6-mcp/theory/01-what-is-mcp.md)
+- [Категории MCP-серверов](course/module-6-mcp/theory/02-mcp-servers.md)
+- [Установка и настройка](course/module-6-mcp/theory/03-setup-and-config.md)
+- [Создание своего MCP-сервера](course/module-6-mcp/theory/04-custom-servers.md)
+
+**Практика:**
+- [Настройка MCP-серверов](course/module-6-mcp/practice/01-setup-mcp-servers.md)
+- [Чеклист](course/module-6-mcp/practice/02-checklist.md)
+
+### Модуль 7. Параллельные агенты и оркестрация `90 мин`
+
+Git worktrees, паттерны оркестрации, ролевая модель, playbook.
+
+**Теория:**
+- [Роли и параллелизм](course/module-7-orchestration/theory/01-role-and-parallelism.md)
+- [Изоляция и циклы](course/module-7-orchestration/theory/02-isolation-and-loops.md)
+- [Роли и паттерны](course/module-7-orchestration/theory/03-roles-and-patterns.md)
+- [Playbook и операции](course/module-7-orchestration/theory/04-playbook-and-operations.md)
+
+**Практика:**
+- [Git worktree](course/module-7-orchestration/practice/01-git-worktree.md)
+- [Генератор + ревьюер](course/module-7-orchestration/practice/02-generator-reviewer.md)
+- [Параллельная работа и слияние](course/module-7-orchestration/practice/03-parallel-and-merge.md)
+- [Установка Maestro](course/module-7-orchestration/practice/04-install-maestro.md)
+- [Создание playbook](course/module-7-orchestration/practice/05-playbook-creation.md)
+- [Чеклист](course/module-7-orchestration/practice/06-checklist.md)
+
+### Модуль 8. Ответственное использование `30 мин`
+
+Ограничения ИИ, безопасность, ответственность по уровням автономности.
+
+**Теория:**
+- [Ограничения ИИ](course/module-8-responsibility/theory/01-ai-limitations.md)
+- [Безопасность](course/module-8-responsibility/theory/02-security.md)
+- [Ответственность по уровням](course/module-8-responsibility/theory/03-responsibility.md)
+
+**Практика:**
+- [Чеклисты для работы с AI-кодом](course/module-8-responsibility/practice/01-checklists.md)
+
+### Завершение
+
+- [Финальный тест](course/final-test.md) — 10 сценарных вопросов по всем модулям
+- [Повторная самооценка](course/self-assessment.md) — сравните с результатом в начале
+
+### Справочные материалы
+
+- [DOs and DON'Ts](course/dos-and-donts.md) — свод правил из всех модулей
+- [Глоссарий](course/GLOSSARY.md)
+- [Полезные ссылки](course/useful-links.md)
+
+## Уровни зрелости
+
+Курс построен вокруг 5 уровней владения ИИ-инструментами:
+
+| Уровень | Что делаете | Модули |
+|---------|-------------|--------|
+| 1 — Чат | Спрашиваете и копируете | 1 |
+| 2 — Копилот | Реагируете на подсказки IDE | 2–3 |
+| 3 — Драйвер агента | Делегируете задачу целиком | 4 |
+| 4 — Специалист | Управляете контекстом и сессиями | 5–6 |
+| 5 — Оркестратор | Координируете несколько агентов | 7 |
+
+Пройдите [самооценку](course/self-assessment.md), чтобы узнать свой уровень.
+
+## Сквозной пример — Enji Fleet
+
+Курс ссылается на Enji Fleet — внутренний проект Mad Devs по оркестрации AI-агентов. Проект не публичный, но его практики (конституция, trace-файлы, мульти-агентные воркфлоу) применимы к любому проекту. Студенты получают доступ к документации и примерам конфигураций.
