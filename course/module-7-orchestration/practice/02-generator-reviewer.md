@@ -27,7 +27,7 @@ DELETE /api/tasks/{id} endpoint
 Действуй автономно.
 ```
 
-**3. Терминал 2 — Агент-ревьюер:**
+**2. Терминал 2 — Агент-ревьюер:**
 
 ```bash
 cd ../myproject-delete-endpoint
