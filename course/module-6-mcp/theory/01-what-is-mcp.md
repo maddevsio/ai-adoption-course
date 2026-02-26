@@ -1,3 +1,5 @@
+[← Оглавление](../../../README.md)
+
 # Модуль 6: Model Context Protocol (MCP)
 
 ## 1. Что такое MCP и зачем он нужен
@@ -76,3 +78,6 @@ MCP использует **JSON-RPC 2.0** — простой текстовый 
 2. **Discovery**: агент запрашивает `tools/list`, сервер возвращает доступные tools
 3. **Execution**: AI решает вызвать tool → `tools/call` с параметрами → сервер выполняет → результат
 4. **Shutdown**: агент отправляет `shutdown`, серверы завершают работу
+---
+
+[← Чеклист и следующие шаги](../../module-5-context-engineering/practice/06-checklist.md) | [Оглавление](../../../README.md) | [3. Категории MCP-серверов →](02-mcp-servers.md)

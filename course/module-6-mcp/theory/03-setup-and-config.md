@@ -1,3 +1,5 @@
+[← Оглавление](../../../README.md)
+
 ## 5. Установка и настройка
 
 Установка и конфигурация каждого сервера описана в его README. Ниже — ссылки и общий принцип.
@@ -44,3 +46,6 @@ echo $ATLASSIAN_API_TOKEN
 ```
 
 **Community:** [MCP Discord](https://discord.gg/modelcontextprotocol) · [GitHub Issues](https://github.com/modelcontextprotocol/servers/issues)
+---
+
+[← 3. Категории MCP-серверов](02-mcp-servers.md) | [Оглавление](../../../README.md) | [6. Создание своего MCP-сервера →](04-custom-servers.md)

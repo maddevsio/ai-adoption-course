@@ -1,3 +1,5 @@
+[← Оглавление](../../../README.md)
+
 # Implementation Notes (Trace): [Название фичи/плана]
 
 **Дата:** [YYYY-MM-DD]

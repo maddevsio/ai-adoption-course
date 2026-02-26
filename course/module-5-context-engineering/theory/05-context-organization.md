@@ -1,3 +1,5 @@
+[← Оглавление](../../../README.md)
+
 ## 10. Организация контекста в проекте
 
 Ключевые практики:
@@ -108,3 +110,6 @@
 - [AGENTS.md specification](https://agents.md/) — открытый формат для инструкций AI-агентам
 - [Creating the Perfect CLAUDE.md for Claude Code](https://dometrain.com/blog/creating-the-perfect-claudemd-for-claude-code/) — Dometrain
 - [GitHub Spec Kit announcement](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/) — GitHub Blog
+---
+
+[← 7. AGENTS.md / CLAUDE.md](04-special-artifacts.md) | [Оглавление](../../../README.md) | [Подготовка: Изучить источники и установить skills (10 мин) →](../practice/01-sources-and-skills.md)

@@ -1,3 +1,5 @@
+[← Оглавление](../../../README.md)
+
 # Git worktree для изоляции агентов
 
 ### Чек-лист готовности
@@ -59,3 +61,6 @@ git worktree list             # видно оба worktree
 - [ ] Worktree удалён
 
 **Принцип:** Одна ветка = один план = один worktree.
+---
+
+[← 7. "Библия" и Playbook оркестратора](../theory/04-playbook-and-operations.md) | [Оглавление](../../../README.md) | [Генератор + Ревьюер →](02-generator-reviewer.md)
