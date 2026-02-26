@@ -24,32 +24,26 @@
 
 ### Backend
 
-| Component | Technology | Version | Notes |
-|-----------|------------|---------|-------|
-| Language | [Go/Python/TypeScript/...] | [1.22/3.11/5.0/...] | [дополнительные заметки] |
-| Database | [PostgreSQL/MySQL/MongoDB/...] | [15/8.0/6.0/...] | [схема, особенности] |
-| API | [REST/GraphQL/gRPC/...] | | [фреймворк, библиотеки] |
-| Cache | [Redis/Memcached/...] | [7/...] | [для чего используется] |
-| Testing | [Go test/pytest/Jest/...] | | [coverage target, подход] |
+- **Language:** [Go/Python/TypeScript/...] [версия] — [заметки]
+- **Database:** [PostgreSQL/MySQL/MongoDB/...] [версия] — [схема, особенности]
+- **API:** [REST/GraphQL/gRPC] — [фреймворк, библиотеки]
+- **Cache:** [Redis/Memcached/...] [версия] — [для чего используется]
+- **Testing:** [Go test/pytest/Jest/...] — [coverage target, подход]
 
 ### Frontend (если есть)
 
-| Component | Technology | Version | Notes |
-|-----------|------------|---------|-------|
-| Framework | [React/Vue/Svelte/...] | [18/3/4/...] | [особенности] |
-| Build | [Vite/Webpack/...] | | |
-| Language | [TypeScript/JavaScript] | | [strict mode?] |
-| State | [Redux/Zustand/Pinia/...] | | |
-| Styling | [Tailwind/CSS Modules/...] | | |
-| Testing | [Vitest/Jest/...] | | [coverage target] |
+- **Framework:** [React/Vue/Svelte/...] [версия] — [особенности]
+- **Build:** [Vite/Webpack/...]
+- **Language:** [TypeScript/JavaScript] — [strict mode?]
+- **State:** [Redux/Zustand/Pinia/...]
+- **Styling:** [Tailwind/CSS Modules/...]
+- **Testing:** [Vitest/Jest/...] — [coverage target]
 
 ### Infrastructure
 
-| Component | Technology | Notes |
-|-----------|------------|-------|
-| Containers | [Docker/Podman] | [Compose для локальной разработки?] |
-| Orchestration | [Kubernetes/...] | [или пока нет] |
-| CI/CD | [GitHub Actions/GitLab CI/...] | [что автоматизировано] |
+- **Containers:** [Docker/Podman] — [Compose для локальной разработки?]
+- **Orchestration:** [Kubernetes/... или пока нет]
+- **CI/CD:** [GitHub Actions/GitLab CI/...] — [что автоматизировано]
 
 ---
 
