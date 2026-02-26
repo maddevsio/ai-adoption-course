@@ -6,12 +6,10 @@
 
 ### 5.1. Обязательные серверы
 
-| Сервер | Установка                                                                                                |
-|--------|----------------------------------------------------------------------------------------------------------|
-| Git MCP | [README](https://github.com/modelcontextprotocol/servers/tree/main/src/git#installation)                 |
-| Jira MCP (Atlassian) | [README](https://github.com/atlassian/atlassian-mcp-server) · токен можно создать в настройках Atlassian |
-| JetBrains MCP | Встроен в IDE 2025.2+ · [docs](https://www.jetbrains.com/help/pycharm/mcp-server.html)                   |
-| Figma MCP | [README](https://github.com/GLips/Figma-Context-MCP) · токен: Figma → Settings → Personal Access Tokens  |
+- **Git MCP** — [README](https://github.com/modelcontextprotocol/servers/tree/main/src/git#installation)
+- **Jira MCP (Atlassian)** — [README](https://github.com/atlassian/atlassian-mcp-server). Токен можно создать в настройках Atlassian
+- **JetBrains MCP** — встроен в IDE 2025.2+. [Docs](https://www.jetbrains.com/help/pycharm/mcp-server.html)
+- **Figma MCP** — [README](https://github.com/GLips/Figma-Context-MCP). Токен: Figma → Settings → Personal Access Tokens
 
 ### 5.2. Конфигурация
 
@@ -22,7 +20,7 @@ MCP-серверы настраиваются в JSON-файле:
 | Claude Code | `~/.claude/mcp.json` · [docs](https://docs.anthropic.com/en/docs/claude-code/mcp) |
 | Cursor | `.cursor/mcp.json` (проект или глобально) · Settings → MCP → Add Server |
 
-Формат одинаковый — объект `mcpServers`, где каждый ключ описывает сервер: `command`, `args`, `env` (для токенов и credentials).
+Формат одинаковый — объект `mcpServers`. Каждый ключ описывает сервер: `command`, `args`, `env` (для токенов и credentials).
 
 ### 5.3. Проверка работоспособности
 

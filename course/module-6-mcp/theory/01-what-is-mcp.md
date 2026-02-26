@@ -18,7 +18,7 @@
 
 ### Решение: MCP
 
-**Model Context Protocol (MCP)** — универсальный стандарт для подключения инструментов к LLM. Вместо того чтобы каждый AI-инструмент создавал свои интеграции, все используют единый протокол.
+**Model Context Protocol (MCP)** — универсальный стандарт для подключения инструментов к LLM. Все AI-инструменты используют единый протокол вместо собственных интеграций.
 
 **Ресурсы:** [modelcontextprotocol.io](https://modelcontextprotocol.io) · [Спецификация](https://modelcontextprotocol.io/specification/2025-11-25) · [Серверы](https://github.com/modelcontextprotocol/servers) · [Каталог (1200+)](https://mcp-awesome.com/)
 
@@ -60,7 +60,7 @@ flowchart LR
 2. **MCP Server**: Node.js/Python-процесс, предоставляющий доступ к инструменту
 3. **External Tool**: Git CLI, Jira REST API, Figma API, IDE
 
-MCP использует **JSON-RPC 2.0** — простой текстовый протокол на базе JSON для коммуникации между клиентом и сервером.
+MCP использует **JSON-RPC 2.0**. Это простой текстовый протокол на базе JSON для связи клиента и сервера.
 
 ### Transport
 
