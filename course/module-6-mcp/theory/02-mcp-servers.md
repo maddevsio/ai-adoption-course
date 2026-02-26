@@ -11,36 +11,28 @@
 
 ### 3.1. Development Tools
 
-| Сервер | Что дает | Примеры |
-|--------|----------|---------|
-| **Git MCP** | Code archaeology, анализ истории | `git log --grep`, `git blame`, `git bisect` |
-| **GitHub MCP** | Issues, PRs, Code Reviews | Создание PR, управление issues |
-| **JetBrains MCP** | Debugger, refactoring, navigation | Breakpoints, rename refactoring |
-| **Docker MCP** | Контейнеры, образы, сети | Запуск контейнера, логи |
+- **Git MCP** — code archaeology, анализ истории. `git log --grep`, `git blame`, `git bisect`
+- **GitHub MCP** — Issues, PRs, Code Reviews. Создание PR, управление issues
+- **JetBrains MCP** — debugger, refactoring, navigation. Breakpoints, rename refactoring
+- **Docker MCP** — контейнеры, образы, сети. Запуск контейнера, логи
 
 ### 3.2. Data Sources
 
-| Сервер | Что дает | Примеры |
-|--------|----------|---------|
-| **PostgreSQL MCP** | Natural language SQL, анализ схемы | Запросы на естественном языке |
-| **MySQL MCP** | Аналогично для MySQL | Миграции, оптимизация |
-| **MongoDB MCP** | NoSQL queries, aggregations | Aggregation pipelines |
+- **PostgreSQL MCP** — natural language SQL, анализ схемы. Запросы на естественном языке
+- **MySQL MCP** — аналогично для MySQL. Миграции, оптимизация
+- **MongoDB MCP** — NoSQL queries, aggregations. Aggregation pipelines
 
 ### 3.3. External Services
 
-| Сервер | Что дает | Примеры |
-|--------|----------|---------|
-| **Jira MCP** | Tasks, worklogs, sprints | Логирование времени, статусы |
-| **Slack MCP** | Messaging, channels | Уведомления, чтение сообщений |
-| **Figma MCP** | Design structure, tokens | Design-to-code, design tokens |
-| **Notion MCP** | Pages, databases | Документация, knowledge base |
+- **Jira MCP** — tasks, worklogs, sprints. Логирование времени, статусы
+- **Slack MCP** — messaging, channels. Уведомления, чтение сообщений
+- **Figma MCP** — design structure, tokens. Design-to-code, design tokens
+- **Notion MCP** — pages, databases. Документация, knowledge base
 
 ### 3.4. Utilities
 
-| Сервер | Что дает | Примеры |
-|--------|----------|---------|
-| **Puppeteer MCP** | Web automation, screenshots | E2E тесты, UI тестирование |
-| **Mermaid MCP** | Диаграммы (flowcharts, ER) | Визуализация архитектуры |
+- **Puppeteer MCP** — web automation, screenshots. E2E тесты, UI тестирование
+- **Mermaid MCP** — диаграммы (flowcharts, ER). Визуализация архитектуры
 
 ---
 
@@ -48,13 +40,16 @@
 
 ### 4.1. Git MCP Server
 
-Git MCP: анализ истории и code archaeology, не только commit/push.
+Git MCP дает анализ истории и code archaeology. Это не только commit/push.
 
-**Возможности:** code archaeology (кто, когда, почему изменил код), поиск в истории (`git log -S`), анализ веток, blame analysis, bisect.
+**Возможности:**
+- **Code archaeology** — кто, когда и почему изменил код
+- **Поиск в истории** — `git log -S`, анализ веток
+- **Blame analysis**, bisect
 
 **Когда использовать:** legacy code, bug investigation, code review, рефакторинг.
 
-**Пример:** "Найди все коммиты, которые изменяли функцию `calculate_discount` за последние 3 месяца" → Git MCP выполняет `git log -S`, показывает diff и commit messages.
+**Пример:** "Найди все коммиты, которые изменяли функцию `calculate_discount` за последние 3 месяца." Git MCP выполняет `git log -S`, показывает diff и commit messages.
 
 [GitHub](https://github.com/modelcontextprotocol/servers/tree/main/src/git) (Official Anthropic)
 
