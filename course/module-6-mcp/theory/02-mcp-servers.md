@@ -48,7 +48,7 @@
 
 ### 4.1. Git MCP Server
 
-Глубокая работа с Git — не просто commit/push, а интеллектуальный анализ истории и code archaeology.
+Git MCP: анализ истории и code archaeology, не только commit/push.
 
 **Возможности:** code archaeology (кто, когда, почему изменил код), поиск в истории (`git log -S`), анализ веток, blame analysis, bisect.
 
