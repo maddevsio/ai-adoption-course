@@ -11,7 +11,9 @@ docs/plans/
 └── 023-agent-pipeline-quality.plan.md
 ```
 
-Нумерация обеспечивает порядок выполнения. Агент не начинает Plan 023, пока Plan 022 не завершён. Типичный план содержит:
+Нумерация обеспечивает порядок выполнения. Агент не начинает Plan 023, пока Plan 022 не завершён.
+
+Типичный план содержит:
 ```markdown
 # Plan 022: Execution Flow E2E
 
@@ -111,23 +113,23 @@ Fails — постмортемы. Агент создаёт документ с 
 ### Пример: расхождение паттернов между сервисами
 Агент реализовал 3 плана в отдельных сессиях. Каждый план выполнен качественно, но между сервисами возникли расхождения:
 
-| Аспект | Store Service | Credentials Service |
-|--------|--------------|---------------------|
-| Logger | `zap` (shared/pkg/logger) | `slog` (internal/logging) |
-| Миграции | `backend/migrations/` | `credentials/migrations/` |
-| DI | Интерфейсы (mockable) | Конкретные типы (не mockable) |
+- **Logger:** Store Service использует `zap` (shared/pkg/logger), Credentials Service — `slog` (internal/logging)
+- **Миграции:** Store Service хранит в `backend/migrations/`, Credentials Service — в `credentials/migrations/`
+- **DI:** Store Service использует интерфейсы (mockable), Credentials Service — конкретные типы (не mockable)
 
-Root cause: constitution на момент реализации была почти пустой — шаблон с placeholder'ами. Lessons learned:
-- Пустая constitution = каждый агент решает сам
-- "Опционально" для агента = "не делать". Важное — пишите "ОБЯЗАТЕЛЬНО"
-- Checkpoint должен быть machine-checkable: "Create → ID, Get → object, Delete → 404"
-- Ревью по одному плану дешевле, чем пачкой
+**Root cause:** constitution на момент реализации была почти пустой — шаблон с placeholder'ами.
+
+**Lessons learned:**
+- **Пустая constitution** = каждый агент решает сам
+- **"Опционально"** для агента = "не делать". Важное пишите "ОБЯЗАТЕЛЬНО"
+- **Checkpoint** должен быть machine-checkable: "Create -> ID, Get -> object, Delete -> 404"
+- **Ревью по одному плану** дешевле, чем пачкой
 
 ### Пример: E2E blockers
-При первом E2E прогоне система не смогла довести ни одну задачу до завершения. Найдено 7 багов, 2 CRITICAL:
+При первом E2E прогоне система не смогла довести ни одну задачу до завершения. Найдено 7 багов, из них 2 CRITICAL:
 
-- **CLI name deadlock** — Agent Service и SDK использовали разные имена для CLI tools. Ни одно имя не проходило обе валидации.
-- **Бесконечный respawn** — Spawner создавал контейнеры в цикле, потому что retry_count не инкрементировался в БД. 17 мёртвых контейнеров за 2 минуты.
+- **CLI name deadlock** — Agent Service и SDK использовали разные имена для CLI tools. Ни одно имя не проходило обе валидации
+- **Бесконечный respawn** — Spawner создавал контейнеры в цикле, потому что retry_count не инкрементировался в БД. Результат: 17 мёртвых контейнеров за 2 минуты
 
 ### Структура fail-документа
 ```markdown

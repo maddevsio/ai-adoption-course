@@ -86,7 +86,11 @@ my-mcp-server/
 └── tsconfig.json
 ```
 
-Production-сервер включает: multiple tools, error handling, authentication (API keys, OAuth), caching, logging, тесты.
+Production-сервер включает:
+- **Multiple tools** — несколько инструментов в одном сервере
+- **Error handling** и logging
+- **Authentication** — API keys, OAuth
+- **Caching** и тесты
 ---
 
 [← 5. Установка и настройка](03-setup-and-config.md) | [Оглавление](../../../README.md) | [Настройка MCP-серверов →](../practice/01-setup-mcp-servers.md)
