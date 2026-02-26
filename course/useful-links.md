@@ -13,16 +13,19 @@
 
 ## Инструменты: документация
 
-| Инструмент | Документация | Тип |
-|-----------|-------------|-----|
-| Claude Code | [code.claude.com/docs](https://code.claude.com/docs) | CLI |
-| Cursor | [cursor.sh](https://cursor.sh/) | IDE |
-| OpenCode | [opencode-ai/opencode](https://github.com/opencode-ai/opencode) | CLI |
-| Codex CLI | [developers.openai.com/codex/cli](https://developers.openai.com/codex/cli/features/) | CLI |
-| Google Antigravity | [antigravity.google](https://antigravity.google/) | IDE |
-| GitHub Copilot | [github.com/features/copilot](https://github.com/features/copilot) | IDE plugin |
-| Gemini CLI | [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) | CLI |
-| Ollama | [ollama.com](https://ollama.com/download) | Локальные модели |
+**CLI:**
+- **Claude Code** — [code.claude.com/docs](https://code.claude.com/docs)
+- **OpenCode** — [opencode-ai/opencode](https://github.com/opencode-ai/opencode)
+- **Codex CLI** — [developers.openai.com/codex/cli](https://developers.openai.com/codex/cli/features/)
+- **Gemini CLI** — [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli)
+
+**IDE:**
+- **Cursor** — [cursor.sh](https://cursor.sh/)
+- **Google Antigravity** — [antigravity.google](https://antigravity.google/)
+- **GitHub Copilot** (plugin) — [github.com/features/copilot](https://github.com/features/copilot)
+
+**Локальные модели:**
+- **Ollama** — [ollama.com](https://ollama.com/download)
 
 ## AGENTS.md и конституции проектов
 
@@ -63,16 +66,13 @@
 - [Best MCP Servers 2026](https://www.builder.io/blog/best-mcp-servers-2026) -- Builder.io
 
 **Серверы:**
-
-| Сервер | Репозиторий |
-|--------|-----------|
-| Git | [modelcontextprotocol/servers/git](https://github.com/modelcontextprotocol/servers/tree/main/src/git) |
-| PostgreSQL | [modelcontextprotocol/servers/postgres](https://github.com/modelcontextprotocol/servers/tree/main/src/postgres) |
-| Puppeteer | [modelcontextprotocol/servers/puppeteer](https://github.com/modelcontextprotocol/servers/tree/main/src/puppeteer) |
-| Atlassian (Jira/Confluence) | [atlassian/atlassian-mcp-server](https://github.com/atlassian/atlassian-mcp-server) |
-| JetBrains | [JetBrains/mcp-jetbrains](https://github.com/JetBrains/mcp-jetbrains) |
-| Figma | [GLips/Figma-Context-MCP](https://github.com/GLips/Figma-Context-MCP) |
-| Obsidian | [MarkusPfundstein/mcp-obsidian](https://github.com/MarkusPfundstein/mcp-obsidian) |
+- **Git** — [modelcontextprotocol/servers/git](https://github.com/modelcontextprotocol/servers/tree/main/src/git)
+- **PostgreSQL** — [modelcontextprotocol/servers/postgres](https://github.com/modelcontextprotocol/servers/tree/main/src/postgres)
+- **Puppeteer** — [modelcontextprotocol/servers/puppeteer](https://github.com/modelcontextprotocol/servers/tree/main/src/puppeteer)
+- **Atlassian (Jira/Confluence)** — [atlassian/atlassian-mcp-server](https://github.com/atlassian/atlassian-mcp-server)
+- **JetBrains** — [JetBrains/mcp-jetbrains](https://github.com/JetBrains/mcp-jetbrains)
+- **Figma** — [GLips/Figma-Context-MCP](https://github.com/GLips/Figma-Context-MCP)
+- **Obsidian** — [MarkusPfundstein/mcp-obsidian](https://github.com/MarkusPfundstein/mcp-obsidian)
 
 ## Оркестрация и параллельные агенты
 

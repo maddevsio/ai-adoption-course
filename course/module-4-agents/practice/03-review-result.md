@@ -4,7 +4,7 @@
 
 ### Цель
 
-Агент реализует утверждённый план. Ваша задача — провести code review результата по чеклисту и найти типичные проблемы.
+Агент реализует утверждённый план. Ваша задача -- провести code review результата по чеклисту.
 
 ### Реализация
 
@@ -89,9 +89,9 @@ npm run lint
 #### 4. Стиль соответствует AGENTS.md?
 
 **Что искать:**
-- ❌ Отсутствуют type hints: `def update_task(task_id, title)` вместо `def update_task(task_id: int, title: str) -> Task | None`
-- ❌ Не используется async: `def get_task()` вместо `async def get_task()`
-- ❌ Неправильное именование: `UpdateTask` вместо `update_task` (для функций)
+- ❌ **Отсутствуют type hints:** `def update_task(task_id, title)` вместо `def update_task(task_id: int, title: str) -> Task | None`
+- ❌ **Не используется async:** `def get_task()` вместо `async def get_task()`
+- ❌ **Неправильное именование:** `UpdateTask` вместо `update_task` (для функций)
 
 #### 5. Нет лишних файлов/зависимостей?
 
