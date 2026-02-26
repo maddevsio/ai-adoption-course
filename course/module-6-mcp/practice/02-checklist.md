@@ -18,10 +18,12 @@
 
 ## Дополнительные серверы
 
-- **Данные:** PostgreSQL, MongoDB
-- **Автоматизация:** Puppeteer (E2E), BrowserStack
-- **Документация:** Mermaid (диаграммы), Obsidian
-- **Коллаборация:** Miro (whiteboard)
+| Категория | Серверы |
+|-----------|---------|
+| Данные | PostgreSQL, MongoDB |
+| Автоматизация | Puppeteer (E2E), BrowserStack |
+| Документация | Mermaid (диаграммы), Obsidian |
+| Коллаборация | Miro (whiteboard) |
 
 Каталог: [mcp-awesome.com](https://mcp-awesome.com/) (1200+ серверов)
 
