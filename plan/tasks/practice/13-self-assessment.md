@@ -35,7 +35,7 @@
 
 ## Формат результата
 
-MD-файл `course/module-1-why-ai/self-assessment.md` с анкетой и ключом подсчёта.
+MD-файл `course/module-1-why-ai/03-diagnostics.md` с анкетой и ключом подсчёта.
 
 ## Критерии приёмки
 
