@@ -1,10 +1,10 @@
-[← Оглавление](../README.md)
+[← Оглавление](../../README.md)
 
 # Финальный тест
 
 Тест из 10 сценарных вопросов по всем 8 модулям курса. Каждый вопрос основан на реальной ситуации из практики разработчика.
 
-> Ключ ответов с объяснениями — в [final-test-answers.md](./final-test-answers.md).
+> Ключ ответов с объяснениями — в [final-test-answers.md](final-test-answers.md).
 
 ---
 
@@ -170,4 +170,4 @@
 Удачи в работе с AI-инструментами!
 ---
 
-[← Чеклисты для работы с AI-кодом](module-8-responsibility/practice/01-checklists.md) | [Оглавление](../README.md)
+[← Чеклисты для работы с AI-кодом](../module-8-responsibility/practice/01-checklists.md) | [Оглавление](../../README.md)

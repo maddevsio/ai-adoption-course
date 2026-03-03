@@ -1,4 +1,4 @@
-[← Оглавление](../README.md)
+[← Оглавление](../../README.md)
 
 # DOs and DON'Ts
 
