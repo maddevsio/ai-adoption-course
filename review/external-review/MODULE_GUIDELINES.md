@@ -40,7 +40,7 @@ Files use `NN-descriptive-name.md` format:
 - `NN-` prefix: two-digit number for reading order (`01-`, `02-`, ...)
 - `descriptive-name`: describes the content, not the format
 
-**Bad:** `01-theory.md`, `02-practice.md`, `01-part1.md`
+**Bad:** `01-levels.md`, `02-practice.md`, `01-part1.md`
 
 **Good:** `01-types-of-tools.md`, `02-available-tools.md`, `01-setup.md`, `02-troubleshooting.md`
 
