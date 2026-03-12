@@ -75,4 +75,4 @@
 
 ---
 
-[← Зеркало антипаттернов](01-antipatterns-mirror.md) | [Оглавление](../../../README.md) | [Финальный тест →](../../module-10-final/final-test.md)
+[← Зеркало антипаттернов](01-antipatterns-mirror.md) | [Оглавление](../../../README.md) | [Финальный тест →](../../module-final/final-test.md)
