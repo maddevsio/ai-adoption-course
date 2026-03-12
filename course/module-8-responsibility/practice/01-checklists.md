@@ -42,4 +42,4 @@
 6. **Обновите AGENTS.md** — добавьте правило для предотвращения подобных проблем
 ---
 
-[← 3. Ответственность по уровням](../theory/03-responsibility.md) | [Оглавление](../../../README.md) | [Финальный тест →](../../module-9-final/final-test.md)
+[← 3. Ответственность по уровням](../theory/03-responsibility.md) | [Оглавление](../../../README.md) | [Модуль 9: Кодер vs инженер →](../../module-9-agency/theory/01-coder-vs-engineer.md)
