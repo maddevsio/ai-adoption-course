@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 3. Промптинг -->
+<!-- Parent: Модуль 3. Промптинг — Диаграммы -->
+<!-- Title: Антипаттерн: God-Prompt vs Декомпозиция -->
 
 # Антипаттерн: God-Prompt vs Декомпозиция
 

@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 6. MCP -->
+<!-- Parent: Модуль 6. MCP — Диаграммы -->
+<!-- Title: Жизненный цикл MCP-вызова -->
 
 # Жизненный цикл MCP-вызова
 

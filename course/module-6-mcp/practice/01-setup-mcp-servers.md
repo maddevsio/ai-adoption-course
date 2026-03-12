@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 6. MCP -->
+<!-- Parent: Модуль 6. MCP — Практика -->
+<!-- Title: Настройка MCP-серверов -->
 
 # Настройка MCP-серверов
 
@@ -88,6 +92,3 @@ List all available MCP tools
 ```bash
 "Открой Figma-файл проекта и перечисли все компоненты на странице Design System"
 ```
----
-
-[← 6. Создание своего MCP-сервера](../theory/04-custom-servers.md) | [Оглавление](../../../README.md) | [Чеклист выполнения →](02-checklist.md)

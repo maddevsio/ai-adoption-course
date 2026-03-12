@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 5. Context Engineering -->
+<!-- Parent: Модуль 5. Context Engineering — Теория -->
+<!-- Title: SDD Workflow -->
 
 ## 7. AGENTS.md / CLAUDE.md
 
@@ -69,6 +73,3 @@ description: Краткое описание того, что делает skill
 5. Вызывайте: `/my-skill` в Claude Code
 
 Skills автоматизируют повторяющиеся workflow.
----
-
-[← 4. Plans: пронумерованные и самодостаточные](03-plans-traces-fails.md) | [Оглавление](../../../README.md) | [10. Организация контекста в проекте →](05-context-organization.md)

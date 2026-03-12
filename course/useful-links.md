@@ -1,4 +1,6 @@
-[← Оглавление](../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Title: Полезные ссылки -->
 
 # Полезные ссылки
 

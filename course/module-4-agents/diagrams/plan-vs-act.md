@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 4. Агенты -->
+<!-- Parent: Модуль 4. Агенты — Диаграммы -->
+<!-- Title: Режимы работы: Plan vs Act -->
 
 # Режимы работы: Plan vs Act
 

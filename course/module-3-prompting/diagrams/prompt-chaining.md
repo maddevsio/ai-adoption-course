@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 3. Промптинг -->
+<!-- Parent: Модуль 3. Промптинг — Диаграммы -->
+<!-- Title: Prompt Chaining: цепочка промптов -->
 
 # Prompt Chaining: цепочка промптов
 

@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 4. Агенты -->
+<!-- Parent: Модуль 4. Агенты — Теория -->
+<!-- Title: Human-in-the-loop vs Agentic mass generation -->
 
 ## 5. Human-in-the-loop vs Agentic mass generation
 
@@ -76,6 +80,3 @@ LLM может пропустить баги, дыры в безопасност
 - Задача касается production environment
 - Вы не до конца понимаете что AI собирается делать
 - Изменения влияют на других разработчиков
----
-
-[← Модуль 4: Работа с AI-агентом](01-agent-fundamentals.md) | [Оглавление](../../../README.md) | [Тестирование в AI-assisted разработке →](03-testing-with-agents.md)

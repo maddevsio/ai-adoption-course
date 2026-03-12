@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 7. Оркестрация -->
+<!-- Parent: Модуль 7. Оркестрация — Практика -->
+<!-- Title: Git worktree для изоляции агентов -->
 
 # Git worktree для изоляции агентов
 
@@ -61,6 +65,3 @@ git worktree list             # видно оба worktree
 - [ ] Worktree удалён
 
 **Принцип:** Одна ветка = один план = один worktree.
----
-
-[← 7. "Библия" и Playbook оркестратора](../theory/04-playbook-and-operations.md) | [Оглавление](../../../README.md) | [Генератор + Ревьюер →](02-generator-reviewer.md)

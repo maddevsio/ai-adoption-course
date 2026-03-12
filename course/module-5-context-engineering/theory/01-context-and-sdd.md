@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 5. Context Engineering -->
+<!-- Parent: Модуль 5. Context Engineering — Теория -->
+<!-- Title: Управление контекстом (Context Engineering) -->
 
 # Модуль 5: Управление контекстом (Context Engineering)
 
@@ -95,6 +99,3 @@ AI-модели обучены на миллиардах примеров код
 3. **Раз в месяц просматривайте traces** и обновляйте AGENTS.md ценными находками
 
 Это даст ~80% пользы от полного SDD. Спецификации, шаблоны и автоматический reflect-mode добавите, когда почувствуете потребность.
----
-
-[← Чеклист готовности](../../module-4-agents/practice/06-checklist.md) | [Оглавление](../../../README.md) | [3. Артефакты SDD →](02-artifact-hierarchy.md)

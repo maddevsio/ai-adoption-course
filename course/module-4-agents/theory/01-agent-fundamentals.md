@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 4. Агенты -->
+<!-- Parent: Модуль 4. Агенты — Теория -->
+<!-- Title: Работа с AI-агентом -->
 
 # Модуль 4: Работа с AI-агентом
 
@@ -106,7 +110,3 @@ claude init
 ```
 
 **Эволюция AGENTS.md**: файл не статичен. Каждая повторяющаяся ошибка агента — сигнал обновить AGENTS.md.
-
----
-
-[← Упражнение 3: Игра Gandalf (15 мин)](../../module-3-prompting/practice/03-gandalf.md) | [Оглавление](../../../README.md) | [5. Human-in-the-loop vs Agentic mass generation →](02-hitl-and-quality.md)

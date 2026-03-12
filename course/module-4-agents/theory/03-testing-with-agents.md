@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 4. Агенты -->
+<!-- Parent: Модуль 4. Агенты — Теория -->
+<!-- Title: Тестирование в AI-assisted разработке -->
 
 # Тестирование в AI-assisted разработке
 
@@ -174,6 +178,3 @@ Phase 5: Document Results → записать в trace
 
 > [!NOTE]
 > Тесты + автоматическое ревью = многофакторная защита. Тесты проверяют *что* код делает, ревью проверяет *как* он написан.
----
-
-[← 5. Human-in-the-loop vs Agentic mass generation](02-hitl-and-quality.md) | [Оглавление](../../../README.md) | [Создай AGENTS.md для проекта →](../practice/01-create-agents-md.md)

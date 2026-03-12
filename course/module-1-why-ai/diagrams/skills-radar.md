@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 1. Зачем ИИ -->
+<!-- Parent: Модуль 1. Зачем ИИ — Диаграммы -->
+<!-- Title: Навыки по уровням: от Level 1 к Level 5 -->
 
 # Навыки по уровням: от Level 1 к Level 5
 

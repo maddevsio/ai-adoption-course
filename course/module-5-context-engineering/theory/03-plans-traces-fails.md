@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 5. Context Engineering -->
+<!-- Parent: Модуль 5. Context Engineering — Теория -->
+<!-- Title: Plan 022: Execution Flow E2E -->
 
 ## 4. Plans: пронумерованные и самодостаточные
 
@@ -157,7 +161,3 @@ Fails — постмортемы. Агент создаёт документ с 
 ## Lessons learned
 Выводы для будущих агентов.
 ```
-
----
-
-[← 3. Артефакты SDD](02-artifact-hierarchy.md) | [Оглавление](../../../README.md) | [7. AGENTS.md / CLAUDE.md →](04-special-artifacts.md)

@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 7. Оркестрация -->
+<!-- Parent: Модуль 7. Оркестрация — Практика -->
+<!-- Title: Чеклист готовности — Оркестрация -->
 
 # Чеклист готовности
 
@@ -37,6 +41,3 @@
     - https://github.com/mikeyobrien/ralph-orchestrator
     - и др.
 3. Попробуйте разные модели на разных типах задач — измеряйте время и стоимость
----
-
-[← Создайте playbook для своего проекта](05-playbook-creation.md) | [Оглавление](../../../README.md) | [Модуль 8: Ответственное использование ИИ →](../../module-8-responsibility/theory/01-ai-limitations.md)

@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 6. MCP -->
+<!-- Parent: Модуль 6. MCP — Диаграммы -->
+<!-- Title: Архитектура MCP: Client -> Server -> Tool -->
 
 # Архитектура MCP: Client -> Server -> Tool
 

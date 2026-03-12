@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 5. Context Engineering -->
+<!-- Parent: Модуль 5. Context Engineering — Шаблоны -->
+<!-- Title: Feature Specification: [Название фичи] -->
 
 # Feature Specification: [Название фичи]
 

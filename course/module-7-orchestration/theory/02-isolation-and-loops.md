@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 7. Оркестрация -->
+<!-- Parent: Модуль 7. Оркестрация — Теория -->
+<!-- Title: Создать worktree для агента -->
 
 ## 3. Изоляция контекстов с git worktree
 
@@ -43,6 +47,3 @@ Ralph Loop работает при формализованных критери
 Ссылки:
 - https://ghuntley.com/ralph/ — оригинальная концепция
 - https://dev.to/alexandergekov/2026-the-year-of-the-ralph-loop-agent-1gkj — почему Ralph Loop стал стандартом
----
-
-[← Модуль 7: Параллельные агенты и оркестрация](01-role-and-parallelism.md) | [Оглавление](../../../README.md) | [5. Ролевая модель агентов →](03-roles-and-patterns.md)

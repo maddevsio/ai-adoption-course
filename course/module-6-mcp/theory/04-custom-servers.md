@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 6. MCP -->
+<!-- Parent: Модуль 6. MCP — Теория -->
+<!-- Title: Создание своего MCP-сервера -->
 
 ## 6. Создание своего MCP-сервера
 
@@ -91,6 +95,3 @@ Production-сервер включает:
 - **Error handling** и logging
 - **Authentication** — API keys, OAuth
 - **Caching** и тесты
----
-
-[← 5. Установка и настройка](03-setup-and-config.md) | [Оглавление](../../../README.md) | [Настройка MCP-серверов →](../practice/01-setup-mcp-servers.md)

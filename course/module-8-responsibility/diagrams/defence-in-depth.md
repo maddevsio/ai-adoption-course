@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 8. Ответственность -->
+<!-- Parent: Модуль 8. Ответственность — Диаграммы -->
+<!-- Title: Defence in Depth: многослойная защита -->
 
 # Defence in Depth: многослойная защита
 

@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 6. MCP -->
+<!-- Parent: Модуль 6. MCP — Теория -->
+<!-- Title: Проверить что агент видит MCP-серверы -->
 
 ## 5. Установка и настройка
 
@@ -44,6 +48,3 @@ echo $ATLASSIAN_API_TOKEN
 ```
 
 **Community:** [MCP Discord](https://discord.gg/modelcontextprotocol) · [GitHub Issues](https://github.com/modelcontextprotocol/servers/issues)
----
-
-[← 3. Категории MCP-серверов](02-mcp-servers.md) | [Оглавление](../../../README.md) | [6. Создание своего MCP-сервера →](04-custom-servers.md)

@@ -1,4 +1,8 @@
-[← Оглавление](../../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 6. MCP -->
+<!-- Parent: Модуль 6. MCP — Практика -->
+<!-- Title: Чеклист выполнения -->
 
 # Чеклист выполнения
 
@@ -28,6 +32,3 @@
 Каталог: [mcp-awesome.com](https://mcp-awesome.com/) (1200+ серверов)
 
 **Безопасность:** Используйте переменные окружения для токенов: `"env": { "TOKEN": "${TOKEN}" }`
----
-
-[← Настройка MCP-серверов](01-setup-mcp-servers.md) | [Оглавление](../../../README.md) | [Модуль 7: Параллельные агенты и оркестрация →](../../module-7-orchestration/theory/01-role-and-parallelism.md)

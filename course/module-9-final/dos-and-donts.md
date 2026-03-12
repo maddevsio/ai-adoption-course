@@ -1,4 +1,7 @@
-[← Оглавление](../../README.md)
+<!-- Space: CTO -->
+<!-- Parent: AI adoption course -->
+<!-- Parent: Модуль 9. Финал -->
+<!-- Title: DOs and DON'Ts -->
 
 # DOs and DON'Ts
 
