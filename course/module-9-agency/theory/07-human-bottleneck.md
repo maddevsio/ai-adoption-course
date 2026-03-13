@@ -34,4 +34,4 @@
 
 ---
 
-[← 6. T-shaped специалист](06-t-shaped.md) | [Оглавление](../../../README.md) | [8. Флит-методология →](08-fleet-methodology.md)
+[← 6. T-shaped специалист](06-t-shaped.md) | [Оглавление](../../../README.md) | [8. AI как катализатор →](08-ai-as-catalyst.md)

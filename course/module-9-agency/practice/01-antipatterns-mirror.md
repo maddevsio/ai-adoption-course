@@ -24,4 +24,4 @@
 
 ---
 
-[← 9. AI как катализатор](../theory/09-ai-as-catalyst.md) | [Оглавление](../../../README.md) | [Чеклист агентности →](02-agency-checklist.md)
+[← 8. AI как катализатор](../theory/08-ai-as-catalyst.md) | [Оглавление](../../../README.md) | [Чеклист агентности →](02-agency-checklist.md)
