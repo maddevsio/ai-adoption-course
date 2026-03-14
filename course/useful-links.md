@@ -117,6 +117,11 @@
 - [SWE-Bench](https://www.swebench.com/) -- бенчмарк для software engineering агентов
 - [The Agent Company](https://the-agent-company.com/) -- бенчмарк для бытовых задач агентов
 
+## Курсы и учебные материалы
+
+- [LLM Course (mlabonne)](https://github.com/mlabonne/llm-course) -- курс по LLM: от основ до продвинутых тем
+- [Generative AI for Beginners (Microsoft)](https://github.com/microsoft/generative-ai-for-beginners) -- 21 урок по генеративному ИИ от Microsoft
+
 ## Практика
 
 - [Gandalf (Lakera)](https://gandalf.lakera.ai/intro) -- интерактивная игра на prompt injection
