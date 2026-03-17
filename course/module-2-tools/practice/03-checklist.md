@@ -35,7 +35,7 @@
 - [ ] Знаю, как запустить Claude Code: `claude` (интерактивный) или `claude -p "..."` (one-shot)
 - [ ] Знаю, как выбрать модель: `--model opus-4.6` или в config.json
 - [ ] Понимаю разницу между OAuth токеном и API key
-- [ ] Знаю, где искать помощь: `claude --help` и https://code.claude.com/docs
+- [ ] Знаю, где искать помощь: `claude --help` и [https://code.claude.com/docs](https://code.claude.com/docs)
 ---
 
 [← Troubleshooting: Решение типовых проблем](02-troubleshooting.md) | [Оглавление](../../../README.md) | [Модуль 3: Промптинг — от вопросов к заданиям →](../../module-3-prompting/theory/01-prompt-structure.md)

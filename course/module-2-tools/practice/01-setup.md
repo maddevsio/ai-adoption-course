@@ -5,7 +5,7 @@
 ## Установить Claude Code 
 > Пошаговая инструкция по установке Claude Code CLI — основного инструмента курса
 
-https://code.claude.com/docs/en/quickstart
+[https://code.claude.com/docs/en/quickstart](https://code.claude.com/docs/en/quickstart)
 
 Проверить, что работает:
 ```bash

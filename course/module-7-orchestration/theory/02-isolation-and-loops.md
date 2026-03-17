@@ -41,8 +41,8 @@ Worktree создаёт отдельную рабочую директорию, 
 Ralph Loop работает при формализованных критериях. "Код должен выглядеть красиво" -- непроверяемо. "Все тесты пройдены, coverage > 80%" -- проверяемо.
 
 Ссылки:
-- https://ghuntley.com/ralph/ — оригинальная концепция
-- https://dev.to/alexandergekov/2026-the-year-of-the-ralph-loop-agent-1gkj — почему Ralph Loop стал стандартом
+- [https://ghuntley.com/ralph/](https://ghuntley.com/ralph/) — оригинальная концепция
+- [https://dev.to/alexandergekov/2026-the-year-of-the-ralph-loop-agent-1gkj](https://dev.to/alexandergekov/2026-the-year-of-the-ralph-loop-agent-1gkj) — почему Ralph Loop стал стандартом
 ---
 
 [← Модуль 7: Параллельные агенты и оркестрация](01-role-and-parallelism.md) | [Оглавление](../../../README.md) | [5. Ролевая модель агентов →](03-roles-and-patterns.md)

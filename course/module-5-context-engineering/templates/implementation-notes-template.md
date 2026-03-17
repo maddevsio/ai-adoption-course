@@ -194,7 +194,7 @@
 **Comments:** [Ключевые комментарии из ревью]
 
 **Пример:**
-> - PR: https://github.com/user/project/pull/123
+> - PR: [https://github.com/user/project/pull/123](https://github.com/user/project/pull/123)
 > - Статус: Merged
 > - Reviewer: @username
 > - Comments: "Отличная работа с тестами, но стоит добавить JSDoc комментарии к validateTaskFilters()"

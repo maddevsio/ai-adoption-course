@@ -43,7 +43,7 @@ echo $ANTHROPIC_API_KEY
 **Проверка 2: Регион и план**
 
 - API keys с console.anthropic.com — только для US региона
-- Для EU используйте https://console.anthropic.eu
+- Для EU используйте [https://console.anthropic.eu](https://console.anthropic.eu)
 - Убедитесь, что есть активная подписка или положительный баланс
 
 **Проверка 3: Файл конфигурации**

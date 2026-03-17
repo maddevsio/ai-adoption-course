@@ -33,8 +33,8 @@
 
 1. Возьмите фичу из своего проекта и реализуйте с 2-3 агентами параллельно
 2. Экспериментируйте с open-source оркестраторами
-    - https://github.com/RunMaestro/Maestro
-    - https://github.com/mikeyobrien/ralph-orchestrator
+    - [https://github.com/RunMaestro/Maestro](https://github.com/RunMaestro/Maestro)
+    - [https://github.com/mikeyobrien/ralph-orchestrator](https://github.com/mikeyobrien/ralph-orchestrator)
     - и др.
 3. Попробуйте разные модели на разных типах задач — измеряйте время и стоимость
 ---

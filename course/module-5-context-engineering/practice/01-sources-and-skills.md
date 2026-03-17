@@ -24,7 +24,7 @@
 4. **[awesome-claude-md](https://github.com/josix/awesome-claude-md)** — коллекция AGENTS.md и CLAUDE.md из десятков проектов
 
 ## Skills для установки
-https://github.com/obra/superpowers
+[https://github.com/obra/superpowers](https://github.com/obra/superpowers)
 
 ## Задание
 
