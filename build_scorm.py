@@ -145,6 +145,7 @@ var SCORM = (function() {
     raw.split(",").forEach(function(idx) { if (idx) visited[idx] = true; });
   }
   function save() {
+    if (finished) return;
     var keys = Object.keys(visited).sort(function(a,b){return a-b;});
     api.LMSSetValue("cmi.suspend_data", keys.join(","));
     var count = keys.length;
@@ -152,10 +153,9 @@ var SCORM = (function() {
     api.LMSSetValue("cmi.core.score.raw", String(pct));
     api.LMSSetValue("cmi.core.score.min", "0");
     api.LMSSetValue("cmi.core.score.max", "100");
-    if (pct >= 100) {
-      api.LMSSetValue("cmi.core.lesson_status", "completed");
-    } else {
-      api.LMSSetValue("cmi.core.lesson_status", "incomplete");
+    var currentStatus = api.LMSGetValue("cmi.core.lesson_status");
+    if (currentStatus !== "completed") {
+      api.LMSSetValue("cmi.core.lesson_status", pct >= 100 ? "completed" : "incomplete");
     }
     api.LMSCommit("");
   }
@@ -166,7 +166,9 @@ var SCORM = (function() {
     api.LMSFinish("");
   }
   window.addEventListener("beforeunload", finish);
-  window.addEventListener("pagehide", finish);
+  document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "hidden") save();
+  });
   return {
     markVisited: function(pageIndex) {
       if (!visited[String(pageIndex)]) {
@@ -175,6 +177,15 @@ var SCORM = (function() {
       }
     },
     getVisited: function() { return visited; },
+    getLocation: function() {
+      return api.LMSGetValue("cmi.core.lesson_location") || "";
+    },
+    setLocation: function(loc) {
+      if (!finished) {
+        api.LMSSetValue("cmi.core.lesson_location", String(loc));
+        api.LMSCommit("");
+      }
+    },
     getProgress: function() {
       var count = Object.keys(visited).length;
       return totalPages > 0 ? Math.round((count / totalPages) * 100) : 0;
@@ -187,18 +198,22 @@ PAGE_JS = """\
 (function() {
   var pageIndex = document.body.getAttribute("data-page-index");
   if (!pageIndex) return;
+  var idx = parseInt(pageIndex, 10);
+  try {
+    window.parent.postMessage({type: "scorm-page-loaded", pageIndex: idx}, "*");
+  } catch(e) {}
   var notified = false;
   function notifyParent() {
     if (notified) return;
     notified = true;
     try {
       if (window.parent && window.parent.SCORM && window.parent.SCORM.markVisited) {
-        window.parent.SCORM.markVisited(parseInt(pageIndex, 10));
+        window.parent.SCORM.markVisited(idx);
         return;
       }
     } catch(e) {}
     try {
-      window.parent.postMessage({type: "scorm-page-visited", pageIndex: parseInt(pageIndex, 10)}, "*");
+      window.parent.postMessage({type: "scorm-page-visited", pageIndex: idx}, "*");
     } catch(e) {}
   }
   function checkScroll() {
@@ -245,6 +260,7 @@ nav.sidebar a {{
   font-size: 0.85rem; border-radius: 4px;
 }}
 nav.sidebar a:hover {{ background: #eef1ff; }}
+nav.sidebar a.active {{ background: #e0e7ff; font-weight: 600; }}
 nav.sidebar a.visited {{ color: #6b7280; }}
 nav.sidebar a.visited::before {{ content: "\\2713 "; color: #22c55e; }}
 .progress-bar {{
@@ -292,10 +308,22 @@ iframe {{
     document.getElementById("progress-fill").style.width = pct + "%";
   }}
 
+  function setActive(pageIndex) {{
+    links.forEach(function(a) {{
+      if (a.getAttribute("data-page-index") === String(pageIndex)) {{
+        a.classList.add("active");
+        a.scrollIntoView({{block: "nearest"}});
+      }} else {{
+        a.classList.remove("active");
+      }}
+    }});
+  }}
+
   links.forEach(function(a) {{
     a.addEventListener("click", function(e) {{
       e.preventDefault();
       frame.src = a.getAttribute("href");
+      setActive(a.getAttribute("data-page-index"));
     }});
   }});
 
@@ -311,10 +339,23 @@ iframe {{
     if (e.data && e.data.type === "scorm-page-visited" && SCORM) {{
       SCORM.markVisited(e.data.pageIndex);
     }}
+    if (e.data && e.data.type === "scorm-page-loaded") {{
+      setActive(e.data.pageIndex);
+      if (SCORM) SCORM.setLocation(e.data.pageIndex);
+    }}
   }});
 
   updateUI();
-  if (links.length > 0) {{
+  var startIndex = 0;
+  if (SCORM) {{
+    var loc = SCORM.getLocation();
+    if (loc) startIndex = parseInt(loc, 10) || 0;
+  }}
+  var startLink = document.querySelector('nav.sidebar a[data-page-index="' + startIndex + '"]');
+  if (startLink) {{
+    frame.src = startLink.getAttribute("href");
+    setActive(startIndex);
+  }} else if (links.length > 0) {{
     frame.src = links[0].getAttribute("href");
   }}
 }})();
