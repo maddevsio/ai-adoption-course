@@ -33,6 +33,10 @@ MODULE_ORDER = [
 
 SECTION_ORDER = ["theory", "practice", "templates", "diagrams"]
 
+EXCLUDED_FILES: set[str] = {
+    "final-test-answers",
+}
+
 MODULE_TITLES: dict[str, str] = {
     "module-0-intro": "Модуль 0: Введение",
     "module-1-why-ai": "Модуль 1: Почему ИИ",
@@ -368,8 +372,9 @@ iframe {{
 def collect_pages() -> list[dict[str, str]]:
     pages: list[dict[str, str]] = []
 
+    root_pages: list[dict[str, str]] = []
     for f in sorted(COURSE_DIR.glob("*.md")):
-        pages.append({
+        root_pages.append({
             "src": str(f),
             "module": "",
             "section": "",
@@ -378,12 +383,16 @@ def collect_pages() -> list[dict[str, str]]:
             "title": extract_title(f),
         })
 
+    insert_after = "module-0-intro"
+
     for mod in MODULE_ORDER:
         mod_path = COURSE_DIR / mod
         if not mod_path.is_dir():
             continue
 
         for f in sorted(mod_path.glob("*.md")):
+            if f.stem in EXCLUDED_FILES:
+                continue
             pages.append({
                 "src": str(f),
                 "module": mod,
@@ -407,6 +416,9 @@ def collect_pages() -> list[dict[str, str]]:
                     "title": extract_title(f),
                 })
 
+        if mod == insert_after:
+            pages.extend(root_pages)
+
     return pages
 
 
@@ -418,20 +430,28 @@ def extract_file_index(md_file: Path) -> str:
 def extract_title(md_file: Path) -> str:
     h1 = ""
     h2 = ""
+    in_code_block = False
     with open(md_file, encoding="utf-8") as fh:
         for line in fh:
-            line = line.strip()
-            if line.startswith("## ") and not h2:
-                h2 = line.removeprefix("## ").strip()
+            stripped = line.strip()
+            if stripped.startswith("```"):
+                in_code_block = not in_code_block
+                continue
+            if in_code_block:
+                continue
+            if stripped.startswith("## ") and not h2:
+                h2 = stripped.removeprefix("## ").strip()
                 h2 = re.sub(r'^\d+\.\s*', '', h2)
-            elif line.startswith("# ") and not line.startswith("##") and not h1:
-                h1 = line.removeprefix("# ").strip()
+            elif stripped.startswith("# ") and not stripped.startswith("##") and not h1:
+                h1 = stripped.removeprefix("# ").strip()
 
     module_prefix = re.match(r'^Модуль \d+:', h1)
     if module_prefix and h2:
         title = h2
     elif h1:
         title = re.sub(r'^Модуль \d+:\s*', '', h1)
+    elif h2:
+        title = h2
     else:
         raw = md_file.stem
         raw = re.sub(r'^\d+-', '', raw)
@@ -496,6 +516,8 @@ def convert_md_to_html(md_file: Path) -> str:
         text = fh.read()
 
     text = re.sub(r'^\[← [^\]]*\]\([^)]*\)\s*', '', text)
+    text = re.sub(r'\s*\|\s*\[Оглавление\]\([^)]*\)', '', text)
+    text = re.sub(r'\[Оглавление\]\([^)]*\)\s*\|\s*', '', text)
     text = re.sub(r'\((?:\.\./)*README\.md\)', '({{INDEX_LINK}})', text)
     text = re.sub(r'\[([^\]]+)\]\((?!https?://)([^)]+)\.md\)', r'[\1](\2.html)', text)
     text = text.replace("yegge-8-levels.png", "yegge-8-levels.jpg")
@@ -603,11 +625,6 @@ def build_toc(pages: list[dict[str, str]]) -> str:
         return f'<li><a href="{p["rel_html"]}" data-page-index="{idx}">{p["title"]}</a></li>'
 
     root_pages = [p for p in pages if not p["module"]]
-    if root_pages:
-        lines.append("<h2>Общее</h2><ul>")
-        for p in root_pages:
-            lines.append(page_link(p))
-        lines.append("</ul>")
 
     for mod in MODULE_ORDER:
         mod_pages = [p for p in pages if p["module"] == mod]
@@ -634,6 +651,12 @@ def build_toc(pages: list[dict[str, str]]) -> str:
             sec_title = SECTION_TITLES.get(sec, sec)
             lines.append(f"<h3>{sec_title}</h3><ul>")
             for p in sections[sec]:
+                lines.append(page_link(p))
+            lines.append("</ul>")
+
+        if mod == "module-0-intro" and root_pages:
+            lines.append("<h2>Общее</h2><ul>")
+            for p in root_pages:
                 lines.append(page_link(p))
             lines.append("</ul>")
 

@@ -230,3 +230,7 @@
 3. Ротировать credentials, если скомпрометированы
 4. Проверить git-историю — удалить credentials из истории (`git filter-branch` / BFG)
 5. Обновить AGENTS.md — правило для предотвращения повтора
+
+---
+
+[← Чеклист агентности](../module-9-agency/practice/02-agency-checklist.md) | [Оглавление](../../README.md) | [Финальный тест →](final-test.md)

@@ -73,4 +73,4 @@
 
 ---
 
-[← Зеркало антипаттернов](01-antipatterns-mirror.md) | [Оглавление](../../../README.md) | [Финальный тест →](../../module-final/final-test.md)
+[← Зеркало антипаттернов](01-antipatterns-mirror.md) | [Оглавление](../../../README.md) | [DOs and DON'Ts →](../../module-final/dos-and-donts.md)
